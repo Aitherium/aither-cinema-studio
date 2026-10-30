@@ -2564,6 +2564,17 @@ button:disabled {
   .demo-text {
     flex-basis: 100%;
   }
+  /*
+   * The agent line is a single nowrap sentence; as a flex item its min-content
+   * is the whole sentence, which pushed the banner (and with it the phone
+   * layout) to ~476px and clipped the top bar. Let it wrap where space is
+   * short — the ellipsis returns automatically on wider screens.
+   */
+  .demo-line {
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+  }
   .demo-actions {
     margin-left: auto;
   }
