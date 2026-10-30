@@ -1,0 +1,51 @@
+{
+  "version": 1,
+  "moves": {
+    "static": {"label": "Static", "clause": "the camera holds perfectly still"},
+    "dolly_in": {"label": "Dolly In", "clause": "the camera {speed} dollies in toward the subject"},
+    "dolly_out": {"label": "Dolly Out", "clause": "the camera {speed} pulls back from the subject"},
+    "truck_left": {"label": "Truck Left", "clause": "the camera {speed} tracks left alongside the subject"},
+    "truck_right": {"label": "Truck Right", "clause": "the camera {speed} tracks right alongside the subject"},
+    "pan_left": {"label": "Pan Left", "clause": "the camera {speed} pans left across the scene"},
+    "pan_right": {"label": "Pan Right", "clause": "the camera {speed} pans right across the scene"},
+    "tilt_up": {"label": "Tilt Up", "clause": "the camera {speed} tilts up"},
+    "tilt_down": {"label": "Tilt Down", "clause": "the camera {speed} tilts down"},
+    "crane_up": {"label": "Crane Up", "clause": "the camera {speed} rises on a crane, lifting over the scene"},
+    "crane_down": {"label": "Crane Down", "clause": "the camera {speed} descends on a crane toward the ground"},
+    "orbit_left": {"label": "Orbit Left", "clause": "the camera {speed} orbits left around the subject"},
+    "orbit_right": {"label": "Orbit Right", "clause": "the camera {speed} orbits right around the subject"},
+    "handheld": {"label": "Handheld", "clause": "the camera is handheld with a slight natural shake"},
+    "push_in_fast": {"label": "Push In Fast", "clause": "the camera pushes in fast toward the subject"},
+    "whip_pan": {"label": "Whip Pan", "clause": "the camera whip-pans across the scene"},
+    "arc": {"label": "Arc", "clause": "the camera arcs around the subject in a wide curve"},
+    "rack_focus": {"label": "Rack Focus", "clause": "the lens racks focus from the foreground to the subject"},
+    "zoom_in": {"label": "Zoom In", "clause": "the camera zooms in on the subject"},
+    "zoom_out": {"label": "Zoom Out", "clause": "the camera zooms out from the subject"}
+  },
+  "lenses": {
+    "14mm": {"label": "14mm", "clause": "shot on a 14mm ultra-wide lens with dramatic perspective"},
+    "24mm": {"label": "24mm", "clause": "shot on a 24mm wide lens"},
+    "35mm": {"label": "35mm", "clause": "shot on a 35mm lens with a natural documentary field of view"},
+    "50mm": {"label": "50mm", "clause": "shot on a 50mm lens with a natural human field of view"},
+    "85mm": {"label": "85mm", "clause": "shot on an 85mm lens with shallow depth of field"},
+    "135mm": {"label": "135mm", "clause": "shot on a 135mm telephoto lens compressing the background"},
+    "anamorphic": {"label": "Anamorphic", "clause": "shot on an anamorphic lens with wide oval bokeh and horizontal flare"}
+  },
+  "speeds": {
+    "slow": {"label": "Slow", "adverb": "slowly"},
+    "medium": {"label": "Medium", "adverb": "steadily"},
+    "fast": {"label": "Fast", "adverb": "quickly"}
+  },
+  "framings": {
+    "extreme_wide": {"label": "Extreme Wide", "clause": "extreme wide shot, the subject small in a vast environment"},
+    "wide": {"label": "Wide", "clause": "wide shot"},
+    "medium": {"label": "Medium", "clause": "medium shot, framed from the waist up"},
+    "close_up": {"label": "Close Up", "clause": "close-up on the subject's face"},
+    "extreme_close_up": {"label": "Extreme Close Up", "clause": "extreme close-up on a detail of the subject"},
+    "over_the_shoulder": {"label": "Over The Shoulder", "clause": "over-the-shoulder shot"},
+    "low_angle": {"label": "Low Angle", "clause": "low angle, looking up at the subject"},
+    "high_angle": {"label": "High Angle", "clause": "high angle, looking down at the subject"},
+    "birds_eye": {"label": "Bird's Eye", "clause": "bird's-eye view from directly above"},
+    "dutch": {"label": "Dutch Angle", "clause": "dutch angle with the horizon tilted"}
+  }
+}

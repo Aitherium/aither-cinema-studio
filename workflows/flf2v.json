@@ -1,0 +1,215 @@
+{
+  "1": {
+    "class_type": "UNETLoader",
+    "inputs": {
+      "unet_name": "wan2.2_i2v_high_noise_14B_fp8_scaled.safetensors",
+      "weight_dtype": "default"
+    }
+  },
+  "10": {
+    "class_type": "LoadImage",
+    "inputs": {
+      "image": "example_start.png"
+    }
+  },
+  "100": {
+    "class_type": "CreateVideo",
+    "inputs": {
+      "fps": 16,
+      "images": [
+        "22",
+        0
+      ]
+    }
+  },
+  "101": {
+    "class_type": "SaveVideo",
+    "inputs": {
+      "codec": "auto",
+      "filename_prefix": "cinema/flf2v/0",
+      "format": "auto",
+      "video": [
+        "100",
+        0
+      ]
+    }
+  },
+  "11": {
+    "class_type": "WanFirstLastFrameToVideo",
+    "inputs": {
+      "batch_size": 1,
+      "clip_vision": [
+        "9",
+        0
+      ],
+      "end_image": [
+        "12",
+        0
+      ],
+      "height": 480,
+      "length": 33,
+      "negative": [
+        "7",
+        0
+      ],
+      "positive": [
+        "6",
+        0
+      ],
+      "start_image": [
+        "10",
+        0
+      ],
+      "vae": [
+        "8",
+        0
+      ],
+      "width": 480
+    }
+  },
+  "12": {
+    "class_type": "LoadImage",
+    "inputs": {
+      "image": "example_end.png"
+    }
+  },
+  "2": {
+    "class_type": "ModelSamplingSD3",
+    "inputs": {
+      "model": [
+        "1",
+        0
+      ],
+      "shift": 8.0
+    }
+  },
+  "20": {
+    "class_type": "KSamplerAdvanced",
+    "inputs": {
+      "add_noise": "enable",
+      "cfg": 3.5,
+      "end_at_step": 4,
+      "latent_image": [
+        "11",
+        2
+      ],
+      "model": [
+        "2",
+        0
+      ],
+      "negative": [
+        "11",
+        1
+      ],
+      "noise_seed": 0,
+      "positive": [
+        "11",
+        0
+      ],
+      "return_with_leftover_noise": "enable",
+      "sampler_name": "euler",
+      "scheduler": "simple",
+      "start_at_step": 0,
+      "steps": 8
+    }
+  },
+  "21": {
+    "class_type": "KSamplerAdvanced",
+    "inputs": {
+      "add_noise": "disable",
+      "cfg": 3.5,
+      "end_at_step": 10000,
+      "latent_image": [
+        "11",
+        2
+      ],
+      "model": [
+        "4",
+        0
+      ],
+      "negative": [
+        "11",
+        1
+      ],
+      "noise_seed": 0,
+      "positive": [
+        "11",
+        0
+      ],
+      "return_with_leftover_noise": "disable",
+      "sampler_name": "euler",
+      "scheduler": "simple",
+      "start_at_step": 4,
+      "steps": 8
+    }
+  },
+  "22": {
+    "class_type": "VAEDecode",
+    "inputs": {
+      "samples": [
+        "21",
+        0
+      ],
+      "vae": [
+        "8",
+        0
+      ]
+    }
+  },
+  "3": {
+    "class_type": "UNETLoader",
+    "inputs": {
+      "unet_name": "wan2.2_i2v_low_noise_14B_fp8_scaled.safetensors",
+      "weight_dtype": "default"
+    }
+  },
+  "4": {
+    "class_type": "ModelSamplingSD3",
+    "inputs": {
+      "model": [
+        "3",
+        0
+      ],
+      "shift": 8.0
+    }
+  },
+  "5": {
+    "class_type": "CLIPLoader",
+    "inputs": {
+      "clip_name": "umt5_xxl_fp8_e4m3fn_scaled.safetensors",
+      "type": "wan"
+    }
+  },
+  "6": {
+    "class_type": "CLIPTextEncode",
+    "inputs": {
+      "clip": [
+        "5",
+        0
+      ],
+      "text": "a lone astronaut walks across a rain-soaked neon street. the camera slowly dollies in toward the subject. shot on a 35mm lens with a natural documentary field of view. medium shot, framed from the waist up."
+    }
+  },
+  "7": {
+    "class_type": "CLIPTextEncode",
+    "inputs": {
+      "clip": [
+        "5",
+        0
+      ],
+      "text": ""
+    }
+  },
+  "8": {
+    "class_type": "VAELoader",
+    "inputs": {
+      "vae_name": "wan_2.1_vae.safetensors"
+    }
+  },
+  "9": {
+    "class_type": "CLIPVisionLoader",
+    "inputs": {
+      "clip_name": "CLIP-ViT-H-14-laion2B-s32B-b79K.safetensors"
+    }
+  }
+}

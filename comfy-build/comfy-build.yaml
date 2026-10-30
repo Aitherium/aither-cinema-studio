@@ -1,0 +1,91 @@
+# Comfy API Build — Aither Cinema Studio
+#
+# Packages the models the four shipped graphs load (workflows/*.json) into a
+# Comfy Cloud build so the studio can render without a local GPU.
+#
+#   comfy build validate comfy-build            # offline, free
+#   comfy build validate comfy-build --remote   # + public model lookup, needs sign-in
+#   comfy build push comfy-build --dry-run      # free, shows what would upload
+#   comfy build push comfy-build                # SPENDS A BUILD SLOT — owner only
+#   comfy build release create --target linux/nvidia --watch   # owner only
+#
+# Every model entry below was resolved with `comfy build refs resolve <filename>`
+# and carries the sha256 that command reported (verified: true).  Do not hand-edit
+# a digest; re-run the resolver.
+schema: comfy-build/1
+id: null
+name: aither-cinema-studio
+description: >-
+  Camera-rig video and keyframe graphs for Aither Cinema Studio: Wan 2.2
+  (i2v + t2v, two-expert fp8) and RealVisXL for stills.
+syncedRevision: null
+definition:
+  schema: distribution-definition/0
+  baseComfyVersion: v0.43.2
+  models:
+    # --- Wan 2.2 image-to-video (workflows/i2v.json, workflows/flf2v.json) ----
+    - type: diffusion_models
+      filename: wan2.2_i2v_high_noise_14B_fp8_scaled.safetensors
+      sourceUri: https://huggingface.co/Comfy-Org/Wan_2.2_ComfyUI_Repackaged/resolve/main/split_files/diffusion_models/wan2.2_i2v_high_noise_14B_fp8_scaled.safetensors
+      sha256: 6122e79d55e0f235698d11d657f3b196c5273c830da00b2b013c5a048d5e6a42
+    - type: diffusion_models
+      filename: wan2.2_i2v_low_noise_14B_fp8_scaled.safetensors
+      sourceUri: https://huggingface.co/Comfy-Org/Wan_2.2_ComfyUI_Repackaged/resolve/main/split_files/diffusion_models/wan2.2_i2v_low_noise_14B_fp8_scaled.safetensors
+      sha256: 5471a457b6ac404202a5fbe6c11595a3d5641fc766b00f38763f72303fffc21e
+    # --- Wan 2.2 text-to-video (workflows/t2v.json) --------------------------
+    - type: diffusion_models
+      filename: wan2.2_t2v_high_noise_14B_fp8_scaled.safetensors
+      sourceUri: https://huggingface.co/Comfy-Org/Wan_2.2_ComfyUI_Repackaged/resolve/main/split_files/diffusion_models/wan2.2_t2v_high_noise_14B_fp8_scaled.safetensors
+      sha256: cad711ae211c8b23455ec68cd6a190a33a3d874234a77eb57266d73f8f0e6c9f
+    - type: diffusion_models
+      filename: wan2.2_t2v_low_noise_14B_fp8_scaled.safetensors
+      sourceUri: https://huggingface.co/Comfy-Org/Wan_2.2_ComfyUI_Repackaged/resolve/main/split_files/diffusion_models/wan2.2_t2v_low_noise_14B_fp8_scaled.safetensors
+      sha256: e71b96d7c82e638694c5e7fb98fac4bfb0e4ddc5fbbb4b1df40da8f0f1278a97
+    # --- shared Wan text encoder + VAE (all three video graphs) -------------
+    - type: text_encoders
+      filename: umt5_xxl_fp8_e4m3fn_scaled.safetensors
+      sourceUri: https://huggingface.co/Comfy-Org/Wan_2.1_ComfyUI_repackaged/resolve/main/split_files/text_encoders/umt5_xxl_fp8_e4m3fn_scaled.safetensors
+      sha256: c3355d30191f1f066b26d93fba017ae9809dce6c627dda5f6a66eaa651204f68
+    - type: vae
+      filename: wan_2.1_vae.safetensors
+      sourceUri: https://huggingface.co/Comfy-Org/Wan_2.1_ComfyUI_repackaged/resolve/main/split_files/vae/wan_2.1_vae.safetensors
+      sha256: 2fc39d31359a4b0a64f55876d8ff7fa8d780956ae2cb13463b0223e15148976b
+    # --- CLIP vision: first-frame conditioning (i2v, flf2v) -----------------
+    - type: clip_vision
+      filename: CLIP-ViT-H-14-laion2B-s32B-b79K.safetensors
+      sourceUri: https://huggingface.co/Comfy-Org/CLIP-ViT-H-14-laion2B-s32B-b79K_repackaged/resolve/main/split_files/clip_vision/CLIP-ViT-H-14-laion2B-s32B-b79K.safetensors
+      sha256: 6ca9667da1ca9e0b0f75e46bb030f7e011f44f86cbfb8d5a36590fcd7507b030
+    # --- keyframe stills (workflows/keyframe.json) --------------------------
+    - type: checkpoints
+      filename: RealVisXL_V4.0.safetensors
+      sourceUri: https://huggingface.co/SG161222/RealVisXL_V4.0/resolve/main/RealVisXL_V4.0.safetensors
+      sha256: 912c9dc74f5855175c31a7993f863a043ac8dcc31732b324cd05d75cd7e16844
+
+  # The ComfyUI-CinemaRig node pack ships in this repo at comfy_nodes/ComfyUI-CinemaRig.
+  # A build can only pin a node pack that is reachable from the builder: a public
+  # GitHub repository at a commit, a registry version, or an uploaded blob.  None
+  # of those exist until the repo is published, so the list stays empty here.
+  # A `repository` source clones the repo root, and this spec has no way to name a
+  # subdirectory, so the pack must be published as its own repository (or as a
+  # registry version).  Then add exactly this and re-validate — replace <org> and
+  # the commit with the published values, never invent a sha:
+  #
+  # customNodes:
+  #   - name: ComfyUI-CinemaRig
+  #     repository: https://github.com/<org>/ComfyUI-CinemaRig
+  #     gitRef: <40-hex commit>
+  customNodes: []
+
+  # --- LTX (optional, NOT loaded by any shipped graph) ----------------------
+  # Both files resolved and verified; uncomment them into `models:` above if an
+  # LTX graph is added.  They cost 53.0 GB on the image and nothing uses them
+  # today, so they are off.
+  #
+  # - type: checkpoints
+  #   filename: ltx-2.3-22b-distilled-fp8.safetensors
+  #   sourceUri: https://huggingface.co/Lightricks/LTX-2.3-fp8/resolve/main/ltx-2.3-22b-distilled-fp8.safetensors
+  #   sha256: d9646b6f2d5c42d337b23671634c43bfeece6989644f51b4a3aa088465ccd3b2
+  # - type: diffusion_models
+  #   filename: ltx-2.3-22b-distilled_transformer_only_fp8_scaled.safetensors
+  #   sourceUri: https://huggingface.co/Kijai/LTX2.3_comfy/resolve/main/diffusion_models/ltx-2.3-22b-distilled_transformer_only_fp8_scaled.safetensors
+  #   sha256: 412ad3606a480963666ad44ad9e0edea5360ee304ff2395cf9e0017e8cc53474

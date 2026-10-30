@@ -1,0 +1,74 @@
+# --- Python ------------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.venv/
+venv/
+env/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+
+# --- Node / Vite -------------------------------------------------------------
+node_modules/
+web/dist/
+web/node_modules/
+.vite/
+*.tsbuildinfo
+npm-debug.log*
+pnpm-debug.log*
+yarn-error.log*
+
+# --- Runtime data ------------------------------------------------------------
+# Renders, uploads, sequences and the job store. Never commit a render you can regenerate.
+data/
+server/data/
+*.log
+
+# --- Secrets -----------------------------------------------------------------
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# --- Editor / OS -------------------------------------------------------------
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# --- Demo assets -------------------------------------------------------------
+# Big calibration/test clips stay out of git; small reference clips we actually show
+# in the README/demo are kept on purpose.
+docs/calibration/*.mp4
+docs/calibration/*.webm
+docs/calibration/*.mov
+!docs/calibration/small-*.mp4
+!docs/calibration/small-*.webm
+# demo media: large renders ship as release assets, not in git
+demo/shots/
+demo/out/
+demo/music/*.wav
+*.mp4
+!docs/proof/*.mp4
+server/.proof/
+SUBMISSION.md
+demo/.renderdata/
+demo/.qa/
+demo/capture/
+.capture-data/
+
+# the artist's song, lyrics and shot list are never committed
+demo/music/
+demo/shotlist*.json
+demo/treatment.md
+demo/.timing/
+demo/render_log.jsonl
+demo/make_shotlist*.py
+demo/*_v3.json

@@ -1,0 +1,1137 @@
+{
+  "s_b6b3e9392a16": {
+    "at_s": null,
+    "camera": {
+      "framing": "medium",
+      "lens": "50mm",
+      "move": "static",
+      "speed": "slow"
+    },
+    "compiled_prompt": "a lone traveler standing on a rain-soaked rooftop at dusk, city lights below, cinematic, anamorphic, warm sodium glow, volumetric mist. the camera holds perfectly still. shot on a 50mm lens with a natural human field of view. medium shot, framed from the waist up.",
+    "created": "2026-10-30T08:22:14+00:00",
+    "end_media_id": null,
+    "engine": "sdxl",
+    "error": null,
+    "graded_media_id": null,
+    "graph": {
+      "1": {
+        "class_type": "CheckpointLoaderSimple",
+        "inputs": {
+          "ckpt_name": "realvisxlV50_v50Bakedvae.safetensors"
+        }
+      },
+      "2": {
+        "class_type": "CLIPTextEncode",
+        "inputs": {
+          "clip": [
+            "1",
+            1
+          ],
+          "text": "a lone traveler standing on a rain-soaked rooftop at dusk, city lights below, cinematic, anamorphic, warm sodium glow, volumetric mist. the camera holds perfectly still. shot on a 50mm lens with a natural human field of view. medium shot, framed from the waist up."
+        }
+      },
+      "3": {
+        "class_type": "CLIPTextEncode",
+        "inputs": {
+          "clip": [
+            "1",
+            1
+          ],
+          "text": ""
+        }
+      },
+      "4": {
+        "class_type": "EmptyLatentImage",
+        "inputs": {
+          "batch_size": 1,
+          "height": 768,
+          "width": 768
+        }
+      },
+      "5": {
+        "class_type": "KSampler",
+        "inputs": {
+          "cfg": 5.0,
+          "denoise": 1.0,
+          "latent_image": [
+            "4",
+            0
+          ],
+          "model": [
+            "1",
+            0
+          ],
+          "negative": [
+            "3",
+            0
+          ],
+          "positive": [
+            "2",
+            0
+          ],
+          "sampler_name": "dpmpp_2m",
+          "scheduler": "karras",
+          "seed": 7,
+          "steps": 28
+        }
+      },
+      "6": {
+        "class_type": "VAEDecode",
+        "inputs": {
+          "samples": [
+            "5",
+            0
+          ],
+          "vae": [
+            "1",
+            2
+          ]
+        }
+      },
+      "7": {
+        "class_type": "SaveImage",
+        "inputs": {
+          "filename_prefix": "cinema/keyframe/s_b6b3e9392a16",
+          "images": [
+            "6",
+            0
+          ]
+        }
+      }
+    },
+    "job_id": "j_3319a40629df",
+    "media_id": "m_a77e0321243d",
+    "mode": "keyframe",
+    "negative": "",
+    "progress": 1.0,
+    "prompt": "a lone traveler standing on a rain-soaked rooftop at dusk, city lights below, cinematic, anamorphic, warm sodium glow, volumetric mist",
+    "quality": "draft",
+    "seed": 7,
+    "shot_id": "s_b6b3e9392a16",
+    "source_media_id": null,
+    "start_media_id": null,
+    "status": "done",
+    "updated": "2026-10-30T08:23:59+00:00"
+  },
+  "s_d6e597fe222b": {
+    "at_s": null,
+    "camera": {
+      "framing": "medium",
+      "lens": "50mm",
+      "move": "static",
+      "speed": "slow"
+    },
+    "compiled_prompt": "rain streaks across a rooftop at dusk, city lights below, slow drifting mist. the camera holds perfectly still. shot on a 50mm lens with a natural human field of view. medium shot, framed from the waist up.",
+    "created": "2026-10-30T08:38:22+00:00",
+    "end_media_id": null,
+    "engine": "ltx",
+    "error": null,
+    "frames": 49,
+    "graded_media_id": null,
+    "graph": {
+      "1": {
+        "class_type": "CheckpointLoaderSimple",
+        "inputs": {
+          "ckpt_name": "ltx-2-19b-distilled-fp8.safetensors"
+        }
+      },
+      "10": {
+        "class_type": "CFGGuider",
+        "inputs": {
+          "cfg": 3.0,
+          "model": [
+            "1",
+            0
+          ],
+          "negative": [
+            "5",
+            1
+          ],
+          "positive": [
+            "5",
+            0
+          ]
+        }
+      },
+      "100": {
+        "class_type": "CreateVideo",
+        "inputs": {
+          "fps": 16,
+          "images": [
+            "16",
+            0
+          ]
+        }
+      },
+      "101": {
+        "class_type": "SaveVideo",
+        "inputs": {
+          "codec": "auto",
+          "filename_prefix": "cinema/t2v/s_d6e597fe222b",
+          "format": "auto",
+          "video": [
+            "100",
+            0
+          ]
+        }
+      },
+      "11": {
+        "class_type": "KSamplerSelect",
+        "inputs": {
+          "sampler_name": "euler_ancestral"
+        }
+      },
+      "12": {
+        "class_type": "RandomNoise",
+        "inputs": {
+          "noise_seed": 11
+        }
+      },
+      "13": {
+        "class_type": "LTXVScheduler",
+        "inputs": {
+          "base_shift": 0.95,
+          "latent": [
+            "9",
+            0
+          ],
+          "max_shift": 2.05,
+          "steps": 8,
+          "stretch": true,
+          "terminal": 0.1
+        }
+      },
+      "14": {
+        "class_type": "SamplerCustomAdvanced",
+        "inputs": {
+          "guider": [
+            "10",
+            0
+          ],
+          "latent_image": [
+            "9",
+            0
+          ],
+          "noise": [
+            "12",
+            0
+          ],
+          "sampler": [
+            "11",
+            0
+          ],
+          "sigmas": [
+            "13",
+            0
+          ]
+        }
+      },
+      "15": {
+        "class_type": "LTXVSeparateAVLatent",
+        "inputs": {
+          "av_latent": [
+            "14",
+            0
+          ]
+        }
+      },
+      "16": {
+        "class_type": "VAEDecode",
+        "inputs": {
+          "samples": [
+            "15",
+            0
+          ],
+          "vae": [
+            "1",
+            2
+          ]
+        }
+      },
+      "2": {
+        "class_type": "LTXAVTextEncoderLoader",
+        "inputs": {
+          "ckpt_name": "ltx-2-19b-distilled-fp8.safetensors",
+          "device": "default",
+          "text_encoder": "gemma_3_12B_it_fp8_scaled.safetensors"
+        }
+      },
+      "3": {
+        "class_type": "CLIPTextEncode",
+        "inputs": {
+          "clip": [
+            "2",
+            0
+          ],
+          "text": "rain streaks across a rooftop at dusk, city lights below, slow drifting mist. the camera holds perfectly still. shot on a 50mm lens with a natural human field of view. medium shot, framed from the waist up."
+        }
+      },
+      "4": {
+        "class_type": "CLIPTextEncode",
+        "inputs": {
+          "clip": [
+            "2",
+            0
+          ],
+          "text": ""
+        }
+      },
+      "5": {
+        "class_type": "LTXVConditioning",
+        "inputs": {
+          "frame_rate": 16.0,
+          "negative": [
+            "4",
+            0
+          ],
+          "positive": [
+            "3",
+            0
+          ]
+        }
+      },
+      "6": {
+        "class_type": "EmptyLTXVLatentVideo",
+        "inputs": {
+          "batch_size": 1,
+          "height": 512,
+          "length": 49,
+          "width": 768
+        }
+      },
+      "7": {
+        "class_type": "LTXVAudioVAELoader",
+        "inputs": {
+          "ckpt_name": "ltx-2-19b-distilled-fp8.safetensors"
+        }
+      },
+      "8": {
+        "class_type": "LTXVEmptyLatentAudio",
+        "inputs": {
+          "audio_vae": [
+            "7",
+            0
+          ],
+          "batch_size": 1,
+          "frame_rate": 16,
+          "frames_number": 49
+        }
+      },
+      "9": {
+        "class_type": "LTXVConcatAVLatent",
+        "inputs": {
+          "audio_latent": [
+            "8",
+            0
+          ],
+          "video_latent": [
+            "6",
+            0
+          ]
+        }
+      },
+      "_output": "101"
+    },
+    "height": 512,
+    "job_id": "j_9d29bc92f2d2",
+    "media_id": "m_7d7082f83368",
+    "mode": "t2v",
+    "negative": "",
+    "progress": 1.0,
+    "prompt": "rain streaks across a rooftop at dusk, city lights below, slow drifting mist",
+    "quality": "draft",
+    "seed": 11,
+    "shot_id": "s_d6e597fe222b",
+    "source_media_id": null,
+    "start_media_id": null,
+    "status": "done",
+    "steps": 8,
+    "updated": "2026-10-30T08:39:28+00:00",
+    "width": 768
+  },
+  "s_9d22d3ad6417": {
+    "at_s": null,
+    "camera": {
+      "framing": "medium",
+      "lens": "85mm",
+      "move": "dolly_in",
+      "speed": "slow"
+    },
+    "compiled_prompt": "A traveller in a long coat steps through rain toward the camera; wet rooftops, neon reflections, cinematic. the camera slowly dollies in toward the subject. shot on an 85mm lens with shallow depth of field. medium shot, framed from the waist up.",
+    "created": "2026-10-30T09:15:48+00:00",
+    "elapsed_s": 31.9,
+    "end_media_id": null,
+    "engine": "wan_camera",
+    "error": null,
+    "finished": "2026-10-30T09:16:20+00:00",
+    "frames": 49,
+    "graded_media_id": null,
+    "graph": {
+      "1": {
+        "class_type": "UNETLoader",
+        "inputs": {
+          "unet_name": "wan2.2_fun_camera_high_noise_14B_fp8_scaled.safetensors",
+          "weight_dtype": "default"
+        }
+      },
+      "10": {
+        "class_type": "VAELoader",
+        "inputs": {
+          "vae_name": "wan_2.1_vae.safetensors"
+        }
+      },
+      "100": {
+        "class_type": "CreateVideo",
+        "inputs": {
+          "fps": 16,
+          "images": [
+            "22",
+            0
+          ]
+        }
+      },
+      "101": {
+        "class_type": "SaveVideo",
+        "inputs": {
+          "codec": "auto",
+          "filename_prefix": "cinema/i2v/s_9d22d3ad6417",
+          "format": "auto",
+          "video": [
+            "100",
+            0
+          ]
+        }
+      },
+      "11": {
+        "class_type": "LoadImage",
+        "inputs": {
+          "image": "22f916dbeef584dc6541146ae8ab9b6a2e6a27f29a8b377e2a9d368a62ce40af.png"
+        }
+      },
+      "12": {
+        "class_type": "WanCameraEmbedding",
+        "inputs": {
+          "camera_pose": "Zoom In",
+          "cx": 0.5,
+          "cy": 0.5,
+          "fx": 0.5,
+          "fy": 0.5,
+          "height": 832,
+          "length": 49,
+          "speed": 0.35,
+          "width": 480
+        }
+      },
+      "13": {
+        "class_type": "WanCameraImageToVideo",
+        "inputs": {
+          "batch_size": 1,
+          "camera_conditions": [
+            "12",
+            0
+          ],
+          "height": [
+            "12",
+            2
+          ],
+          "length": [
+            "12",
+            3
+          ],
+          "negative": [
+            "9",
+            0
+          ],
+          "positive": [
+            "8",
+            0
+          ],
+          "start_image": [
+            "11",
+            0
+          ],
+          "vae": [
+            "10",
+            0
+          ],
+          "width": [
+            "12",
+            1
+          ]
+        }
+      },
+      "2": {
+        "class_type": "LoraLoaderModelOnly",
+        "inputs": {
+          "lora_name": "wan2.2_i2v_lightx2v_4steps_lora_v1_high_noise.safetensors",
+          "model": [
+            "1",
+            0
+          ],
+          "strength_model": 1.0
+        }
+      },
+      "20": {
+        "class_type": "KSamplerAdvanced",
+        "inputs": {
+          "add_noise": "enable",
+          "cfg": 1.0,
+          "end_at_step": 2,
+          "latent_image": [
+            "13",
+            2
+          ],
+          "model": [
+            "3",
+            0
+          ],
+          "negative": [
+            "13",
+            1
+          ],
+          "noise_seed": 7,
+          "positive": [
+            "13",
+            0
+          ],
+          "return_with_leftover_noise": "enable",
+          "sampler_name": "euler",
+          "scheduler": "simple",
+          "start_at_step": 0,
+          "steps": 4
+        }
+      },
+      "21": {
+        "class_type": "KSamplerAdvanced",
+        "inputs": {
+          "add_noise": "disable",
+          "cfg": 1.0,
+          "end_at_step": 4,
+          "latent_image": [
+            "20",
+            0
+          ],
+          "model": [
+            "6",
+            0
+          ],
+          "negative": [
+            "13",
+            1
+          ],
+          "noise_seed": 7,
+          "positive": [
+            "13",
+            0
+          ],
+          "return_with_leftover_noise": "disable",
+          "sampler_name": "euler",
+          "scheduler": "simple",
+          "start_at_step": 2,
+          "steps": 4
+        }
+      },
+      "22": {
+        "class_type": "VAEDecode",
+        "inputs": {
+          "samples": [
+            "21",
+            0
+          ],
+          "vae": [
+            "10",
+            0
+          ]
+        }
+      },
+      "3": {
+        "class_type": "ModelSamplingSD3",
+        "inputs": {
+          "model": [
+            "2",
+            0
+          ],
+          "shift": 8.0
+        }
+      },
+      "4": {
+        "class_type": "UNETLoader",
+        "inputs": {
+          "unet_name": "wan2.2_fun_camera_low_noise_14B_fp8_scaled.safetensors",
+          "weight_dtype": "default"
+        }
+      },
+      "5": {
+        "class_type": "LoraLoaderModelOnly",
+        "inputs": {
+          "lora_name": "wan2.2_i2v_lightx2v_4steps_lora_v1_low_noise.safetensors",
+          "model": [
+            "4",
+            0
+          ],
+          "strength_model": 1.0
+        }
+      },
+      "6": {
+        "class_type": "ModelSamplingSD3",
+        "inputs": {
+          "model": [
+            "5",
+            0
+          ],
+          "shift": 8.0
+        }
+      },
+      "7": {
+        "class_type": "CLIPLoader",
+        "inputs": {
+          "clip_name": "umt5_xxl_fp8_e4m3fn_scaled.safetensors",
+          "type": "wan"
+        }
+      },
+      "8": {
+        "class_type": "CLIPTextEncode",
+        "inputs": {
+          "clip": [
+            "7",
+            0
+          ],
+          "text": "A traveller in a long coat steps through rain toward the camera; wet rooftops, neon reflections, cinematic. the camera slowly dollies in toward the subject. shot on an 85mm lens with shallow depth of field. medium shot, framed from the waist up."
+        }
+      },
+      "9": {
+        "class_type": "CLIPTextEncode",
+        "inputs": {
+          "clip": [
+            "7",
+            0
+          ],
+          "text": ""
+        }
+      },
+      "_output": "101"
+    },
+    "height": 832,
+    "job_id": "j_e73ad036c151",
+    "media_id": "m_99bcbaf781c2",
+    "mode": "i2v",
+    "negative": "",
+    "progress": 1.0,
+    "prompt": "A traveller in a long coat steps through rain toward the camera; wet rooftops, neon reflections, cinematic",
+    "quality": "draft",
+    "seed": 7,
+    "shot_id": "s_9d22d3ad6417",
+    "source_media_id": null,
+    "start_media_id": "m_0cdfb3dd545d",
+    "status": "done",
+    "steps": 4,
+    "updated": "2026-10-30T09:16:20+00:00",
+    "width": 480
+  },
+  "s_ac36695294fe": {
+    "at_s": null,
+    "camera": {
+      "framing": "medium",
+      "lens": "50mm",
+      "move": "static",
+      "speed": "slow"
+    },
+    "compiled_prompt": "Rain drifts across the rooftops; the traveller turns his head slightly, coat moving in the wind. the camera holds perfectly still. shot on a 50mm lens with a natural human field of view. medium shot, framed from the waist up.",
+    "created": "2026-10-30T09:16:49+00:00",
+    "elapsed_s": 27.7,
+    "end_media_id": null,
+    "engine": "wan_i2v",
+    "error": null,
+    "finished": "2026-10-30T09:17:17+00:00",
+    "frames": 33,
+    "graded_media_id": null,
+    "graph": {
+      "1": {
+        "class_type": "UNETLoader",
+        "inputs": {
+          "unet_name": "wan2.2_i2v_high_noise_14B_fp8_scaled.safetensors",
+          "weight_dtype": "default"
+        }
+      },
+      "10": {
+        "class_type": "VAELoader",
+        "inputs": {
+          "vae_name": "wan_2.1_vae.safetensors"
+        }
+      },
+      "100": {
+        "class_type": "CreateVideo",
+        "inputs": {
+          "fps": 16,
+          "images": [
+            "22",
+            0
+          ]
+        }
+      },
+      "101": {
+        "class_type": "SaveVideo",
+        "inputs": {
+          "codec": "auto",
+          "filename_prefix": "cinema/i2v/s_ac36695294fe",
+          "format": "auto",
+          "video": [
+            "100",
+            0
+          ]
+        }
+      },
+      "11": {
+        "class_type": "CLIPVisionLoader",
+        "inputs": {
+          "clip_name": "CLIP-ViT-H-14-laion2B-s32B-b79K.safetensors"
+        }
+      },
+      "12": {
+        "class_type": "LoadImage",
+        "inputs": {
+          "image": "22f916dbeef584dc6541146ae8ab9b6a2e6a27f29a8b377e2a9d368a62ce40af.png"
+        }
+      },
+      "13": {
+        "class_type": "WanImageToVideo",
+        "inputs": {
+          "batch_size": 1,
+          "clip_vision_output": [
+            "14",
+            0
+          ],
+          "height": 832,
+          "length": 33,
+          "negative": [
+            "9",
+            0
+          ],
+          "positive": [
+            "8",
+            0
+          ],
+          "start_image": [
+            "12",
+            0
+          ],
+          "vae": [
+            "10",
+            0
+          ],
+          "width": 480
+        }
+      },
+      "14": {
+        "class_type": "CLIPVisionEncode",
+        "inputs": {
+          "clip_vision": [
+            "11",
+            0
+          ],
+          "crop": "none",
+          "image": [
+            "12",
+            0
+          ]
+        }
+      },
+      "2": {
+        "class_type": "LoraLoaderModelOnly",
+        "inputs": {
+          "lora_name": "wan2.2_i2v_lightx2v_4steps_lora_v1_high_noise.safetensors",
+          "model": [
+            "1",
+            0
+          ],
+          "strength_model": 1.0
+        }
+      },
+      "20": {
+        "class_type": "KSamplerAdvanced",
+        "inputs": {
+          "add_noise": "enable",
+          "cfg": 1.0,
+          "end_at_step": 2,
+          "latent_image": [
+            "13",
+            2
+          ],
+          "model": [
+            "3",
+            0
+          ],
+          "negative": [
+            "13",
+            1
+          ],
+          "noise_seed": 11,
+          "positive": [
+            "13",
+            0
+          ],
+          "return_with_leftover_noise": "enable",
+          "sampler_name": "euler",
+          "scheduler": "simple",
+          "start_at_step": 0,
+          "steps": 4
+        }
+      },
+      "21": {
+        "class_type": "KSamplerAdvanced",
+        "inputs": {
+          "add_noise": "disable",
+          "cfg": 1.0,
+          "end_at_step": 4,
+          "latent_image": [
+            "20",
+            0
+          ],
+          "model": [
+            "6",
+            0
+          ],
+          "negative": [
+            "13",
+            1
+          ],
+          "noise_seed": 11,
+          "positive": [
+            "13",
+            0
+          ],
+          "return_with_leftover_noise": "disable",
+          "sampler_name": "euler",
+          "scheduler": "simple",
+          "start_at_step": 2,
+          "steps": 4
+        }
+      },
+      "22": {
+        "class_type": "VAEDecode",
+        "inputs": {
+          "samples": [
+            "21",
+            0
+          ],
+          "vae": [
+            "10",
+            0
+          ]
+        }
+      },
+      "3": {
+        "class_type": "ModelSamplingSD3",
+        "inputs": {
+          "model": [
+            "2",
+            0
+          ],
+          "shift": 5.0
+        }
+      },
+      "4": {
+        "class_type": "UNETLoader",
+        "inputs": {
+          "unet_name": "wan2.2_i2v_low_noise_14B_fp8_scaled.safetensors",
+          "weight_dtype": "default"
+        }
+      },
+      "5": {
+        "class_type": "LoraLoaderModelOnly",
+        "inputs": {
+          "lora_name": "wan2.2_i2v_lightx2v_4steps_lora_v1_low_noise.safetensors",
+          "model": [
+            "4",
+            0
+          ],
+          "strength_model": 1.0
+        }
+      },
+      "6": {
+        "class_type": "ModelSamplingSD3",
+        "inputs": {
+          "model": [
+            "5",
+            0
+          ],
+          "shift": 5.0
+        }
+      },
+      "7": {
+        "class_type": "CLIPLoader",
+        "inputs": {
+          "clip_name": "umt5_xxl_fp8_e4m3fn_scaled.safetensors",
+          "type": "wan"
+        }
+      },
+      "8": {
+        "class_type": "CLIPTextEncode",
+        "inputs": {
+          "clip": [
+            "7",
+            0
+          ],
+          "text": "Rain drifts across the rooftops; the traveller turns his head slightly, coat moving in the wind. the camera holds perfectly still. shot on a 50mm lens with a natural human field of view. medium shot, framed from the waist up."
+        }
+      },
+      "9": {
+        "class_type": "CLIPTextEncode",
+        "inputs": {
+          "clip": [
+            "7",
+            0
+          ],
+          "text": ""
+        }
+      },
+      "_output": "101"
+    },
+    "height": 832,
+    "job_id": "j_651bf142f7ed",
+    "media_id": "m_429a62826895",
+    "mode": "i2v",
+    "negative": "",
+    "progress": 1.0,
+    "prompt": "Rain drifts across the rooftops; the traveller turns his head slightly, coat moving in the wind",
+    "quality": "draft",
+    "seed": 11,
+    "shot_id": "s_ac36695294fe",
+    "source_media_id": null,
+    "start_media_id": "m_9014a50c2cee",
+    "status": "done",
+    "steps": 4,
+    "updated": "2026-10-30T09:17:17+00:00",
+    "width": 480
+  },
+  "s_455bada485f7": {
+    "at_s": null,
+    "camera": {
+      "framing": "medium",
+      "lens": "50mm",
+      "move": "static",
+      "speed": "slow"
+    },
+    "compiled_prompt": "Rain streaks across a rain-soaked rooftop at dusk, city lights below, a lone traveller in a long coat. the camera holds perfectly still. shot on a 50mm lens with a natural human field of view. medium shot, framed from the waist up.",
+    "created": "2026-10-30T09:27:33+00:00",
+    "elapsed_s": 77.5,
+    "end_media_id": null,
+    "engine": "wan_t2v",
+    "error": null,
+    "finished": "2026-10-30T09:28:50+00:00",
+    "frames": 49,
+    "graded_media_id": null,
+    "graph": {
+      "1": {
+        "class_type": "UNETLoader",
+        "inputs": {
+          "unet_name": "wan2.2_t2v_high_noise_14B_fp8_scaled.safetensors",
+          "weight_dtype": "default"
+        }
+      },
+      "10": {
+        "class_type": "VAELoader",
+        "inputs": {
+          "vae_name": "wan_2.1_vae.safetensors"
+        }
+      },
+      "100": {
+        "class_type": "CreateVideo",
+        "inputs": {
+          "fps": 16,
+          "images": [
+            "22",
+            0
+          ]
+        }
+      },
+      "101": {
+        "class_type": "SaveVideo",
+        "inputs": {
+          "codec": "auto",
+          "filename_prefix": "cinema/t2v/s_455bada485f7",
+          "format": "auto",
+          "video": [
+            "100",
+            0
+          ]
+        }
+      },
+      "11": {
+        "class_type": "EmptyHunyuanLatentVideo",
+        "inputs": {
+          "batch_size": 1,
+          "height": 832,
+          "length": 49,
+          "width": 480
+        }
+      },
+      "2": {
+        "class_type": "LoraLoaderModelOnly",
+        "inputs": {
+          "lora_name": "wan2.2_t2v_lightx2v_4steps_lora_v1.1_high_noise.safetensors",
+          "model": [
+            "1",
+            0
+          ],
+          "strength_model": 1.0
+        }
+      },
+      "20": {
+        "class_type": "KSamplerAdvanced",
+        "inputs": {
+          "add_noise": "enable",
+          "cfg": 1.0,
+          "end_at_step": 2,
+          "latent_image": [
+            "11",
+            0
+          ],
+          "model": [
+            "3",
+            0
+          ],
+          "negative": [
+            "9",
+            0
+          ],
+          "noise_seed": 5,
+          "positive": [
+            "8",
+            0
+          ],
+          "return_with_leftover_noise": "enable",
+          "sampler_name": "euler",
+          "scheduler": "simple",
+          "start_at_step": 0,
+          "steps": 4
+        }
+      },
+      "21": {
+        "class_type": "KSamplerAdvanced",
+        "inputs": {
+          "add_noise": "disable",
+          "cfg": 1.0,
+          "end_at_step": 4,
+          "latent_image": [
+            "20",
+            0
+          ],
+          "model": [
+            "6",
+            0
+          ],
+          "negative": [
+            "9",
+            0
+          ],
+          "noise_seed": 5,
+          "positive": [
+            "8",
+            0
+          ],
+          "return_with_leftover_noise": "disable",
+          "sampler_name": "euler",
+          "scheduler": "simple",
+          "start_at_step": 2,
+          "steps": 4
+        }
+      },
+      "22": {
+        "class_type": "VAEDecode",
+        "inputs": {
+          "samples": [
+            "21",
+            0
+          ],
+          "vae": [
+            "10",
+            0
+          ]
+        }
+      },
+      "3": {
+        "class_type": "ModelSamplingSD3",
+        "inputs": {
+          "model": [
+            "2",
+            0
+          ],
+          "shift": 5.0
+        }
+      },
+      "4": {
+        "class_type": "UNETLoader",
+        "inputs": {
+          "unet_name": "wan2.2_t2v_low_noise_14B_fp8_scaled.safetensors",
+          "weight_dtype": "default"
+        }
+      },
+      "5": {
+        "class_type": "LoraLoaderModelOnly",
+        "inputs": {
+          "lora_name": "wan2.2_t2v_lightx2v_4steps_lora_v1.1_low_noise.safetensors",
+          "model": [
+            "4",
+            0
+          ],
+          "strength_model": 1.0
+        }
+      },
+      "6": {
+        "class_type": "ModelSamplingSD3",
+        "inputs": {
+          "model": [
+            "5",
+            0
+          ],
+          "shift": 5.0
+        }
+      },
+      "7": {
+        "class_type": "CLIPLoader",
+        "inputs": {
+          "clip_name": "umt5_xxl_fp8_e4m3fn_scaled.safetensors",
+          "type": "wan"
+        }
+      },
+      "8": {
+        "class_type": "CLIPTextEncode",
+        "inputs": {
+          "clip": [
+            "7",
+            0
+          ],
+          "text": "Rain streaks across a rain-soaked rooftop at dusk, city lights below, a lone traveller in a long coat. the camera holds perfectly still. shot on a 50mm lens with a natural human field of view. medium shot, framed from the waist up."
+        }
+      },
+      "9": {
+        "class_type": "CLIPTextEncode",
+        "inputs": {
+          "clip": [
+            "7",
+            0
+          ],
+          "text": ""
+        }
+      },
+      "_output": "101"
+    },
+    "height": 832,
+    "job_id": "j_da1b809f37be",
+    "media_id": "m_beec59406372",
+    "mode": "t2v",
+    "negative": "",
+    "progress": 1.0,
+    "prompt": "Rain streaks across a rain-soaked rooftop at dusk, city lights below, a lone traveller in a long coat",
+    "quality": "draft",
+    "seed": 5,
+    "shot_id": "s_455bada485f7",
+    "source_media_id": null,
+    "start_media_id": null,
+    "status": "done",
+    "steps": 4,
+    "updated": "2026-10-30T09:28:50+00:00",
+    "width": 480
+  }
+}

@@ -1,0 +1,17 @@
+# Codex CLI — ~/.codex/config.toml
+#
+# Merge this block into the existing file; do not replace it.  Codex starts the
+# server itself over stdio and speaks JSON-RPC to it.
+#
+# Install first:
+#   pip install -e mcp/          (from the repo root)
+#   cinema-mcp --check           (exit 0 = backend + ComfyUI reachable)
+
+[mcp_servers.cinema]
+command = "cinema-mcp"
+args = ["--transport", "stdio"]
+env = { CINEMA_URL = "http://127.0.0.1:8765" }
+
+# If `cinema-mcp` is not on PATH, point at the interpreter instead:
+# command = "python"
+# args = ["-m", "cinema_mcp.server", "--transport", "stdio"]

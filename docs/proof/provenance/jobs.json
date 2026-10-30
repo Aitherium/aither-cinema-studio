@@ -1,0 +1,149 @@
+{
+ "j_2784005e88f6": {
+  "created": "2026-10-30T08:35:15+00:00",
+  "error": null,
+  "job_id": "j_2784005e88f6",
+  "kind": "shot",
+  "params": {
+   "mode": "i2v",
+   "shot_id": "s_087a76fea478"
+  },
+  "progress": 1.0,
+  "result": {
+   "kind": "video",
+   "media_id": "m_85f1c2934feb",
+   "prompt_id": "e411de45-374b-4533-92d0-cb876e16748c",
+   "shot_id": "s_087a76fea478"
+  },
+  "status": "done",
+  "updated": "2026-10-30T08:35:35+00:00"
+ },
+ "j_3319a40629df": {
+  "created": "2026-10-30T08:22:14+00:00",
+  "error": null,
+  "job_id": "j_3319a40629df",
+  "kind": "shot",
+  "params": {
+   "mode": "keyframe",
+   "shot_id": "s_b6b3e9392a16"
+  },
+  "progress": 1.0,
+  "result": {
+   "kind": "image",
+   "media_id": "m_a77e0321243d",
+   "prompt_id": "d74de67f-9e89-473a-96f9-02864d95ad87",
+   "shot_id": "s_b6b3e9392a16"
+  },
+  "status": "done",
+  "updated": "2026-10-30T08:23:59+00:00"
+ },
+ "j_3798930df155": {
+  "created": "2026-10-30T08:53:24+00:00",
+  "error": null,
+  "job_id": "j_3798930df155",
+  "kind": "shot",
+  "params": {
+   "mode": "i2v",
+   "shot_id": "s_183b0cee23dd"
+  },
+  "progress": 1.0,
+  "result": {
+   "kind": "video",
+   "media_id": "m_b76c0c1cac80",
+   "prompt_id": "ec0d8b21-f21c-4615-b9bc-bb52845f8a5d",
+   "shot_id": "s_183b0cee23dd"
+  },
+  "status": "done",
+  "updated": "2026-10-30T08:53:44+00:00"
+ },
+ "j_4a4c6e5c1587": {
+  "created": "2026-10-30T08:54:27+00:00",
+  "error": null,
+  "job_id": "j_4a4c6e5c1587",
+  "kind": "shot",
+  "params": {
+   "mode": "i2v",
+   "shot_id": "s_f08c70ed26b7"
+  },
+  "progress": 1.0,
+  "result": {
+   "kind": "video",
+   "media_id": "m_2bfc5cfe6dd2",
+   "prompt_id": "6ba65725-dbe8-4bfa-9923-7f5087bb31a3",
+   "shot_id": "s_f08c70ed26b7"
+  },
+  "status": "done",
+  "updated": "2026-10-30T08:55:56+00:00"
+ },
+ "j_9d29bc92f2d2": {
+  "created": "2026-10-30T08:38:22+00:00",
+  "error": null,
+  "job_id": "j_9d29bc92f2d2",
+  "kind": "shot",
+  "params": {
+   "mode": "t2v",
+   "shot_id": "s_d6e597fe222b"
+  },
+  "progress": 1.0,
+  "result": {
+   "kind": "video",
+   "media_id": "m_7d7082f83368",
+   "prompt_id": "181746f5-2f8d-4946-84f4-ac23e3526919",
+   "shot_id": "s_d6e597fe222b"
+  },
+  "status": "done",
+  "updated": "2026-10-30T08:39:28+00:00"
+ },
+ "j_af17f4cd24bf": {
+  "created": "2026-10-30T08:56:26+00:00",
+  "error": "Comfy Cloud job 01ef9927-c0f1-46b9-9d94-7056baf502bd failed: {'current_inputs': {}, 'current_outputs': {}, 'exception_message': 'Prompt outputs failed validation. node 13 (WanImageToVideo): clip_vision_output \u2014 return_type_mismatch: Return type mismatch between linked nodes (clip_vision_output, received_type(CLIP_VISION) mismatch input_type(CLIP_VISION_OUTPUT)).', 'exception_type': 'ValidationError', 'node_id': '13', 'node_type': 'WanImageToVideo', 'traceback': []}",
+  "job_id": "j_af17f4cd24bf",
+  "kind": "shot",
+  "params": {
+   "mode": "i2v",
+   "shot_id": "s_b2e4cba5762c"
+  },
+  "progress": 1.0,
+  "result": null,
+  "status": "error",
+  "updated": "2026-10-30T08:56:38+00:00"
+ },
+ "j_b57b9743f1d2": {
+  "created": "2026-10-30T08:37:52+00:00",
+  "error": null,
+  "job_id": "j_b57b9743f1d2",
+  "kind": "shot",
+  "params": {
+   "mode": "i2v",
+   "shot_id": "s_eb791c374e33"
+  },
+  "progress": 1.0,
+  "result": {
+   "kind": "video",
+   "media_id": "m_afb90fe71da4",
+   "prompt_id": "13f86c30-a0c8-4918-96d9-1f76990f3ec6",
+   "shot_id": "s_eb791c374e33"
+  },
+  "status": "done",
+  "updated": "2026-10-30T08:38:06+00:00"
+ },
+ "j_cea95e3f54b4": {
+  "created": "2026-10-30T08:59:46+00:00",
+  "error": null,
+  "job_id": "j_cea95e3f54b4",
+  "kind": "shot",
+  "params": {
+   "mode": "t2v",
+   "shot_id": "s_7e195462ad86"
+  },
+  "progress": 1.0,
+  "result": {
+   "kind": "video",
+   "media_id": "m_7a6b7fc40973",
+   "prompt_id": "80806a05-6d60-45f0-b777-5fc35832c49a",
+   "shot_id": "s_7e195462ad86"
+  },
+  "status": "done",
+  "updated": "2026-10-30T09:00:06+00:00"
+ }
+}

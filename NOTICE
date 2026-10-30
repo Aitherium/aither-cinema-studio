@@ -1,0 +1,137 @@
+Aither Cinema Studio
+Copyright (c) 2026 Aitherium
+Licensed under the MIT License (see LICENSE).
+
+This product includes, calls, or requires third-party components. Nothing in this file
+grants you rights broader than the component's own licence — where a component is stricter
+than MIT, its terms win for that component. Every licence below was checked against a
+primary source on 2026-10-30; the source is given so it can be re-checked. Anything not
+checked against a primary source is marked **UNVERIFIED**.
+
+====================================================================================
+1. CODE IN THIS REPOSITORY
+====================================================================================
+All source in `server/`, `web/`, `comfy_nodes/` and `workflows/` is original to this
+project and MIT. It was written clean-room: no code was copied from ComfyUI, ComfyUI-Agent-Kit
+or PhotoCraft. ComfyUI-Agent-Kit (MIT) and
+PhotoCraft (MIT OR Apache-2.0) are referenced for API shape only, with attribution below.
+
+====================================================================================
+2. GENERATIVE MODELS (open weights, downloaded by the user, NOT distributed here)
+====================================================================================
+Wan 2.2 — T2V-A14B, I2V-A14B, FLF2V
+  Alibaba Wan-Video. Licence: Apache-2.0.
+  https://github.com/Wan-Video/Wan2.2  (GitHub licence API: Apache-2.0)
+  https://huggingface.co/Wan-AI/Wan2.2-T2V-A14B  (model card: apache-2.0)
+  https://huggingface.co/Wan-AI/Wan2.2-I2V-A14B  (model card: apache-2.0)
+
+Wan 2.2 supporting weights (loaded by the shipped graphs and distributed by the Wan authors
+with the models above): UMT5-XXL text encoder, Wan 2.1 VAE, CLIP-ViT-H-14 (laion2B-s32B-b79K)
+vision encoder. Apache-2.0 as published in the Wan 2.2 / Wan 2.1 repositories.
+  https://huggingface.co/Wan-AI/Wan2.2-I2V-A14B (file listing)
+  Note: the CLIP-ViT-H-14 *weights* derive from LAION/open_clip; the open_clip code is MIT.
+  Treat this encoder as Apache-2.0-as-redistributed-by-Wan; the upstream provenance is
+  **UNVERIFIED** in detail.
+
+RealVisXL V4.0 (SDXL fine-tune) — SG161222
+  Licence: CreativeML OpenRAIL++-M ("openrail++").
+  https://huggingface.co/SG161222/RealVisXL_V4.0  (README front matter: `license: openrail++`)
+  https://huggingface.co/stabilityai/stable-diffusion-xl-base-1.0  (`license: openrail++`)
+
+  IMPORTANT: OpenRAIL++ is an *open-weights* licence with use restrictions in its Attachment A
+  (it forbids, among other things, unlawful use and certain exploitative uses). It is NOT an
+  OSI-approved open-source licence, and it is not MIT. Redistributing the weights or their
+  derivatives carries those restrictions; this repository only references filenames, it does
+  not ship any weights. If you redistribute a build that bundles the weights, carry the
+  OpenRAIL++ text and its use restrictions with it.
+
+  Model card caveat: the card states the model "is still in the training phase". No warranty.
+
+LTX-2 / LTX-2.3 — Lightricks
+  Licence: LTX-2 Community License Agreement (`license: other` — a custom licence, NOT OSI
+  and not MIT). Terms: https://github.com/Lightricks/LTX-2/blob/main/LICENSE-2
+  https://huggingface.co/Lightricks/LTX-2        (cardData license_name =
+      "ltx-2-community-license-agreement", gated: false, checked 2026-10-30)
+  https://huggingface.co/Lightricks/LTX-2.3-fp8  (same licence family)
+  The `ltx` engine loads `ltx-2-19b-distilled-fp8.safetensors` and the Gemma 3 12B text
+  encoder; the Gemma weights carry Google's Gemma Terms of Use, not Apache-2.0. Read the
+  LTX-2 agreement before commercial use or redistribution. This repository references
+  filenames only and ships no weights.
+
+====================================================================================
+3. EXTERNAL PROGRAMS INVOKED AS SEPARATE PROCESSES (not linked, not vendored)
+====================================================================================
+ComfyUI — GPL-3.0
+  https://github.com/comfyanonymous/ComfyUI  (LICENSE: GNU GPL v3, verified from the raw file)
+  Used as an HTTP server on 127.0.0.1:8188, over its documented routes. This project does not
+  import, link, vendor or modify ComfyUI, and does not ship it; the MIT licence of this
+  repository is therefore unaffected. If you redistribute a bundle that *includes* ComfyUI,
+  that bundle is a distribution of GPL-3.0 code and must comply with the GPL.
+
+ComfyUI-CinemaRig — MIT (this project)
+  A custom node pack in `comfy_nodes/`, written for this entry. Installed into a user's own
+  ComfyUI `custom_nodes/` directory. Requires ComfyUI (GPL-3.0) at runtime and is distributed
+  under MIT; the combination is used, not linked into ComfyUI's own source.
+
+PhotoCraft — MIT OR Apache-2.0
+  Copyright (c) 2026 ArtCraft Team and the PhotoCraft contributors.
+  Verified from the distributed licence files: `LICENSE-MIT` (MIT, "Copyright (c) 2026 ArtCraft
+  Team and the PhotoCraft contributors") and `LICENSE-APACHE` alongside the `photocraft-cli`
+  binary. https://getartcraft.com/apps/photocraft
+  Used as the film-grade *engine*, invoked per frame as an external CLI (`photocraft-cli`).
+  Attribution only: no PhotoCraft code is copied, and the name "PhotoCraft" appears only in
+  this NOTICE and in README credits — never in a UI label, node display name, tool name or API
+  path.
+
+ffmpeg — LGPL-2.1-or-later by default, GPL-3.0-or-later in GPL builds
+  https://ffmpeg.org/legal.html  https://github.com/FFmpeg/FFmpeg (COPYING.LGPLv2.1, GPLv2+)
+  Invoked as an external binary for frame extraction and sequence assembly. This repository
+  ships no ffmpeg build. The build measured on the development host is a GPL build:
+  `ffmpeg 8.0.1-full_build` configured with `--enable-gpl --enable-version3 --enable-libx264`
+  (gyan.dev), i.e. **GPL-3.0-or-later**. If you redistribute a bundled ffmpeg binary you must
+  obey *that build's* licence; the MIT code here is unaffected because it only spawns a
+  process. An LGPL build also works.
+
+====================================================================================
+4. RUNTIME DEPENDENCIES (installed by the user, not vendored)
+====================================================================================
+Python (server/pyproject.toml):
+  fastapi                MIT              github.com/fastapi/fastapi
+  uvicorn                BSD-3-Clause     github.com/encode/uvicorn (LICENSE.md text)
+  httpx                  BSD-3-Clause     github.com/encode/httpx
+  python-multipart       Apache-2.0       github.com/Kludex/python-multipart
+  pillow                 MIT-CMU          github.com/python-pillow/Pillow ("Pillow is licensed
+                                          under the open source MIT-CMU License")
+  pytest (dev)           MIT              github.com/pytest-dev/pytest
+  ruff (dev)             MIT              github.com/astral-sh/ruff
+
+JavaScript (web/package.json):
+  react, react-dom        MIT             github.com/facebook/react (LICENSE: MIT, verified)
+  zustand                 MIT             github.com/pmndrs/zustand
+  vite                    MIT             github.com/vitejs/vite
+  typescript              Apache-2.0      github.com/microsoft/TypeScript
+  vitest                  MIT             github.com/vitest-dev/vitest
+  jsdom (dev)             MIT             github.com/jsdom/jsdom (LICENSE.txt: MIT, verified)
+  @vitejs/plugin-react,
+  @types/react,
+  @types/react-dom        MIT             (DefinitelyTyped / vite plugins)
+
+====================================================================================
+5. SPECIFICATIONS REFERENCED (no code taken)
+====================================================================================
+WebMCP — the browser "model context" tool-registration proposal. The polyfill and registry in
+`web/src/webmcp/` are written from scratch against the published shape of
+`document.modelContext.registerTool`. No specification code was copied. The licence of the
+specification repository is **UNVERIFIED** (GitHub reports both `NOASSERTION` for
+webmachinelearning/webmcp and no licence for WICG/webmcp); Nothing here redistributes it, so
+it does not affect this project's licence.
+
+ComfyUI HTTP API — the routes in `docs/COMFY_CLOUD.md` are documented at docs.comfy.org.
+
+====================================================================================
+6. BRAND
+====================================================================================
+"Aither", "Aitherium", "Aither Cinema Studio" are marks of the project owner. ComfyUI is a
+project of Comfy Org; this project is not affiliated with or endorsed by Comfy Org beyond its
+entry in the Open Source Higgsfield challenge. PhotoCraft and ArtCraft are marks of the
+ArtCraft Team.

@@ -1,0 +1,48 @@
+# awdk agent pack — Aither Cinema Studio
+#
+# Loaded by adk.agent_pack.load_agent_pack(<this directory>).  Everything here
+# follows AgentPackManifest (adk/agent_pack.py), which is fail-closed: an unknown
+# framework, a protocol outside acp|a2a|mcp|openai|langgraph_rest|http, or a
+# missing runtime.cmd raises at parse time.
+#
+# The pack is an MCP *tool server*, not a chat agent: the host model stays the
+# director, and these ten tools are the camera department.
+id: aither-cinema
+name: Aither Cinema Studio
+version: "0.1.0"
+description: >-
+  Direct ComfyUI shots from a camera rig: plan, render, re-shoot, grade, and cut
+  sequences or beat-timed music videos. Ten MCP tools over the local studio
+  backend at http://127.0.0.1:8765.
+framework: native
+
+runtime:
+  type: python
+  # A module target, so the Supervisor runs [sys.executable, -m] + this.
+  # It is deliberately not a bare "cinema-mcp" script name: the supervisor
+  # substitutes sys.executable for a leading "python", but a console script on
+  # PATH would not inherit the venv it was installed into.
+  cmd: cinema_mcp.server
+  args: ["--transport", "stdio"]
+
+entrypoint: cinema_mcp.server:main
+# No model_endpoint is declared: this pack is an MCP *tool server*, so the
+# director's model belongs to the host supervisor, which applies its own default.
+protocol: mcp
+mcp: mcp-server.json
+
+skills:
+  - aither-cinema
+
+entitlements: []
+min_tier: ""
+
+identity:
+  name: Cinema
+  role: director of photography
+  tagline: "A rig is a decision: one move, one lens, one framing per shot."
+  avatar: cinema
+
+# No vault references: the backend talks to ComfyUI locally.  A Comfy API key,
+# when one is used, is read by the backend from COMFY_API_KEY, never here.
+secrets: {}

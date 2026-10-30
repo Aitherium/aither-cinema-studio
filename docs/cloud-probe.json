@@ -1,0 +1,598 @@
+{
+ "WanCameraEmbedding": {
+  "required": {
+   "camera_pose": "COMBO",
+   "width": "INT",
+   "height": "INT",
+   "length": "INT"
+  },
+  "optional": {
+   "speed": "FLOAT",
+   "fx": "FLOAT",
+   "fy": "FLOAT",
+   "cx": "FLOAT",
+   "cy": "FLOAT"
+  },
+  "output": [
+   "WAN_CAMERA_EMBEDDING",
+   "INT",
+   "INT",
+   "INT"
+  ]
+ },
+ "WanCameraImageToVideo": {
+  "required": {
+   "positive": "CONDITIONING",
+   "negative": "CONDITIONING",
+   "vae": "VAE",
+   "width": "INT",
+   "height": "INT",
+   "length": "INT",
+   "batch_size": "INT"
+  },
+  "optional": {
+   "clip_vision_output": "CLIP_VISION_OUTPUT",
+   "start_image": "IMAGE",
+   "camera_conditions": "WAN_CAMERA_EMBEDDING"
+  },
+  "output": [
+   "CONDITIONING",
+   "CONDITIONING",
+   "LATENT"
+  ]
+ },
+ "WanImageToVideo": {
+  "required": {
+   "positive": "CONDITIONING",
+   "negative": "CONDITIONING",
+   "vae": "VAE",
+   "width": "INT",
+   "height": "INT",
+   "length": "INT",
+   "batch_size": "INT"
+  },
+  "optional": {
+   "clip_vision_output": "CLIP_VISION_OUTPUT",
+   "start_image": "IMAGE",
+   "ref_pad_image": "IMAGE"
+  },
+  "output": [
+   "CONDITIONING",
+   "CONDITIONING",
+   "LATENT"
+  ]
+ },
+ "WanFirstLastFrameToVideo": {
+  "required": {
+   "positive": "CONDITIONING",
+   "negative": "CONDITIONING",
+   "vae": "VAE",
+   "width": "INT",
+   "height": "INT",
+   "length": "INT",
+   "batch_size": "INT"
+  },
+  "optional": {
+   "clip_vision_start_image": "CLIP_VISION_OUTPUT",
+   "clip_vision_end_image": "CLIP_VISION_OUTPUT",
+   "start_image": "IMAGE",
+   "end_image": "IMAGE"
+  },
+  "output": [
+   "CONDITIONING",
+   "CONDITIONING",
+   "LATENT"
+  ]
+ },
+ "EmptyHunyuanLatentVideo": {
+  "required": {
+   "width": "INT",
+   "height": "INT",
+   "length": "INT",
+   "batch_size": "INT"
+  },
+  "optional": {},
+  "output": [
+   "LATENT"
+  ]
+ },
+ "Wan22ImageToVideoLatent": {
+  "required": {
+   "vae": "VAE",
+   "width": "INT",
+   "height": "INT",
+   "length": "INT",
+   "batch_size": "INT"
+  },
+  "optional": {
+   "start_image": "IMAGE"
+  },
+  "output": [
+   "LATENT"
+  ]
+ },
+ "KSamplerAdvanced": {
+  "required": {
+   "model": "MODEL",
+   "add_noise": [
+    "enable",
+    "disable"
+   ],
+   "noise_seed": "INT",
+   "steps": "INT",
+   "cfg": "FLOAT",
+   "sampler_name": [
+    "euler",
+    "euler_cfg_pp",
+    "euler_ancestral",
+    "euler_ancestral_cfg_pp",
+    "heun",
+    "heunpp2",
+    "exp_heun_2_x0",
+    "exp_heun_2_x0_sde",
+    "dpm_2",
+    "dpm_2_ancestral",
+    "lms",
+    "dpm_fast",
+    "dpm_adaptive",
+    "dpmpp_2s_ancestral",
+    "dpmpp_2s_ancestral_cfg_pp",
+    "dpmpp_sde",
+    "dpmpp_sde_gpu",
+    "dpmpp_2m",
+    "dpmpp_2m_cfg_pp",
+    "dpmpp_2m_sde",
+    "dpmpp_2m_sde_gpu",
+    "dpmpp_2m_sde_heun",
+    "dpmpp_2m_sde_heun_gpu",
+    "dpmpp_3m_sde",
+    "dpmpp_3m_sde_gpu",
+    "ddpm",
+    "lcm",
+    "ipndm",
+    "ipndm_v",
+    "deis",
+    "cfgpp_ud10_ab",
+    "res_multistep",
+    "res_multistep_cfg_pp",
+    "res_multistep_ancestral",
+    "res_multistep_ancestral_cfg_pp",
+    "gradient_estimation",
+    "gradient_estimation_cfg_pp",
+    "er_sde",
+    "seeds_2",
+    "seeds_3"
+   ],
+   "scheduler": [
+    "simple",
+    "sgm_uniform",
+    "karras",
+    "exponential",
+    "ddim_uniform",
+    "beta",
+    "normal",
+    "linear_quadratic",
+    "kl_optimal",
+    "bong_tangent",
+    "beta57"
+   ],
+   "positive": "CONDITIONING",
+   "negative": "CONDITIONING",
+   "latent_image": "LATENT",
+   "start_at_step": "INT",
+   "end_at_step": "INT",
+   "return_with_leftover_noise": [
+    "disable",
+    "enable"
+   ]
+  },
+  "optional": {},
+  "output": [
+   "LATENT"
+  ]
+ },
+ "LoraLoaderModelOnly": {
+  "required": {
+   "model": "MODEL",
+   "lora_name": [
+    "Flux2TurboComfyv2.safetensors",
+    "qwen_image_union_diffsynth_lora.safetensors",
+    "uso-flux1-dit-lora-v1.safetensors",
+    "wan2.2_i2v_lightx2v_4steps_lora_v1_high_noise.safetensors",
+    "wan2.2_i2v_lightx2v_4steps_lora_v1_low_noise.safetensors",
+    "wan2.2_t2v_lightx2v_4steps_lora_v1.1_high_noise.safetensors",
+    "wan2.2_t2v_lightx2v_4steps_lora_v1.1_low_noise.safetensors",
+    "wan_alpha_2.1_rgba_lora.safetensors",
+    "gemma-3-12b-it-abliterated_lora_rank64_bf16.safetensors",
+    "ltx-2.3-id-lora-celebvhq-3k.safetensors",
+    "ltx-2.3-id-lora-talkvid-3k.safetensors",
+    "ltx_2.3_22b_distilled_1.1_lora_dynamic_fro09_avg_rank_111_bf16.safetensors",
+    "wan2.1_SCAIL_2_DPO_lora_bf16.safetensors",
+    "krea2_darkbrush.safetensors",
+    "krea2_dotmatrix.safetensors",
+    "krea2_kidsdrawing.safetensors",
+    "krea2_neondrip.safetensors",
+    "krea2_rainywindow.safetensors",
+    "krea2_retroanime.safetensors",
+    "krea2_softwatercolor.safetensors",
+    "krea2_sunsetblur.safetensors",
+    "krea2_turbo_lora_rank_64_bf16.safetensors",
+    "krea2_vintagetarot.safetensors",
+    "boogu_image_turbo_hotfix_lora_rank_128_bf16.safetensors",
+    "boogu_image_turbo_lora_rank_128_bf16.safetensors",
+    "hunyuanvideo1.5_t2v_480p_lightx2v_4step_lora_rank_32_bf16.safetensors",
+    "flux.1-fill-dev-object-removal-lora.safetensors",
+    "wan2.2_animate_14B_relight_lora_bf16.safetensors",
+    "gemma-3-12b-it-abliterated_heretic_lora_rank64_bf16.safetensors",
+    "z_image_turbo_distill_patch_lora_bf16.safetensors",
+    "krea2_style_reference.safetensors",
+    "minimax_h3_ref2v_turbo_4step_v0.1_comfyui_bf16.safetensors",
+    "marigold_v2_depth_log_stage2.safetensors",
+    "marigold_v2_albedo.safetensors",
+    "marigold_v2_normals.safetensors",
+    "2511-AnyPose-base-000006250.safetensors",
+    "2511-AnyPose-helper-00006000.safetensors",
+    "AnimateLCM_sd15_t2v_lora.safetensors",
+    "anything2real_2601.safetensors",
+    "blindbox_v1_mix.safetensors"
+   ],
+   "strength_model": "FLOAT"
+  },
+  "optional": {},
+  "output": [
+   "MODEL"
+  ]
+ },
+ "CreateVideo": {
+  "required": {
+   "images": "IMAGE",
+   "fps": "FLOAT"
+  },
+  "optional": {
+   "audio": "AUDIO",
+   "bit_depth": "COMBO",
+   "color_space": "COMBO",
+   "codec": "COMBO"
+  },
+  "output": [
+   "VIDEO"
+  ]
+ },
+ "SaveVideo": {
+  "required": {
+   "video": "VIDEO",
+   "filename_prefix": "STRING",
+   "format": "COMFY_DYNAMICCOMBO_V3"
+  },
+  "optional": {
+   "codec": "COMFY_DYNAMICCOMBO_V3"
+  },
+  "output": [
+   "VIDEO"
+  ]
+ },
+ "SaveImage": {
+  "required": {
+   "images": "IMAGE",
+   "filename_prefix": "STRING"
+  },
+  "optional": {},
+  "output": [
+   "IMAGE"
+  ]
+ },
+ "LoadImage": {
+  "required": {
+   "image": []
+  },
+  "optional": {},
+  "output": [
+   "IMAGE",
+   "MASK"
+  ]
+ },
+ "QwenMultiangleCameraNode": {
+  "required": {
+   "horizontal_angle": "INT",
+   "vertical_angle": "INT",
+   "zoom": "FLOAT",
+   "default_prompts": "BOOLEAN",
+   "camera_view": "BOOLEAN"
+  },
+  "optional": {
+   "image": "IMAGE"
+  },
+  "output": [
+   "STRING",
+   "LOAD3D_CAMERA"
+  ]
+ },
+ "LTXVImgToVideo": {
+  "required": {
+   "positive": "CONDITIONING",
+   "negative": "CONDITIONING",
+   "vae": "VAE",
+   "image": "IMAGE",
+   "width": "INT",
+   "height": "INT",
+   "length": "INT",
+   "batch_size": "INT",
+   "strength": "FLOAT"
+  },
+  "optional": {},
+  "output": [
+   "CONDITIONING",
+   "CONDITIONING",
+   "LATENT"
+  ]
+ },
+ "EmptyLTXVLatentVideo": {
+  "required": {
+   "width": "INT",
+   "height": "INT",
+   "length": "INT",
+   "batch_size": "INT"
+  },
+  "optional": {},
+  "output": [
+   "LATENT"
+  ]
+ },
+ "LTXVConditioning": {
+  "required": {
+   "positive": "CONDITIONING",
+   "negative": "CONDITIONING",
+   "frame_rate": "FLOAT"
+  },
+  "optional": {},
+  "output": [
+   "CONDITIONING",
+   "CONDITIONING"
+  ]
+ },
+ "LTXVScheduler": {
+  "required": {
+   "steps": "INT",
+   "max_shift": "FLOAT",
+   "base_shift": "FLOAT",
+   "stretch": "BOOLEAN",
+   "terminal": "FLOAT"
+  },
+  "optional": {
+   "latent": "LATENT"
+  },
+  "output": [
+   "SIGMAS"
+  ]
+ },
+ "LTXAVTextEncoderLoader": {
+  "required": {
+   "text_encoder": "COMBO",
+   "ckpt_name": "COMBO",
+   "device": "COMBO"
+  },
+  "optional": {},
+  "output": [
+   "CLIP"
+  ]
+ },
+ "LTXVGemmaCLIPModelLoader": {
+  "required": {
+   "gemma_path": [
+    "clip-vit-large-patch14/put_clip__clip-vit-large-patch14.safetensors",
+    "gemma_3_12b_it_hf/ltxv_gemma3_config_json",
+    "gemma_3_12b_it_hf/ltxv_gemma3_tokenizer_model",
+    "gemma_3_12b_it_hf/ltxv_gemma3_tokenizer_json",
+    "gemma_3_12b_it_hf/ltxv_gemma3_tokenizer_config_json",
+    "gemma_3_12b_it_hf/ltxv_gemma3_preprocessor_config_json",
+    "gemma_3_12b_it_hf/ltxv_gemma3_processor_config_json",
+    "byt5_small_glyphxl_fp16.safetensors",
+    "clip_g_hidream.safetensors",
+    "clip_l_hidream.safetensors",
+    "gemma_3_12B_it.safetensors",
+    "gemma_3_12B_it_fp4_mixed.safetensors",
+    "gemma_3_12B_it_fp8_scaled.safetensors",
+    "gemma_3_4b_it_bf16.safetensors",
+    "jina_clip_v2_bf16.safetensors",
+    "llama_3.1_8b_instruct_fp8_scaled.safetensors",
+    "llava_llama3_fp8_scaled.safetensors",
+    "mistral_3_small_flux2_bf16.safetensors",
+    "mistral_3_small_flux2_fp8.safetensors",
+    "ovis_2.5.safetensors",
+    "qwen_0.6b_ace15.safetensors",
+    "qwen_1.7b_ace15.safetensors",
+    "qwen_2.5_vl_7b.safetensors",
+    "qwen_2.5_vl_7b_fp8_scaled.safetensors",
+    "qwen_2.5_vl_fp16.safetensors",
+    "qwen_3_4b.safetensors",
+    "qwen_3_8b_fp4mixed.safetensors",
+    "qwen_3_8b_fp8mixed.safetensors",
+    "qwen_4b_ace15.safetensors",
+    "t5xxl_fp8_e4m3fn_scaled.safetensors",
+    "umt5_xxl_fp16.safetensors",
+    "umt5_xxl_fp8_e4m3fn_scaled.safetensors",
+    "qwen3.5_4b_bf16.safetensors",
+    "ministral-3-3b.safetensors",
+    "ernie-image-prompt-enhancer.safetensors",
+    "gemma4_e4b_it_fp8_scaled.safetensors",
+    "gemma4_e2b_it_bf16.safetensors",
+    "gemma4_e2b_it_int8_convrot.safetensors",
+    "gemma4_e4b_it_bf16.safetensors",
+    "qwen3.5_2b_bf16.safetensors"
+   ],
+   "ltxv_path": [
+    "dynamicrafter/controlnet/dc_sketch_encoder_fp16.safetensors",
+    "dynamicrafter/dc_dynamicrafter_1024_fp16_pruned.safetensors",
+    "dynamicrafter/dc_dynamicrafter_512_fp16_pruned.safetensors",
+    "dynamicrafter/dc_dynamicrafter_512_interp_fp16_pruned.safetensors",
+    "dynamicrafter/dc_dynamicrafter_CIL_1024_no_watermark_pruned_fp16.safetensors",
+    "dynamicrafter/dc_dynamicrafter_CIL_512_no_watermark_fixed_pruned_fp16.safetensors",
+    "dynamicrafter/dc_tooncrafter_512_interp_pruned_fp16.safetensors",
+    "ace_step_1.5_turbo_aio.safetensors",
+    "ace_step_v1_3.5b.safetensors",
+    "flux1-dev-fp8.safetensors",
+    "flux1-schnell-fp8.safetensors",
+    "hunyuan3d-dit-v2-mv-turbo_fp16.safetensors",
+    "hunyuan3d-dit-v2-mv_fp16.safetensors",
+    "hunyuan3d-dit-v2_fp16.safetensors",
+    "hunyuan_3d_v2.1.safetensors",
+    "sd3.5_large_fp8_scaled.safetensors",
+    "sdpose_wholebody_fp16.safetensors",
+    "stable-audio-open-1.0.safetensors",
+    "v1-5-pruned-emaonly-fp16.safetensors",
+    "sam3.1_multiplex_fp16.safetensors",
+    "hidream_o1_image_dev_fp8_scaled.safetensors",
+    "hidream_o1_image_dev_bf16.safetensors",
+    "hidream_o1_image_bf16.safetensors",
+    "stable_audio_3_medium.safetensors",
+    "stable_audio_3_medium_base.safetensors",
+    "hidream_o1_image_dev_mxfp8.safetensors",
+    "hidream_o1_image_fp8_scaled.safetensors",
+    "hidream_o1_image_mxfp8.safetensors",
+    "lumina_2.safetensors",
+    "stable_audio_3_small_music.safetensors",
+    "stable_audio_3_small_music_base.safetensors",
+    "stable_audio_3_small_sfx.safetensors",
+    "stable_audio_3_small_sfx_base.safetensors",
+    "sd3.5_medium_incl_clips_t5xxlfp8scaled.safetensors",
+    "v1-5-pruned-emaonly.safetensors",
+    "v2-1_768-ema-pruned.ckpt",
+    "v2-1_768-nonema-pruned.ckpt",
+    "v2-1_768-nonema-pruned.safetensors",
+    "sd21-unclip-h.ckpt",
+    "sd21-unclip-l.ckpt"
+   ],
+   "max_length": "INT"
+  },
+  "optional": {},
+  "output": [
+   "CLIP"
+  ]
+ },
+ "ModelSamplingLTXV": {
+  "required": {
+   "model": "MODEL",
+   "max_shift": "FLOAT",
+   "base_shift": "FLOAT"
+  },
+  "optional": {
+   "latent": "LATENT"
+  },
+  "output": [
+   "MODEL"
+  ]
+ },
+ "CameraAngle": {
+  "required": {
+   "horizontal_angle": "INT",
+   "vertical_angle": "INT",
+   "zoom": "FLOAT"
+  },
+  "optional": {
+   "image": "IMAGE",
+   "view": "STRING"
+  },
+  "output": [
+   "LOAD3D_CAMERA",
+   "STRING"
+  ]
+ },
+ "_models": {
+  "unet_wan22": [
+   "wan2.2_animate_14B_bf16.safetensors",
+   "wan2.2_fun_camera_high_noise_14B_bf16.safetensors",
+   "wan2.2_fun_camera_high_noise_14B_fp8_scaled.safetensors",
+   "wan2.2_fun_camera_low_noise_14B_bf16.safetensors",
+   "wan2.2_fun_camera_low_noise_14B_fp8_scaled.safetensors",
+   "wan2.2_fun_control_5B_bf16.safetensors",
+   "wan2.2_fun_control_high_noise_14B_bf16.safetensors",
+   "wan2.2_fun_control_high_noise_14B_fp8_scaled.safetensors",
+   "wan2.2_fun_control_low_noise_14B_bf16.safetensors",
+   "wan2.2_fun_control_low_noise_14B_fp8_scaled.safetensors",
+   "wan2.2_fun_inpaint_5B_bf16.safetensors",
+   "wan2.2_fun_inpaint_high_noise_14B_bf16.safetensors",
+   "wan2.2_fun_inpaint_high_noise_14B_fp8_scaled.safetensors",
+   "wan2.2_fun_inpaint_low_noise_14B_bf16.safetensors",
+   "wan2.2_fun_inpaint_low_noise_14B_fp8_scaled.safetensors",
+   "wan2.2_i2v_high_noise_14B_fp16.safetensors",
+   "wan2.2_i2v_high_noise_14B_fp8_scaled.safetensors",
+   "wan2.2_i2v_low_noise_14B_fp16.safetensors",
+   "wan2.2_i2v_low_noise_14B_fp8_scaled.safetensors",
+   "wan2.2_s2v_14B_bf16.safetensors",
+   "wan2.2_s2v_14B_fp8_scaled.safetensors",
+   "wan2.2_t2v_high_noise_14B_fp16.safetensors",
+   "wan2.2_t2v_high_noise_14B_fp8_scaled.safetensors",
+   "wan2.2_t2v_low_noise_14B_fp16.safetensors",
+   "wan2.2_t2v_low_noise_14B_fp8_scaled.safetensors",
+   "wan2.2_ti2v_5B_fp16.safetensors",
+   "wan2.2_bernini_r_high_noise_fp8_scaled.safetensors",
+   "wan2.2_bernini_r_low_noise_fp8_scaled.safetensors",
+   "wan2.2_bernini_r_high_noise_fp16.safetensors",
+   "wan2.2_bernini_r_high_noise_int8_convrot.safetensors",
+   "wan2.2_bernini_r_high_noise_mxfp8.safetensors",
+   "wan2.2_bernini_r_low_noise_fp16.safetensors",
+   "wan2.2_bernini_r_low_noise_int8_convrot.safetensors",
+   "wan2.2_bernini_r_low_noise_mxfp8.safetensors",
+   "wan2.2_animate_14B_int8_convrot.safetensors",
+   "wan2.2_fun_vace_high_noise_14B_bf16.safetensors",
+   "wan2.2_fun_vace_high_noise_14B_fp8_scaled.safetensors",
+   "wan2.2_fun_vace_low_noise_14B_bf16.safetensors",
+   "wan2.2_fun_vace_low_noise_14B_fp8_scaled.safetensors",
+   "wan2.2_dancer_14b_global_fp8_scaled.safetensors",
+   "wan2.2_dancer_14b_local_fp8_scaled.safetensors",
+   "wan2.2-i2v-rapid-aio.safetensors",
+   "wan2.2-t2v-rapid-aio.safetensors"
+  ],
+  "unet_ltx": [
+   "ltx-2-19b-dev-fp8_transformer_only.safetensors",
+   "ltx-2-19b-dev_transformer_only_bf16.safetensors",
+   "ltx-2-19b-distilled-fp8_transformer_only.safetensors",
+   "ltx-2-19b-distilled_transformer_only_bf16.safetensors",
+   "ltx-2-3-22b-dev_transformer_only_fp8_input_scaled.safetensors",
+   "ltx-2.3-22b-dev_transformer_only_bf16.safetensors",
+   "ltx-2.3-22b-dev_transformer_only_fp8_scaled.safetensors",
+   "ltx-2.3-22b-distilled_transformer_only_bf16.safetensors",
+   "ltx-2.3-22b-distilled_transformer_only_fp8_input_scaled_v2.safetensors",
+   "ltx-2.3-22b-distilled_transformer_only_fp8_input_scaled_v3.safetensors",
+   "ltx-2.3-22b-distilled_transformer_only_fp8_input_scaled.safetensors",
+   "ltx-2.3-22b-distilled_transformer_only_fp8_scaled.safetensors",
+   "ltx-2.3-22b-distilled_transformer_only_mxfp8_block32.safetensors",
+   "ltx-2.3-22b-distilled-1.1_transformer_only_fp8_scaled.safetensors",
+   "ltx-2.3-22b-distilled-1.1_transformer_only_mxfp8_block32.safetensors",
+   "ltx-2.3-22b-distilled-1.1.safetensors",
+   "ltx-2.3-edit-insight-dev-fp8.safetensors",
+   "ltx-2.5-22b-dev-transformer-bf16.safetensors",
+   "ltx-2.5-22b-distilled-transformer-bf16.safetensors",
+   "ltx-2.5-22b-distilled-transformer-comfy-int8-convrot.safetensors",
+   "ltx-2.5-22b-distilled-transformer-nvfp4.safetensors"
+  ],
+  "loras_lightx2v": [
+   "wan2.2_i2v_lightx2v_4steps_lora_v1_high_noise.safetensors",
+   "wan2.2_i2v_lightx2v_4steps_lora_v1_low_noise.safetensors",
+   "wan2.2_t2v_lightx2v_4steps_lora_v1.1_high_noise.safetensors",
+   "wan2.2_t2v_lightx2v_4steps_lora_v1.1_low_noise.safetensors",
+   "wan2.2_i2v_A14b_high_noise_lora_rank64_lightx2v_4step_1022.safetensors",
+   "wan2.2_i2v_A14b_low_noise_lora_rank64_lightx2v_4step_1022.safetensors",
+   "wan2.2_lightx2v_T2V_14B_cfg_step_distill_v2_lora_rank256_bf16.safetensors",
+   "wan2.2_t2v_A14b_high_noise_lora_rank64_lightx2v_4step_1217.safetensors",
+   "wan2.2_t2v_A14b_low_noise_lora_rank64_lightx2v_4step_1217.safetensors"
+  ],
+  "ckpt": [
+   "Illustrious-XL-sdxl.safetensors",
+   "Juggernaut-XL_v9_RunDiffusionPhoto_v2.safetensors",
+   "ltx-2-19b-dev-fp4.safetensors",
+   "ltx-2-19b-dev-fp8.safetensors",
+   "ltx-2-19b-dev.safetensors",
+   "ltx-2-19b-distilled-fp8.safetensors",
+   "ltx-2-19b-distilled.safetensors",
+   "ltx-2.3-22b-dev.safetensors",
+   "ltx-video-2b-v0.9.5.safetensors",
+   "ltx-video-2b-v0.9.safetensors",
+   "realvisxlV50_v50Bakedvae.safetensors",
+   "wai-illustrious-sdxl.safetensors",
+   "ltx-2.3-22b-dev-fp8.safetensors",
+   "ltx-2.3-22b-distilled-fp8.safetensors",
+   "Raymnants.3.0-sdxl.safetensors"
+  ]
+ }
+}

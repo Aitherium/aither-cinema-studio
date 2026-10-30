@@ -1,0 +1,125 @@
+{
+  "what": "Live renders through the real backend code path (python -m cinema.cli render) against Comfy Cloud, run from server/.",
+  "when": "2026-10-30",
+  "surface": "cloud",
+  "base_url": "https://cloud.comfy.org",
+  "key_source": "COMFY_API_KEY_FILE -> ~/.aither/comfy_api_key; the key is never printed, logged or written into this repo",
+  "credits": "no job response carried a credit count; none recorded",
+  "renders": [
+    {
+      "file": "keyframe_draft.png",
+      "engine": "sdxl",
+      "mode": "keyframe",
+      "command": "python -m cinema.cli render --mode keyframe --engine sdxl --prompt \"a lone traveler standing on a rain-soaked rooftop at dusk, city lights below, cinematic, anamorphic, warm sodium glow, volumetric mist\" --move static --lens 50mm --framing medium --speed slow --width 768 --height 768 --seed 7 --data-dir .proof/data --out ../docs/proof/keyframe_draft.png",
+      "command_source": "argv reconstructed from the shot record in server/.proof/data/shots.json (prompt, seed, camera rig, width/height, frames, steps, data dir are exactly the values the CLI turns into that argv)",
+      "exit_code": 0,
+      "dimensions": "768x768",
+      "bytes": 666077,
+      "sha256_16": "ca58e30378d49a0b",
+      "elapsed_s": 105.0,
+      "elapsed_source": "shot record created 08:22:14Z -> updated 08:23:59Z",
+      "shot_id": "s_b6b3e9392a16",
+      "job_id": "j_3319a40629df"
+    },
+    {
+      "file": "wan_camera_draft.mp4",
+      "engine": "wan_camera",
+      "mode": "i2v",
+      "command": "python -m cinema.cli render --mode i2v --engine wan_camera --move dolly_in --lens 85mm --framing medium --speed slow --width 480 --height 832 --frames 49 --steps 4 --seed 7 --start ../docs/proof/keyframe_draft.png --prompt \"A traveller in a long coat steps through rain toward the camera; wet rooftops, neon reflections, cinematic\" --out ../docs/proof/wan_camera_draft.mp4",
+      "command_source": "run verbatim in this session",
+      "exit_code": 0,
+      "dimensions": "480x832",
+      "frames": 49,
+      "fps": 16,
+      "bytes": 343847,
+      "sha256_16": "234eef4168d8f33b",
+      "elapsed_s": 31.9,
+      "wall_clock_s": 33.6,
+      "elapsed_source": "shot record elapsed_s (submit -> done)",
+      "shot_id": "s_9d22d3ad6417",
+      "job_id": "j_e73ad036c151",
+      "frames_checked": [
+        "wan_camera_f000.png",
+        "wan_camera_f024.png",
+        "wan_camera_f048.png"
+      ]
+    },
+    {
+      "file": "wan_i2v_draft.mp4",
+      "engine": "wan_i2v",
+      "mode": "i2v",
+      "command": "python -m cinema.cli render --mode i2v --engine wan_i2v --width 480 --height 832 --frames 33 --steps 4 --seed 11 --start ../docs/proof/keyframe_draft.png --prompt \"Rain drifts across the rooftops; the traveller turns his head slightly, coat moving in the wind\" --out ../docs/proof/wan_i2v_draft.mp4",
+      "command_source": "run verbatim in this session",
+      "exit_code": 0,
+      "dimensions": "480x832",
+      "frames": 33,
+      "fps": 16,
+      "bytes": 373768,
+      "sha256_16": "b6c0541e4e35693c",
+      "elapsed_s": 27.7,
+      "wall_clock_s": 29.8,
+      "elapsed_source": "shot record elapsed_s (submit -> done)",
+      "shot_id": "s_ac36695294fe",
+      "job_id": "j_651bf142f7ed",
+      "frames_checked": [
+        "wan_i2v_f000.png",
+        "wan_i2v_f032.png"
+      ]
+    },
+    {
+      "file": "ltx_t2v_draft.mp4",
+      "engine": "ltx",
+      "mode": "t2v",
+      "command": "python -m cinema.cli render --mode t2v --engine ltx --prompt \"rain streaks across a rooftop at dusk, city lights below, slow drifting mist\" --move static --lens 50mm --framing medium --speed slow --width 768 --height 512 --frames 49 --steps 8 --seed 11 --data-dir .proof/data --out ../docs/proof/ltx_t2v_draft.mp4",
+      "command_source": "argv reconstructed from the shot record in server/.proof/data/shots.json (prompt, seed, camera rig, width/height, frames, steps, data dir are exactly the values the CLI turns into that argv)",
+      "exit_code": 0,
+      "dimensions": "768x512",
+      "frames": 49,
+      "bytes": 718621,
+      "sha256_16": "bddf327a4071511d",
+      "elapsed_s": 66.0,
+      "elapsed_source": "shot record created 08:38:22Z -> updated 08:39:28Z",
+      "shot_id": "s_d6e597fe222b",
+      "job_id": "j_9d29bc92f2d2",
+      "frames_checked": [
+        "ltx_1.png",
+        "ltx_2.png"
+      ]
+    },
+    {
+      "file": "wan_t2v_draft.mp4",
+      "engine": "wan_t2v",
+      "mode": "t2v",
+      "command": "python -m cinema.cli render --mode t2v --engine wan_t2v --width 480 --height 832 --frames 49 --steps 4 --seed 5 --prompt \"Rain streaks across a rain-soaked rooftop at dusk, city lights below, a lone traveller in a long coat\" --out ../docs/proof/wan_t2v_draft.mp4",
+      "command_source": "run verbatim in this session",
+      "exit_code": 0,
+      "dimensions": "480x832",
+      "frames": 49,
+      "fps": 16,
+      "bytes": 924902,
+      "sha256_16": "96581d8f48223289",
+      "elapsed_s": 77.5,
+      "wall_clock_s": 80.2,
+      "elapsed_source": "shot record elapsed_s (submit -> done)",
+      "shot_id": "s_455bada485f7",
+      "job_id": "j_da1b809f37be",
+      "frames_checked": [
+        "t2v_1.png",
+        "t2v_2.png"
+      ],
+      "note": "this is the render that proves the ModelSamplingSD3 shift correction (5.0 for the 4-step t2v LoRA path)"
+    }
+  ],
+  "verified": [
+    "each output was probed with ffprobe for width/height/frame count",
+    "frames were extracted and looked at: the camera draft shows a real dolly-in (the traveller is measurably larger at f048 while the city stays intact), the i2v draft turns the subject to face the lens, the ltx draft renders rain over a skyline",
+    "keyframe_draft.png and ltx_t2v_draft.mp4 are byte-identical to the media the backend stored for their shots"
+  ],
+  "bugs_found_by_proving": [
+    "geometry overrides (width/height/frames/steps) were dropped for every image-mode shot -- a 480x832/49 request rendered 480x480/33",
+    "the LOW expert re-read the original latent instead of the HIGH expert's output, so every Wan clip decoded to a flat field (cinema/graphs.py _wan_samplers)",
+    "WanImageToVideo / WanFirstLastFrameToVideo were fed a CLIP_VISION (loader) where they require a CLIP_VISION_OUTPUT (an encode) -- a hard validation error on wan_i2v, and an input name that does not exist on the plain i2v/flf2v graphs",
+    "ModelSamplingSD3 shift was 8.0 everywhere; the official lightx2v 4-step t2v/i2v graphs and the plain 20-step graphs use 5.0 (only Fun Camera uses 8.0)"
+  ],
+  "provenance": "docs/proof/provenance/shots.json holds the backend's own shot records (graph, seed, timings) for all four renders"
+}

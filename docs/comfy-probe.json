@@ -1,0 +1,1542 @@
+{
+  "base_url": "https://127.0.0.1:8188",
+  "probed_at": "2026-10-30T00:32:38-0700",
+  "reachable": true,
+  "version": {
+    "comfyui": "0.27.0",
+    "frontend": "1.45.20",
+    "python": "3.12.15 (main, Oct  1 2026, 15:41:07) [GCC 11.4.0]",
+    "torch": "2.11.0+cu130",
+    "os": "linux",
+    "argv": [
+      "main.py",
+      "--listen",
+      "0.0.0.0",
+      "--port",
+      "8188",
+      "--tls-keyfile",
+      "<host-path>/tls/comfyui/key.pem",
+      "--tls-certfile",
+      "<host-path>/tls/comfyui/chain.pem"
+    ]
+  },
+  "devices": [
+    {
+      "name": "cuda:0 NVIDIA GeForce RTX 5090 : cudaMallocAsync",
+      "type": "cuda",
+      "vram_total_gib": 31.82,
+      "vram_free_gib": 30.2
+    }
+  ],
+  "classes": {
+    "UNETLoader": {
+      "exists": true,
+      "required": {
+        "unet_name": {
+          "type": "COMBO",
+          "count": 4,
+          "values": [
+            "wan2.2_i2v_high_noise_14B_fp8_scaled.safetensors",
+            "wan2.2_i2v_low_noise_14B_fp8_scaled.safetensors",
+            "wan2.2_t2v_high_noise_14B_fp8_scaled.safetensors",
+            "wan2.2_t2v_low_noise_14B_fp8_scaled.safetensors"
+          ]
+        },
+        "weight_dtype": {
+          "type": "COMBO",
+          "count": 4,
+          "values": [
+            "default",
+            "fp8_e4m3fn",
+            "fp8_e4m3fn_fast",
+            "fp8_e5m2"
+          ]
+        }
+      },
+      "optional": {},
+      "output": [
+        "MODEL"
+      ],
+      "output_node": false
+    },
+    "CLIPLoader": {
+      "exists": true,
+      "required": {
+        "clip_name": {
+          "type": "COMBO",
+          "count": 1,
+          "values": [
+            "umt5_xxl_fp8_e4m3fn_scaled.safetensors"
+          ]
+        },
+        "type": {
+          "type": "COMBO",
+          "count": 25,
+          "values": [
+            "stable_diffusion",
+            "stable_cascade",
+            "sd3",
+            "stable_audio",
+            "mochi",
+            "ltxv",
+            "pixart",
+            "cosmos",
+            "lumina2",
+            "wan",
+            "hidream",
+            "chroma",
+            "ace",
+            "omnigen2",
+            "qwen_image",
+            "hunyuan_image",
+            "flux2",
+            "ovis",
+            "longcat_image",
+            "cogvideox",
+            "lens",
+            "pixeldit",
+            "ideogram4",
+            "boogu",
+            "krea2"
+          ]
+        }
+      },
+      "optional": {
+        "device": {
+          "type": "COMBO",
+          "count": 2,
+          "values": [
+            "default",
+            "cpu"
+          ]
+        }
+      },
+      "output": [
+        "CLIP"
+      ],
+      "output_node": false
+    },
+    "VAELoader": {
+      "exists": true,
+      "required": {
+        "vae_name": {
+          "type": "COMBO",
+          "count": 3,
+          "values": [
+            "sdxl_vae.safetensors",
+            "wan_2.1_vae.safetensors",
+            "pixel_space"
+          ]
+        }
+      },
+      "optional": {},
+      "output": [
+        "VAE"
+      ],
+      "output_node": false
+    },
+    "CLIPVisionLoader": {
+      "exists": true,
+      "required": {
+        "clip_name": {
+          "type": "COMBO",
+          "count": 3,
+          "values": [
+            "CLIP-ViT-H-14-laion2B-s32B-b79K.safetensors",
+            "CLIP-ViT-bigG-14-laion2B-39B-b160k.safetensors",
+            "sigclip_vision_patch14_384.safetensors"
+          ]
+        }
+      },
+      "optional": {},
+      "output": [
+        "CLIP_VISION"
+      ],
+      "output_node": false
+    },
+    "CLIPVisionEncode": {
+      "exists": true,
+      "required": {
+        "clip_vision": {
+          "type": "CLIP_VISION"
+        },
+        "image": {
+          "type": "IMAGE"
+        },
+        "crop": {
+          "type": "COMBO",
+          "count": 2,
+          "values": [
+            "center",
+            "none"
+          ]
+        }
+      },
+      "optional": {},
+      "output": [
+        "CLIP_VISION_OUTPUT"
+      ],
+      "output_node": false
+    },
+    "ModelSamplingSD3": {
+      "exists": true,
+      "required": {
+        "model": {
+          "type": "MODEL"
+        },
+        "shift": {
+          "type": "FLOAT",
+          "default": 3.0,
+          "min": 0.0,
+          "max": 100.0
+        }
+      },
+      "optional": {},
+      "output": [
+        "MODEL"
+      ],
+      "output_node": false
+    },
+    "WanImageToVideo": {
+      "exists": true,
+      "required": {
+        "positive": {
+          "type": "CONDITIONING"
+        },
+        "negative": {
+          "type": "CONDITIONING"
+        },
+        "vae": {
+          "type": "VAE"
+        },
+        "width": {
+          "type": "INT",
+          "default": 832,
+          "min": 16,
+          "max": 16384
+        },
+        "height": {
+          "type": "INT",
+          "default": 480,
+          "min": 16,
+          "max": 16384
+        },
+        "length": {
+          "type": "INT",
+          "default": 81,
+          "min": 1,
+          "max": 16384
+        },
+        "batch_size": {
+          "type": "INT",
+          "default": 1,
+          "min": 1,
+          "max": 4096
+        }
+      },
+      "optional": {
+        "clip_vision_output": {
+          "type": "CLIP_VISION_OUTPUT"
+        },
+        "start_image": {
+          "type": "IMAGE"
+        }
+      },
+      "output": [
+        "CONDITIONING",
+        "CONDITIONING",
+        "LATENT"
+      ],
+      "output_node": false
+    },
+    "WanFirstLastFrameToVideo": {
+      "exists": true,
+      "required": {
+        "positive": {
+          "type": "CONDITIONING"
+        },
+        "negative": {
+          "type": "CONDITIONING"
+        },
+        "vae": {
+          "type": "VAE"
+        },
+        "width": {
+          "type": "INT",
+          "default": 832,
+          "min": 16,
+          "max": 16384
+        },
+        "height": {
+          "type": "INT",
+          "default": 480,
+          "min": 16,
+          "max": 16384
+        },
+        "length": {
+          "type": "INT",
+          "default": 81,
+          "min": 1,
+          "max": 16384
+        },
+        "batch_size": {
+          "type": "INT",
+          "default": 1,
+          "min": 1,
+          "max": 4096
+        }
+      },
+      "optional": {
+        "clip_vision_start_image": {
+          "type": "CLIP_VISION_OUTPUT"
+        },
+        "clip_vision_end_image": {
+          "type": "CLIP_VISION_OUTPUT"
+        },
+        "start_image": {
+          "type": "IMAGE"
+        },
+        "end_image": {
+          "type": "IMAGE"
+        }
+      },
+      "output": [
+        "CONDITIONING",
+        "CONDITIONING",
+        "LATENT"
+      ],
+      "output_node": false
+    },
+    "EmptyHunyuanLatentVideo": {
+      "exists": true,
+      "required": {
+        "width": {
+          "type": "INT",
+          "default": 848,
+          "min": 16,
+          "max": 16384
+        },
+        "height": {
+          "type": "INT",
+          "default": 480,
+          "min": 16,
+          "max": 16384
+        },
+        "length": {
+          "type": "INT",
+          "default": 25,
+          "min": 1,
+          "max": 16384
+        },
+        "batch_size": {
+          "type": "INT",
+          "default": 1,
+          "min": 1,
+          "max": 4096
+        }
+      },
+      "optional": {},
+      "output": [
+        "LATENT"
+      ],
+      "output_node": false
+    },
+    "Wan22ImageToVideoLatent": {
+      "exists": true,
+      "required": {
+        "vae": {
+          "type": "VAE"
+        },
+        "width": {
+          "type": "INT",
+          "default": 1280,
+          "min": 32,
+          "max": 16384
+        },
+        "height": {
+          "type": "INT",
+          "default": 704,
+          "min": 32,
+          "max": 16384
+        },
+        "length": {
+          "type": "INT",
+          "default": 49,
+          "min": 1,
+          "max": 16384
+        },
+        "batch_size": {
+          "type": "INT",
+          "default": 1,
+          "min": 1,
+          "max": 4096
+        }
+      },
+      "optional": {
+        "start_image": {
+          "type": "IMAGE"
+        }
+      },
+      "output": [
+        "LATENT"
+      ],
+      "output_node": false
+    },
+    "KSamplerAdvanced": {
+      "exists": true,
+      "required": {
+        "model": {
+          "type": "MODEL"
+        },
+        "add_noise": {
+          "type": "COMBO",
+          "count": 2,
+          "values": [
+            "enable",
+            "disable"
+          ]
+        },
+        "noise_seed": {
+          "type": "INT",
+          "default": 0,
+          "min": 0,
+          "max": 18446744073709551615
+        },
+        "steps": {
+          "type": "INT",
+          "default": 20,
+          "min": 1,
+          "max": 10000
+        },
+        "cfg": {
+          "type": "FLOAT",
+          "default": 8.0,
+          "min": 0.0,
+          "max": 100.0
+        },
+        "sampler_name": {
+          "type": "COMBO",
+          "count": 44,
+          "values": [
+            "euler",
+            "euler_cfg_pp",
+            "euler_ancestral",
+            "euler_ancestral_cfg_pp",
+            "heun",
+            "heunpp2",
+            "exp_heun_2_x0",
+            "exp_heun_2_x0_sde",
+            "dpm_2",
+            "dpm_2_ancestral",
+            "lms",
+            "dpm_fast",
+            "dpm_adaptive",
+            "dpmpp_2s_ancestral",
+            "dpmpp_2s_ancestral_cfg_pp",
+            "dpmpp_sde",
+            "dpmpp_sde_gpu",
+            "dpmpp_2m",
+            "dpmpp_2m_cfg_pp",
+            "dpmpp_2m_sde",
+            "dpmpp_2m_sde_gpu",
+            "dpmpp_2m_sde_heun",
+            "dpmpp_2m_sde_heun_gpu",
+            "dpmpp_3m_sde",
+            "dpmpp_3m_sde_gpu",
+            "ddpm",
+            "lcm",
+            "ipndm",
+            "ipndm_v",
+            "deis",
+            "res_multistep",
+            "res_multistep_cfg_pp",
+            "res_multistep_ancestral",
+            "res_multistep_ancestral_cfg_pp",
+            "gradient_estimation",
+            "gradient_estimation_cfg_pp",
+            "er_sde",
+            "seeds_2",
+            "seeds_3",
+            "sa_solver",
+            "sa_solver_pece",
+            "ddim",
+            "uni_pc",
+            "uni_pc_bh2"
+          ]
+        },
+        "scheduler": {
+          "type": "COMBO",
+          "count": 9,
+          "values": [
+            "simple",
+            "sgm_uniform",
+            "karras",
+            "exponential",
+            "ddim_uniform",
+            "beta",
+            "normal",
+            "linear_quadratic",
+            "kl_optimal"
+          ]
+        },
+        "positive": {
+          "type": "CONDITIONING"
+        },
+        "negative": {
+          "type": "CONDITIONING"
+        },
+        "latent_image": {
+          "type": "LATENT"
+        },
+        "start_at_step": {
+          "type": "INT",
+          "default": 0,
+          "min": 0,
+          "max": 10000
+        },
+        "end_at_step": {
+          "type": "INT",
+          "default": 10000,
+          "min": 0,
+          "max": 10000
+        },
+        "return_with_leftover_noise": {
+          "type": "COMBO",
+          "count": 2,
+          "values": [
+            "disable",
+            "enable"
+          ]
+        }
+      },
+      "optional": {},
+      "output": [
+        "LATENT"
+      ],
+      "output_node": false
+    },
+    "KSampler": {
+      "exists": true,
+      "required": {
+        "model": {
+          "type": "MODEL"
+        },
+        "seed": {
+          "type": "INT",
+          "default": 0,
+          "min": 0,
+          "max": 18446744073709551615
+        },
+        "steps": {
+          "type": "INT",
+          "default": 20,
+          "min": 1,
+          "max": 10000
+        },
+        "cfg": {
+          "type": "FLOAT",
+          "default": 8.0,
+          "min": 0.0,
+          "max": 100.0
+        },
+        "sampler_name": {
+          "type": "COMBO",
+          "count": 44,
+          "values": [
+            "euler",
+            "euler_cfg_pp",
+            "euler_ancestral",
+            "euler_ancestral_cfg_pp",
+            "heun",
+            "heunpp2",
+            "exp_heun_2_x0",
+            "exp_heun_2_x0_sde",
+            "dpm_2",
+            "dpm_2_ancestral",
+            "lms",
+            "dpm_fast",
+            "dpm_adaptive",
+            "dpmpp_2s_ancestral",
+            "dpmpp_2s_ancestral_cfg_pp",
+            "dpmpp_sde",
+            "dpmpp_sde_gpu",
+            "dpmpp_2m",
+            "dpmpp_2m_cfg_pp",
+            "dpmpp_2m_sde",
+            "dpmpp_2m_sde_gpu",
+            "dpmpp_2m_sde_heun",
+            "dpmpp_2m_sde_heun_gpu",
+            "dpmpp_3m_sde",
+            "dpmpp_3m_sde_gpu",
+            "ddpm",
+            "lcm",
+            "ipndm",
+            "ipndm_v",
+            "deis",
+            "res_multistep",
+            "res_multistep_cfg_pp",
+            "res_multistep_ancestral",
+            "res_multistep_ancestral_cfg_pp",
+            "gradient_estimation",
+            "gradient_estimation_cfg_pp",
+            "er_sde",
+            "seeds_2",
+            "seeds_3",
+            "sa_solver",
+            "sa_solver_pece",
+            "ddim",
+            "uni_pc",
+            "uni_pc_bh2"
+          ]
+        },
+        "scheduler": {
+          "type": "COMBO",
+          "count": 9,
+          "values": [
+            "simple",
+            "sgm_uniform",
+            "karras",
+            "exponential",
+            "ddim_uniform",
+            "beta",
+            "normal",
+            "linear_quadratic",
+            "kl_optimal"
+          ]
+        },
+        "positive": {
+          "type": "CONDITIONING"
+        },
+        "negative": {
+          "type": "CONDITIONING"
+        },
+        "latent_image": {
+          "type": "LATENT"
+        },
+        "denoise": {
+          "type": "FLOAT",
+          "default": 1.0,
+          "min": 0.0,
+          "max": 1.0
+        }
+      },
+      "optional": {},
+      "output": [
+        "LATENT"
+      ],
+      "output_node": false
+    },
+    "CheckpointLoaderSimple": {
+      "exists": true,
+      "required": {
+        "ckpt_name": {
+          "type": "COMBO",
+          "count": 18,
+          "values": [
+            "Juggernaut-XL-v9.safetensors",
+            "RealVisXL_V4.0.safetensors",
+            "ace_step_v1_3.5b.safetensors",
+            "anyorangemixAnything_mint.safetensors",
+            "dasiwaWAN22I2V14B_midnightflirtHigh.safetensors",
+            "flux1-dev-fp8.safetensors",
+            "hunyuan_3d_v2.1.safetensors",
+            "pornmasterAnime_ilV4.safetensors",
+            "sd_xl_base_1.0_inpainting_0.1.safetensors",
+            "sdxl_lightning_4step.safetensors",
+            "smoothMixWan22I2VT2V_t2vHighV20.safetensors",
+            "theGuroProjectTGP_v10.safetensors",
+            "ttpTheTentacle_v2FP32.safetensors",
+            "unholyDesireMixCrimson_v50.safetensors",
+            "unholyDesireMixFoolS_v50.safetensors",
+            "vixonSNSFWMilk_illustV2.safetensors",
+            "waiIllustriousSDXL_v140.safetensors",
+            "waiIllustriousSDXL_v140_int8.safetensors"
+          ]
+        }
+      },
+      "optional": {},
+      "output": [
+        "MODEL",
+        "CLIP",
+        "VAE"
+      ],
+      "output_node": false
+    },
+    "VAEDecode": {
+      "exists": true,
+      "required": {
+        "samples": {
+          "type": "LATENT"
+        },
+        "vae": {
+          "type": "VAE"
+        }
+      },
+      "optional": {},
+      "output": [
+        "IMAGE"
+      ],
+      "output_node": false
+    },
+    "CreateVideo": {
+      "exists": true,
+      "required": {
+        "images": {
+          "type": "IMAGE"
+        },
+        "fps": {
+          "type": "FLOAT",
+          "default": 30.0,
+          "min": 1.0,
+          "max": 120.0
+        }
+      },
+      "optional": {
+        "audio": {
+          "type": "AUDIO"
+        },
+        "bit_depth": {
+          "type": "INT",
+          "default": 8,
+          "min": 8,
+          "max": 10
+        }
+      },
+      "output": [
+        "VIDEO"
+      ],
+      "output_node": false
+    },
+    "SaveVideo": {
+      "exists": true,
+      "required": {
+        "video": {
+          "type": "VIDEO"
+        },
+        "filename_prefix": {
+          "type": "STRING",
+          "default": "video/ComfyUI"
+        },
+        "format": {
+          "type": "COMBO",
+          "default": "auto"
+        },
+        "codec": {
+          "type": "COMBO",
+          "default": "auto"
+        }
+      },
+      "optional": {},
+      "output": [
+        "VIDEO"
+      ],
+      "output_node": true
+    },
+    "VHS_VideoCombine": {
+      "exists": true,
+      "required": {
+        "images": {
+          "type": "IMAGE"
+        },
+        "frame_rate": {
+          "type": "FLOAT",
+          "default": 8,
+          "min": 1
+        },
+        "loop_count": {
+          "type": "INT",
+          "default": 0,
+          "min": 0,
+          "max": 100
+        },
+        "filename_prefix": {
+          "type": "STRING",
+          "default": "AnimateDiff"
+        },
+        "format": {
+          "type": "COMBO",
+          "count": 14,
+          "values": [
+            "image/gif",
+            "image/webp",
+            "video/nvenc_h264-mp4",
+            "video/av1-webm",
+            "video/webm",
+            "video/h265-mp4",
+            "video/ffmpeg-gif",
+            "video/8bit-png",
+            "video/nvenc_hevc-mp4",
+            "video/ffv1-mkv",
+            "video/h264-mp4",
+            "video/16bit-png",
+            "video/ProRes",
+            "video/nvenc_av1-mp4"
+          ]
+        },
+        "pingpong": {
+          "type": "BOOLEAN",
+          "default": false
+        },
+        "save_output": {
+          "type": "BOOLEAN",
+          "default": true
+        }
+      },
+      "optional": {
+        "audio": {
+          "type": "AUDIO"
+        },
+        "meta_batch": {
+          "type": "VHS_BatchManager"
+        },
+        "vae": {
+          "type": "VAE"
+        }
+      },
+      "output": [
+        "VHS_FILENAMES"
+      ],
+      "output_node": true
+    },
+    "SaveAnimatedWEBP": {
+      "exists": true,
+      "required": {
+        "images": {
+          "type": "IMAGE"
+        },
+        "filename_prefix": {
+          "type": "STRING",
+          "default": "ComfyUI"
+        },
+        "fps": {
+          "type": "FLOAT",
+          "default": 6.0,
+          "min": 0.01,
+          "max": 1000.0
+        },
+        "lossless": {
+          "type": "BOOLEAN",
+          "default": true
+        },
+        "quality": {
+          "type": "INT",
+          "default": 80,
+          "min": 0,
+          "max": 100
+        },
+        "method": {
+          "type": "COMBO"
+        }
+      },
+      "optional": {},
+      "output": [
+        "IMAGE"
+      ],
+      "output_node": true
+    },
+    "SaveImage": {
+      "exists": true,
+      "required": {
+        "images": {
+          "type": "IMAGE"
+        },
+        "filename_prefix": {
+          "type": "STRING",
+          "default": "ComfyUI"
+        }
+      },
+      "optional": {},
+      "output": [
+        "IMAGE"
+      ],
+      "output_node": true
+    },
+    "LoadImage": {
+      "exists": true,
+      "required": {
+        "image": {
+          "type": "COMBO",
+          "count": 448,
+          "values": [
+            "aither_face_crop.png",
+            "aither_portrait_ref.png",
+            "aither_tpose_skeleton.png",
+            "av_9d0d95ba48.png",
+            "char_face_10821960.png",
+            "char_face_11594379.png",
+            "char_face_11799585.png",
+            "char_face_12088649.png",
+            "char_face_12108900.png",
+            "char_face_12187828.png",
+            "char_face_12770706.png",
+            "char_face_13140527.png",
+            "char_face_13969602.png",
+            "char_face_18131861.png",
+            "char_face_19486010.png",
+            "char_face_19584014.png",
+            "char_face_23005836.png",
+            "char_face_23057686.png",
+            "char_face_24385911.png",
+            "char_face_25012325.png",
+            "char_face_31306499.png",
+            "char_face_31390647.png",
+            "char_face_32248473.png",
+            "char_face_32819604.png",
+            "char_face_3342958.png",
+            "char_face_34570400.png",
+            "char_face_36163263.png",
+            "char_face_3782263.png",
+            "char_face_39158626.png",
+            "char_face_39710616.png",
+            "char_face_47144920.png",
+            "char_face_50509827.png",
+            "char_face_5159869.png",
+            "char_face_51788138.png",
+            "char_face_51873685.png",
+            "char_face_52174077.png",
+            "char_face_53082923.png",
+            "char_face_54371881.png",
+            "char_face_5499317.png",
+            "char_face_55260607.png",
+            "char_face_55904623.png",
+            "char_face_56009656.png",
+            "char_face_56504434.png",
+            "char_face_5860899.png",
+            "char_face_58679909.png",
+            "char_face_58773614.png",
+            "char_face_60003391.png",
+            "char_face_61529310.png",
+            "char_face_63927160.png",
+            "char_face_65983122.png",
+            "char_face_66166690.png",
+            "char_face_66692062.png",
+            "char_face_68453914.png",
+            "char_face_69485055.png",
+            "char_face_69639019.png",
+            "char_face_72994562.png",
+            "char_face_73308511.png",
+            "char_face_74324300.png",
+            "char_face_74506939.png",
+            "char_face_77641863.png",
+            "char_face_79156645.png",
+            "char_face_79326515.png",
+            "char_face_79555552.png",
+            "char_face_79900842.png",
+            "char_face_81613094.png",
+            "char_face_83864792.png",
+            "char_face_84299723.png",
+            "char_face_85211074.png",
+            "char_face_8601628.png",
+            "char_face_86918450.png",
+            "char_face_88058198.png",
+            "char_face_89191756.png",
+            "char_face_91363311.png",
+            "char_face_92830278.png",
+            "char_face_93535361.png",
+            "char_face_94406069.png",
+            "char_face_95197561.png",
+            "char_face_9558235.png",
+            "char_face_95890490.png",
+            "char_face_96966898.png",
+            "char_face_97367043.png",
+            "char_face_9776806.png",
+            "char_face_98955610.png",
+            "char_face_99373760.png",
+            "char_face_99894529.png",
+            "comp_face_10478432.png",
+            "comp_face_11026218.png",
+            "comp_face_12046569.png",
+            "comp_face_1241170.png",
+            "comp_face_17692177.png",
+            "comp_face_18343061.png",
+            "comp_face_18746831.png",
+            "comp_face_19429561.png",
+            "comp_face_21234334.png",
+            "comp_face_24542931.png",
+            "comp_face_28084192.png",
+            "comp_face_293729.png",
+            "comp_face_29726912.png",
+            "comp_face_3222799.png",
+            "comp_face_32752833.png",
+            "comp_face_33191444.png",
+            "comp_face_33468601.png",
+            "comp_face_35729852.png",
+            "comp_face_38665772.png",
+            "comp_face_38966733.png",
+            "comp_face_44492013.png",
+            "comp_face_45225411.png",
+            "comp_face_46123388.png",
+            "comp_face_48743659.png",
+            "comp_face_51206994.png",
+            "comp_face_51789468.png",
+            "comp_face_52394569.png",
+            "comp_face_53455920.png",
+            "comp_face_61680980.png",
+            "comp_face_62676677.png",
+            "comp_face_63985785.png",
+            "comp_face_64696782.png",
+            "comp_face_66231170.png",
+            "comp_face_70899053.png",
+            "comp_face_76722557.png",
+            "comp_face_77307349.png",
+            "comp_face_8000314.png",
+            "comp_face_80846370.png",
+            "comp_face_81471148.png",
+            "comp_face_93544007.png",
+            "comp_face_94015255.png",
+            "comp_face_94168181.png",
+            "comp_face_95980084.png",
+            "comp_face_98118549.png",
+            "f_0001.png",
+            "f_0009.png",
+            "f_0017.png",
+            "f_0025.png",
+            "f_0033.png",
+            "f_0041.png",
+            "f_0049.png",
+            "f_0057.png",
+            "f_0065.png",
+            "f_0073.png",
+            "f_0081.png",
+            "f_0089.png",
+            "f_0097.png",
+            "f_0105.png",
+            "f_0113.png",
+            "f_0121.png",
+            "f_0129.png",
+            "f_0137.png",
+            "f_0145.png",
+            "f_0153.png",
+            "f_0161.png",
+            "f_0169.png",
+            "f_0177.png",
+            "f_0185.png",
+            "f_0193.png",
+            "f_0201.png",
+            "f_0209.png",
+            "f_0217.png",
+            "f_0225.png",
+            "f_0233.png",
+            "f_0241.png",
+            "f_0249.png",
+            "f_0257.png",
+            "f_0265.png",
+            "f_0273.png",
+            "f_0281.png",
+            "f_0289.png",
+            "f_0297.png",
+            "f_0305.png",
+            "f_0313.png",
+            "f_0321.png",
+            "f_0329.png",
+            "f_0337.png",
+            "f_0345.png",
+            "f_0353.png",
+            "f_0361.png",
+            "f_0369.png",
+            "f_0377.png",
+            "f_0385.png",
+            "f_0393.png",
+            "f_0401.png",
+            "f_0409.png",
+            "f_0417.png",
+            "f_0425.png",
+            "f_0433.png",
+            "f_0441.png",
+            "f_0449.png",
+            "f_0457.png",
+            "f_0465.png",
+            "f_0473.png",
+            "f_0480.png",
+            "f_0481.png",
+            "f_0482.png",
+            "f_0489.png",
+            "f_0497.png",
+            "f_0505.png",
+            "f_0513.png",
+            "f_0521.png",
+            "f_0529.png",
+            "f_0537.png",
+            "f_0545.png",
+            "f_0553.png",
+            "f_0561.png",
+            "f_0569.png",
+            "f_0577.png",
+            "f_0585.png",
+            "f_0593.png",
+            "f_0601.png",
+            "f_0609.png",
+            "f_0617.png",
+            "f_0625.png",
+            "f_0633.png",
+            "f_0641.png",
+            "f_0649.png",
+            "f_0657.png",
+            "f_0665.png",
+            "f_0673.png",
+            "f_0681.png",
+            "f_0689.png",
+            "f_0697.png",
+            "f_0705.png",
+            "f_0713.png",
+            "f_0721.png",
+            "f_0900.png",
+            "parallax_src_17012882.png",
+            "parallax_src_20545039.png",
+            "parallax_src_33122151.png",
+            "parallax_src_69143461.png",
+            "studio_inp_mask_1213897.png",
+            "studio_inp_mask_16802805.png",
+            "studio_inp_mask_23205303.png",
+            "studio_inp_mask_33586546.png",
+            "studio_inp_mask_5380093.png",
+            "studio_inp_mask_68582635.png",
+            "studio_inp_mask_87491843.png",
+            "studio_inp_src_1213897.png",
+            "studio_inp_src_16802805.png",
+            "studio_inp_src_23205303.png",
+            "studio_inp_src_33586546.png",
+            "studio_inp_src_5380093.png",
+            "studio_inp_src_68582635.png",
+            "studio_inp_src_87491843.png",
+            "studio_rmbg_src_10070734.png",
+            "studio_rmbg_src_10933555.png",
+            "studio_rmbg_src_14058240.png",
+            "studio_rmbg_src_15039949.png",
+            "studio_rmbg_src_15786850.png",
+            "studio_rmbg_src_16683324.png",
+            "studio_rmbg_src_17194626.png",
+            "studio_rmbg_src_17341423.png",
+            "studio_rmbg_src_17545729.png",
+            "studio_rmbg_src_18592859.png",
+            "studio_rmbg_src_18880907.png",
+            "studio_rmbg_src_19367906.png",
+            "studio_rmbg_src_19764882.png",
+            "studio_rmbg_src_20586124.png",
+            "studio_rmbg_src_22971865.png",
+            "studio_rmbg_src_23563769.png",
+            "studio_rmbg_src_24492031.png",
+            "studio_rmbg_src_24827209.png",
+            "studio_rmbg_src_24885686.png",
+            "studio_rmbg_src_25453148.png",
+            "studio_rmbg_src_26218647.png",
+            "studio_rmbg_src_26301536.png",
+            "studio_rmbg_src_2710061.png",
+            "studio_rmbg_src_27853119.png",
+            "studio_rmbg_src_27990919.png",
+            "studio_rmbg_src_2806925.png",
+            "studio_rmbg_src_29724032.png",
+            "studio_rmbg_src_29758595.png",
+            "studio_rmbg_src_30327020.png",
+            "studio_rmbg_src_30387147.png",
+            "studio_rmbg_src_30939854.png",
+            "studio_rmbg_src_33080447.png",
+            "studio_rmbg_src_33968971.png",
+            "studio_rmbg_src_35095130.png",
+            "studio_rmbg_src_35972909.png",
+            "studio_rmbg_src_36238684.png",
+            "studio_rmbg_src_36597163.png",
+            "studio_rmbg_src_36685613.png",
+            "studio_rmbg_src_37475485.png",
+            "studio_rmbg_src_37638029.png",
+            "studio_rmbg_src_37692878.png",
+            "studio_rmbg_src_38361654.png",
+            "studio_rmbg_src_39712032.png",
+            "studio_rmbg_src_4044615.png",
+            "studio_rmbg_src_40973493.png",
+            "studio_rmbg_src_41701253.png",
+            "studio_rmbg_src_42393431.png",
+            "studio_rmbg_src_44442764.png",
+            "studio_rmbg_src_44920622.png",
+            "studio_rmbg_src_45540276.png",
+            "studio_rmbg_src_46208937.png",
+            "studio_rmbg_src_46945826.png",
+            "studio_rmbg_src_4791954.png",
+            "studio_rmbg_src_4815624.png",
+            "studio_rmbg_src_48205480.png",
+            "studio_rmbg_src_4867180.png",
+            "studio_rmbg_src_48921922.png",
+            "studio_rmbg_src_48960509.png",
+            "studio_rmbg_src_49466561.png",
+            "studio_rmbg_src_50650740.png",
+            "studio_rmbg_src_50987538.png",
+            "studio_rmbg_src_51854308.png",
+            "studio_rmbg_src_51860003.png",
+            "studio_rmbg_src_51902653.png",
+            "studio_rmbg_src_51999474.png",
+            "studio_rmbg_src_52129013.png",
+            "studio_rmbg_src_52582875.png",
+            "studio_rmbg_src_53240017.png",
+            "studio_rmbg_src_53646065.png",
+            "studio_rmbg_src_54002039.png",
+            "studio_rmbg_src_54092927.png",
+            "studio_rmbg_src_54740677.png",
+            "studio_rmbg_src_54796388.png",
+            "studio_rmbg_src_56326827.png",
+            "studio_rmbg_src_57206706.png",
+            "studio_rmbg_src_57281621.png",
+            "studio_rmbg_src_57370855.png",
+            "studio_rmbg_src_57416141.png",
+            "studio_rmbg_src_57625738.png",
+            "studio_rmbg_src_58097947.png",
+            "studio_rmbg_src_59212910.png",
+            "studio_rmbg_src_60316886.png",
+            "studio_rmbg_src_60341487.png",
+            "studio_rmbg_src_61073924.png",
+            "studio_rmbg_src_61320995.png",
+            "studio_rmbg_src_61965136.png",
+            "studio_rmbg_src_62106797.png",
+            "studio_rmbg_src_62625257.png",
+            "studio_rmbg_src_62654567.png",
+            "studio_rmbg_src_63668793.png",
+            "studio_rmbg_src_64546447.png",
+            "studio_rmbg_src_64941788.png",
+            "studio_rmbg_src_66050294.png",
+            "studio_rmbg_src_66696051.png",
+            "studio_rmbg_src_67519052.png",
+            "studio_rmbg_src_67984750.png",
+            "studio_rmbg_src_68534119.png",
+            "studio_rmbg_src_68707782.png",
+            "studio_rmbg_src_69515853.png",
+            "studio_rmbg_src_69884856.png",
+            "studio_rmbg_src_70015882.png",
+            "studio_rmbg_src_7032653.png",
+            "studio_rmbg_src_70555570.png",
+            "studio_rmbg_src_70860981.png",
+            "studio_rmbg_src_70956118.png",
+            "studio_rmbg_src_71155946.png",
+            "studio_rmbg_src_7144255.png",
+            "studio_rmbg_src_7170094.png",
+            "studio_rmbg_src_71917085.png",
+            "studio_rmbg_src_72920837.png",
+            "studio_rmbg_src_74250930.png",
+            "studio_rmbg_src_74423787.png",
+            "studio_rmbg_src_74659800.png",
+            "studio_rmbg_src_75099724.png",
+            "studio_rmbg_src_75168264.png",
+            "studio_rmbg_src_76347672.png",
+            "studio_rmbg_src_76649329.png",
+            "studio_rmbg_src_77880141.png",
+            "studio_rmbg_src_80089373.png",
+            "studio_rmbg_src_80256033.png",
+            "studio_rmbg_src_80939718.png",
+            "studio_rmbg_src_81039461.png",
+            "studio_rmbg_src_81312906.png",
+            "studio_rmbg_src_81392493.png",
+            "studio_rmbg_src_81753721.png",
+            "studio_rmbg_src_82072788.png",
+            "studio_rmbg_src_82652825.png",
+            "studio_rmbg_src_8283014.png",
+            "studio_rmbg_src_84061107.png",
+            "studio_rmbg_src_84183663.png",
+            "studio_rmbg_src_8582603.png",
+            "studio_rmbg_src_85944194.png",
+            "studio_rmbg_src_86220741.png",
+            "studio_rmbg_src_8666171.png",
+            "studio_rmbg_src_8729726.png",
+            "studio_rmbg_src_88667197.png",
+            "studio_rmbg_src_9090676.png",
+            "studio_rmbg_src_91050344.png",
+            "studio_rmbg_src_92280637.png",
+            "studio_rmbg_src_92372195.png",
+            "studio_rmbg_src_92857441.png",
+            "studio_rmbg_src_92988114.png",
+            "studio_rmbg_src_9348379.png",
+            "studio_rmbg_src_94197463.png",
+            "studio_rmbg_src_94443006.png",
+            "studio_rmbg_src_95761084.png",
+            "studio_rmbg_src_96196993.png",
+            "studio_rmbg_src_96733366.png",
+            "studio_rmbg_src_97313568.png",
+            "studio_rmbg_src_98528423.png",
+            "studio_src_14513346.png",
+            "studio_src_20371652.png",
+            "studio_src_23473931.png",
+            "studio_src_26126936.png",
+            "studio_src_27862456.png",
+            "studio_src_3063172.png",
+            "studio_src_30687639.png",
+            "studio_src_32758140.png",
+            "studio_src_33277399.png",
+            "studio_src_4040016.png",
+            "studio_src_41580004.png",
+            "studio_src_44089290.png",
+            "studio_src_46829536.png",
+            "studio_src_48619145.png",
+            "studio_src_49539767.png",
+            "studio_src_5114207.png",
+            "studio_src_51757017.png",
+            "studio_src_57312889.png",
+            "studio_src_62215692.png",
+            "studio_src_62972997.png",
+            "studio_src_62996742.png",
+            "studio_src_65479463.png",
+            "studio_src_67545597.png",
+            "studio_src_70958753.png",
+            "studio_src_71298017.png",
+            "studio_src_71624920.png",
+            "studio_src_73860123.png",
+            "studio_src_79369821.png",
+            "studio_src_81242980.png",
+            "studio_src_82090862.png",
+            "studio_src_82294583.png",
+            "studio_src_82320066.png",
+            "studio_src_85915914.png",
+            "studio_src_92601123.png",
+            "studio_src_93358828.png",
+            "studio_src_9579081.png",
+            "studio_up_src_12043432.png",
+            "studio_up_src_12309757.png",
+            "studio_up_src_19140918.png",
+            "studio_up_src_25229436.png",
+            "studio_up_src_36237226.png",
+            "studio_up_src_43426172.png",
+            "studio_up_src_44727357.png",
+            "studio_up_src_4783584.png",
+            "studio_up_src_48804925.png",
+            "studio_up_src_50297926.png",
+            "studio_up_src_51159537.png",
+            "studio_up_src_53268120.png",
+            "studio_up_src_53325744.png",
+            "studio_up_src_62091401.png",
+            "studio_up_src_76751837.png",
+            "studio_up_src_78392178.png",
+            "studio_up_src_81450110.png",
+            "studio_up_src_86640062.png",
+            "studio_up_src_96047110.png",
+            "studio_vid_src.png",
+            "vn_ref_you_0.png"
+          ]
+        }
+      },
+      "optional": {},
+      "output": [
+        "IMAGE",
+        "MASK"
+      ],
+      "output_node": false
+    }
+  },
+  "models": {
+    "diffusion_models": [
+      "wan2.2_i2v_high_noise_14B_fp8_scaled.safetensors",
+      "wan2.2_i2v_low_noise_14B_fp8_scaled.safetensors",
+      "wan2.2_t2v_high_noise_14B_fp8_scaled.safetensors",
+      "wan2.2_t2v_low_noise_14B_fp8_scaled.safetensors"
+    ],
+    "text_encoders": [
+      "umt5_xxl_fp8_e4m3fn_scaled.safetensors"
+    ],
+    "vae": [
+      "sdxl_vae.safetensors",
+      "wan_2.1_vae.safetensors"
+    ],
+    "clip_vision": [
+      "CLIP-ViT-H-14-laion2B-s32B-b79K.safetensors",
+      "CLIP-ViT-bigG-14-laion2B-39B-b160k.safetensors",
+      "sigclip_vision_patch14_384.safetensors"
+    ],
+    "checkpoints": [
+      "Juggernaut-XL-v9.safetensors",
+      "RealVisXL_V4.0.safetensors",
+      "ace_step_v1_3.5b.safetensors",
+      "anyorangemixAnything_mint.safetensors",
+      "dasiwaWAN22I2V14B_midnightflirtHigh.safetensors",
+      "flux1-dev-fp8.safetensors",
+      "hunyuan_3d_v2.1.safetensors",
+      "pornmasterAnime_ilV4.safetensors",
+      "sd_xl_base_1.0_inpainting_0.1.safetensors",
+      "sdxl_lightning_4step.safetensors",
+      "smoothMixWan22I2VT2V_t2vHighV20.safetensors",
+      "theGuroProjectTGP_v10.safetensors",
+      "ttpTheTentacle_v2FP32.safetensors",
+      "unholyDesireMixCrimson_v50.safetensors",
+      "unholyDesireMixFoolS_v50.safetensors",
+      "vixonSNSFWMilk_illustV2.safetensors",
+      "waiIllustriousSDXL_v140.safetensors",
+      "waiIllustriousSDXL_v140_int8.safetensors"
+    ],
+    "loras": [
+      "1980s_technical_manuals_flux.safetensors",
+      "ALamiaXL_concept-10.safetensors",
+      "AbsSlider_Pony2.safetensors",
+      "Abs_slider_IllustriousXL2.safetensors",
+      "AfterSexMS.safetensors",
+      "AfterShrex-AfterGangbang-000007.safetensors",
+      "AnthroFurry_Super_Fit_Hourglass_Mix_Style_Illustrious.safetensors",
+      "Ass_Adjust_alpha1.0_rank4_noxattn_last.safetensors",
+      "Ass_Size_Slider_-_Illustrious.safetensors",
+      "BetterSnowILL.safetensors",
+      "Body_Type_Slider_-_Illustrious_alpha1.0_rank4_noxattn_last.safetensors",
+      "Canine_Sheathe_V2_IL.safetensors",
+      "Centaur_Transformation_Illustrious.safetensors",
+      "DR34ML4Y_I2V_14B_HIGH.safetensors",
+      "DR34ML4Y_I2V_14B_LOW.safetensors",
+      "DetailTweakerXL.safetensors",
+      "Dragon_Girl_Illustrious.safetensors",
+      "Drider.safetensors",
+      "Face_Shape_Helper.safetensors",
+      "Female_Height_Difference_-_Illustrious-000015.safetensors",
+      "Fighting_Game_Gameplay_-_Concept_-_Illustrious.safetensors",
+      "ForestILL.safetensors",
+      "FutaOverflowIllustV1.safetensors",
+      "Gurochanop-000009.safetensors",
+      "Harpy_Girl_Monster_Girl_Illustrious.safetensors",
+      "Heroneko_transperancysliderSdxl_.safetensors",
+      "HipsSlider.safetensors",
+      "JM45_V1_ILXL.safetensors",
+      "Kicking_Sprite_Sheet-000008.safetensors",
+      "MuscleSlider_Illustrious2.safetensors",
+      "MuscleSlider_Pony2.safetensors",
+      "NSFW-22-H-e8.safetensors",
+      "NSFW-22-L-e8.safetensors",
+      "Penis_Size_Slider_-_Illustrious_-_Girthy_alpha1.0_rank4_noxattn_250steps.safetensors",
+      "PonyOtherStyle_12Alt.safetensors",
+      "Pony_DetailV2.0.safetensors",
+      "Qwen_Snofs_1_2.safetensors",
+      "Rain_Illustrious_v1.safetensors",
+      "Skinny-Fat_Slider_Illustrious_copy.safetensors",
+      "StS-Illustrious-Detail-Slider-v1.0.safetensors",
+      "StS_Age_Slider_Illustrious_v1.safetensors",
+      "StS_IllustXL_Breast_Size_Slider_v1.0.safetensors",
+      "StS_age_slider_v1_initial_release.safetensors",
+      "Succubus-Illustrious-v01.safetensors",
+      "Unfazed_Breast_Size_Slider_Pony_v1.0.safetensors",
+      "WAN-2.2-I2V_st0mach_bulge_HIGH.safetensors",
+      "Waist_SliderIllustriousXL3.safetensors",
+      "WideHipsPony.safetensors",
+      "add_detail.safetensors",
+      "after-fellatio-v3-illustriousxl-lora-nochekaiser.safetensors",
+      "analthroughclothesill.safetensors",
+      "beter_anime_eyes_r1-000015.safetensors",
+      "breast-sucking-fingering-v3-illustriousxl-lora-nochekaiser.safetensors",
+      "char-417.safetensors",
+      "cinematic_expression_style_illu_v1.safetensors",
+      "cinematic_photography_detailed_illu_xl_v5.safetensors",
+      "cinematic_photography_detailed_pony_xl_v5.1.safetensors",
+      "detail_slider_v4.safetensors",
+      "disgusted_face_ilxl_goofy.safetensors",
+      "doggystyle-v9-illustriousxl-lora-nochekaiser.safetensors",
+      "facial-v3-illustriousxl-lora-nochekaiser.safetensors",
+      "fellatio-on-couch-v4-illustriousxl-lora-nochekaiser.safetensors",
+      "flat_illustration_flux.safetensors",
+      "full-nelson-v3-illustriousxl-lora-nochekaiser.safetensors",
+      "hair_length_ILXL_v1.safetensors",
+      "hair_slider_v1.safetensors",
+      "hugging-doggystyle-v3-illustriousxl-lora-nochekaiser.safetensors",
+      "illustrious_slime_girl_v1.safetensors",
+      "imminent-penetration-v5-illustriousxl-lora-nochekaiser.safetensors",
+      "invisible.safetensors",
+      "ip-adapter-faceid-plusv2_sdxl_lora.safetensors",
+      "large_areolae_addift.safetensors",
+      "lcm-lora-sdxl.safetensors",
+      "lightingSlider.safetensors",
+      "mating-press-from-side-v4-illustriousxl-lora-nochekaiser.safetensors",
+      "midis_EjaculationInMouth_V0.65[IL].safetensors",
+      "moika_style_rank32.safetensors",
+      "multiple-boys-v5-illustriousxl-lora-nochekaiser.safetensors",
+      "multiple-views-v7-illustriousxl-lora-nochekaiser.safetensors",
+      "nipple_size_slider_illustrious_goofy.safetensors",
+      "on-side-missionary-v5-illustriousxl-lora-nochekaiser.safetensors",
+      "penis-over-one-eye-v3-illustriousxl-lora-nochekaiser.safetensors",
+      "pixel-art-xl.safetensors",
+      "pull-out-v2-illustriousxl-lora-nochekaiser.safetensors",
+      "reverse-cowgirl-position-v2-illustriousxl-lora-nochekaiser.safetensors",
+      "reverse-fellatio-v4-illustriousxl-lora-nochekaiser.safetensors",
+      "schematic_v1_flux.safetensors",
+      "smile_slider.safetensors",
+      "spitroast-v5-illustriousxl-lora-nochekaiser.safetensors",
+      "straddling-kiss-v3-illustriousxl-lora-nochekaiser.safetensors",
+      "sweatill.safetensors",
+      "thicc_v1.2-illu_done.safetensors",
+      "thicc_v1.4-pony_done.safetensors",
+      "undressing-v5-illustriousxl-lora-nochekaiser.safetensors",
+      "uso-flux1-dit-lora-v1.safetensors",
+      "wan2.2_t2v_lightx2v_4steps_lora_v1.1_high_noise.safetensors",
+      "wan2.2_t2v_lightx2v_4steps_lora_v1.1_low_noise.safetensors",
+      "wide_hips_Illustrious1V1.safetensors",
+      "xtremecumblast.safetensors"
+    ]
+  },
+  "expected_visible": {
+    "diffusion_models": {
+      "wan2.2_i2v_high_noise_14B_fp8_scaled.safetensors": true,
+      "wan2.2_i2v_low_noise_14B_fp8_scaled.safetensors": true,
+      "wan2.2_t2v_high_noise_14B_fp8_scaled.safetensors": true,
+      "wan2.2_t2v_low_noise_14B_fp8_scaled.safetensors": true
+    },
+    "text_encoders": {
+      "umt5_xxl_fp8_e4m3fn_scaled.safetensors": true
+    },
+    "vae": {
+      "wan_2.1_vae.safetensors": true
+    },
+    "clip_vision": {
+      "CLIP-ViT-H-14-laion2B-s32B-b79K.safetensors": true
+    },
+    "checkpoints": {
+      "RealVisXL_V4.0.safetensors": true
+    }
+  },
+  "expected_all_visible": true,
+  "timings": {
+    "measured_at": "2026-10-30T01:20:00-0700",
+    "jobs": [
+      {
+        "name": "sdxl_keyframe",
+        "note": "RealVisXL V4.0, 768x768, 28 steps dpmpp_2m karras, cfg 5",
+        "prompt_id": "9a050ec5-4f76-4278-a6a3-838b3b62e181",
+        "seconds": 100.5,
+        "comfy_status": "success",
+        "ok": true,
+        "outputs": [
+          "docs\\calibration\\sdxl_keyframe\\keyframe_00001_.png"
+        ],
+        "graph": {
+          "1": "CheckpointLoaderSimple",
+          "2": "CLIPTextEncode",
+          "3": "CLIPTextEncode",
+          "4": "EmptyLatentImage",
+          "5": "KSampler",
+          "6": "VAEDecode",
+          "7": "SaveImage"
+        }
+      }
+    ],
+    "summary": {
+      "sdxl_keyframe": 100.5
+    },
+    "notes": {
+      "sdxl_keyframe": "768x768, 28 steps dpmpp_2m karras cfg 5, RealVisXL V4.0. Client-measured 100.5 s submit->artifact; the server logged 'Prompt executed in 99.29 seconds', of which ~63 s was sampling (~2.2 s/step) and the rest VAE decode plus I/O. Model load was warm.",
+      "wan_t2v_draft": "NOT MEASURED - blocked, see top-level wan_blocker."
+    }
+  },
+  "step_cutting_loras": {
+    "wan_lightx2v_4step": [
+      "wan2.2_t2v_lightx2v_4steps_lora_v1.1_high_noise.safetensors",
+      "wan2.2_t2v_lightx2v_4steps_lora_v1.1_low_noise.safetensors"
+    ],
+    "note": "wan2.2 t2v lightx2v v1.1 4-step LoRAs for BOTH experts are present; they cut a draft render from 8 steps to ~4 (split 2/2)."
+  },
+  "wan_blocker": {
+    "verdict": "could-not-judge (B1: host memory cgroup saturated)",
+    "graph": "Wan 2.2 t2v two-expert, 480x480, 33 frames, 8 steps split 4, euler/simple, cfg 3.5",
+    "attempts": [
+      {
+        "try": 1,
+        "weight_dtype": "default",
+        "result": "host OOM-killed the container at 2026-10-30 00:38:02 while loading the HIGH expert",
+        "evidence": "journal: \"model weight dtype torch.float16, manual cast: torch.float16\"; systemd: \"A process of this unit has been killed by the OOM killer\""
+      },
+      {
+        "try": 2,
+        "weight_dtype": "fp8_e4m3fn",
+        "result": "HIGH expert loaded OK (loaded completely; 13628.68 MB) then OOM at 01:05:27 while loading the LOW expert",
+        "evidence": "kernel: oom-kill constraint=CONSTRAINT_MEMCG oom_memcg=/aither.slice task_memcg=aither.slice/aither-comfyui.service; killed python total-vm:207390308kB anon-rss:4508268kB"
+      }
+    ],
+    "root_cause": "/sys/fs/cgroup/aither.slice/memory.max = 47244640256 (44 GiB) and memory.current = 47158693888 (99.8%) with ComfyUI idle at 843 MB. The ~135 always-on fleet services hold ~42.8 GiB anon in that slice, so there is ~0.08 GiB of headroom for any model load. ComfyUI needs ~4.5 GiB anon plus weight pages to load a 13.6 GB fp8 expert.",
+    "why_not_fixed_here": "Raising aither.slice memory.max is a host memory-guard change (the box is already at 87.6% commit charge), and reclaiming ~15 GiB would mean stopping ~10 peer services. Neither is inside this task. The Wan render must run on a host with RAM headroom, or after the owner raises the slice cap.",
+    "what_builders_should_do": "Use the SDXL keyframe preset for timings. For Wan, ship the two-expert graph (it is correct: fp8 loads, and the HIGH expert fits in 31.5 GiB VRAM), but expect ~4 min of 9p model load per expert (measured 62.8 MB/s from /mnt/d) and a host that can supply ~15 GiB of free RAM. Also measured: weight_dtype must be fp8_e4m3fn on this host; the literal 'default' upcasts the fp8_scaled checkpoint to fp16 (28 GiB per expert) and cannot fit."
+  }
+}

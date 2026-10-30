@@ -1,0 +1,13 @@
+{
+  "_comment": "Gemini CLI — merge mcpServers into ~/.gemini/settings.json. Install: pip install -e mcp/ from the repo root.",
+  "mcpServers": {
+    "cinema": {
+      "command": "cinema-mcp",
+      "args": ["--transport", "stdio"],
+      "env": {
+        "CINEMA_URL": "http://127.0.0.1:8765"
+      },
+      "timeout": 60000
+    }
+  }
+}
