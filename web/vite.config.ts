@@ -1,9 +1,15 @@
 import { defineConfig } from 'vitest/config';
 import react from '@vitejs/plugin-react';
 
-// The backend is a FastAPI app on 8765; production serves web/dist itself,
-// so every request goes to the same-origin '/api' path in both modes.
-export default defineConfig({
+/**
+ * Dev and self-host: the backend serves web/dist itself, so requests go to the
+ * same-origin '/api' path and vite proxies them to :8765.
+ *
+ * GitHub Pages: the page is served from /aither-cinema-studio/, so the build
+ * carries that base. The base is production-only — dev stays at '/'.
+ */
+export default defineConfig(({ mode }) => ({
+  base: mode === 'production' ? '/aither-cinema-studio/' : '/',
   plugins: [react()],
   server: {
     port: 5173,
@@ -21,7 +27,8 @@ export default defineConfig({
   test: {
     environment: 'jsdom',
     globals: true,
+    setupFiles: ['./src/test-setup.ts'],
     include: ['src/**/*.test.ts', 'src/**/*.test.tsx'],
     restoreMocks: true,
   },
-});
+}));

@@ -22,6 +22,7 @@ talks to this origin through CORS).
 
 from __future__ import annotations
 
+import inspect
 import json
 import mimetypes
 import os
@@ -31,7 +32,7 @@ import tempfile
 import time
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Mapping, Optional
 
 from fastapi import FastAPI, File, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
@@ -47,6 +48,28 @@ REPO_ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_PROBE_FILE = Path(os.environ.get("CINEMA_PROBE_FILE") or (REPO_ROOT / "docs" / "comfy-probe.json"))
 PROBE_TTL_S = 300.0
 PROBE_FAIL_TTL_S = 30.0
+
+# Browser origins the studio answers. Dev keeps :5173; the public demo lives on
+# GitHub Pages. Override with a comma-separated CINEMA_CORS_ORIGINS.
+DEFAULT_CORS_ORIGINS = [
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+    "https://aitherium.github.io",
+]
+
+
+def cors_origins_from_env(env: Optional[Mapping[str, str]] = None) -> List[str]:
+    """Origins allowed to call this backend from a browser."""
+    source = os.environ if env is None else env
+    raw = str(source.get("CINEMA_CORS_ORIGINS", "") or "")
+    items = [o.strip().rstrip("/") for o in raw.split(",") if o.strip()]
+    return items or list(DEFAULT_CORS_ORIGINS)
+
+
+# Newer Starlette understands Private Network Access natively and rejects a PNA
+# preflight (400) unless told to allow it. Older ones simply do not know the
+# header; the middleware in create_app fills the gap for those.
+_CORS_TAKES_PNA = "allow_private_network" in inspect.signature(CORSMiddleware.__init__).parameters
 
 
 def _env_float(name: str, default: float) -> float:
@@ -509,13 +532,32 @@ def create_app(state: Optional[CinemaState] = None) -> FastAPI:
     app = FastAPI(title="Aither Cinema Studio", version=__version__)
     app.state.cinema = st
 
-    app.add_middleware(
-        CORSMiddleware,
-        allow_origins=["http://localhost:5173", "http://127.0.0.1:5173"],
-        allow_credentials=True,
-        allow_methods=["*"],
-        allow_headers=["*"],
-    )
+    origins = cors_origins_from_env()
+    wildcard = "*" in origins
+    cors_kwargs: Dict[str, Any] = {
+        "allow_origins": ["*"] if wildcard else origins,
+        "allow_credentials": not wildcard,
+        "allow_methods": ["*"],
+        "allow_headers": ["*"],
+    }
+    if _CORS_TAKES_PNA:
+        cors_kwargs["allow_private_network"] = True
+    app.add_middleware(CORSMiddleware, **cors_kwargs)
+
+    @app.middleware("http")
+    async def private_network_access(request, call_next):
+        """Answer Chrome's Private Network Access preflight.
+
+        An https page (the Pages demo) may reach http://127.0.0.1, but the
+        browser asks first with Access-Control-Request-Private-Network. CORS
+        answers the rest of the preflight; this adds the header it does not
+        know. Registered after CORS so it wraps the preflight response.
+        """
+        requested = request.headers.get("access-control-request-private-network")
+        response = await call_next(request)
+        if requested:
+            response.headers["Access-Control-Allow-Private-Network"] = "true"
+        return response
 
     state_ref = st
 

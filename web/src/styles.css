@@ -103,9 +103,14 @@ button:disabled {
 
 .app {
   display: grid;
-  grid-template-rows: auto minmax(0, 1fr) auto;
+  /* header · demo banner (0px outside demo mode) · stage · activity feed */
+  grid-template-rows: auto auto minmax(0, 1fr) auto;
   height: 100dvh;
   overflow: hidden;
+}
+
+.demo-banner-wrap {
+  min-height: 0;
 }
 
 .stage {
@@ -2183,5 +2188,389 @@ button:disabled {
   }
   .engine-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+/* ============================================================ demo banner ===
+   The one strip a visitor cannot miss while there is no backend: what mode
+   they are in, that a backend is one click away, and the agent button that
+   proves the WebMCP tools are real.
+   ========================================================================= */
+
+.demo-banner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 7px 16px;
+  background: rgba(240, 166, 60, 0.1);
+  border-bottom: 1px solid rgba(240, 166, 60, 0.34);
+  font-family: var(--mono);
+  font-size: 10.5px;
+}
+
+.demo-tag {
+  flex: 0 0 auto;
+  padding: 2px 7px;
+  border: 1px solid rgba(240, 166, 60, 0.55);
+  border-radius: 3px;
+  background: rgba(240, 166, 60, 0.14);
+  color: var(--amber-hot);
+  font-size: 9px;
+  letter-spacing: 0.14em;
+}
+
+.demo-text {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  color: var(--ink);
+}
+
+.demo-line {
+  color: var(--ink-dim);
+  font-size: 9.5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.demo-actions {
+  flex: 0 0 auto;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.demo-actions .ghost-button,
+.demo-actions .action-button {
+  padding: 5px 11px;
+  font-size: 9.5px;
+}
+
+.demo-agent {
+  border-color: rgba(240, 166, 60, 0.55);
+  background: var(--amber-soft);
+  color: var(--amber-hot);
+}
+
+.demo-agent:hover:not(:disabled) {
+  background: rgba(240, 166, 60, 0.2);
+}
+
+/* =========================================================== connect gate ===
+   First visit on a static page: choose a backend or demo. An overlay so the
+   studio behind it is already live when the card closes.
+   ========================================================================= */
+
+.connect-gate {
+  position: fixed;
+  inset: 0;
+  z-index: 600;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: clamp(14px, 5vh, 56px) 16px;
+  overflow-y: auto;
+  background: rgba(5, 4, 3, 0.8);
+  backdrop-filter: blur(6px);
+}
+
+.connect-card {
+  width: min(680px, 100%);
+  padding: 22px 22px 16px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: linear-gradient(180deg, #14120f, #0b0a09 62%);
+  box-shadow: 0 36px 90px -36px #000;
+}
+
+.connect-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: var(--ink-dim);
+}
+
+.connect-brand em {
+  font-style: normal;
+  color: var(--amber-hot);
+}
+
+.connect-card h2 {
+  margin: 12px 0 6px;
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.connect-lede {
+  max-width: 60ch;
+  margin: 0 0 14px;
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: var(--ink-dim);
+}
+
+/* ------------------------------------------------------- connection panel --- */
+
+.conn-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.conn-current {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--ink-faint);
+}
+
+.conn-current-value {
+  color: var(--ink-dim);
+  overflow-wrap: anywhere;
+}
+
+.conn-label {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+.conn-preset-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.conn-preset {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 10px 11px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--bg-1);
+  text-align: left;
+  transition: border-color 120ms ease, background 120ms ease;
+}
+
+.conn-preset:hover {
+  border-color: #3a332c;
+}
+
+.conn-preset.is-active {
+  border-color: rgba(240, 166, 60, 0.75);
+  background: var(--amber-soft);
+}
+
+.conn-preset-name {
+  font-size: 12.5px;
+  color: var(--ink);
+}
+
+.conn-preset.is-active .conn-preset-name {
+  color: var(--amber-hot);
+}
+
+.conn-preset-hint {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  line-height: 1.4;
+  color: var(--ink-faint);
+}
+
+.conn-field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.conn-input {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: #080706;
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 11.5px;
+}
+
+.conn-input:focus {
+  outline: none;
+  border-color: var(--amber);
+}
+
+.conn-hint {
+  margin: 0;
+  font-family: var(--mono);
+  font-size: 10px;
+  line-height: 1.6;
+  color: var(--ink-faint);
+}
+
+.conn-hint code {
+  color: var(--amber-hot);
+}
+
+.conn-result {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--bg-2);
+  font-family: var(--mono);
+  font-size: 10.5px;
+  line-height: 1.5;
+  color: var(--ink-dim);
+}
+
+.conn-result.conn-ok {
+  border-color: rgba(121, 217, 154, 0.4);
+  background: rgba(121, 217, 154, 0.07);
+  color: var(--ok);
+}
+
+.conn-result.conn-error {
+  border-color: rgba(228, 112, 95, 0.4);
+  background: rgba(228, 112, 95, 0.06);
+  color: var(--err);
+}
+
+.conn-ok .test-dot {
+  background: var(--ok);
+  box-shadow: 0 0 9px var(--ok);
+}
+
+.conn-error .test-dot {
+  background: var(--err);
+  box-shadow: 0 0 9px var(--err);
+}
+
+.conn-probing .test-dot {
+  background: var(--amber);
+  animation: test-pulse 900ms ease-in-out infinite;
+}
+
+.conn-error {
+  margin: 0;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  color: var(--err);
+}
+
+.conn-saved {
+  margin: 0;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  color: var(--ok);
+}
+
+.conn-steps {
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--bg-1);
+}
+
+.conn-steps summary {
+  padding: 8px 10px;
+  cursor: pointer;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  color: var(--ink-dim);
+}
+
+.conn-steps pre {
+  margin: 0;
+  padding: 0 10px 8px;
+  overflow-x: auto;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  line-height: 1.65;
+  color: var(--ink);
+}
+
+.conn-note {
+  margin: 0;
+  padding: 0 10px 10px;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  line-height: 1.6;
+  color: var(--warn);
+}
+
+.conn-actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.conn-apply {
+  border-color: rgba(240, 166, 60, 0.55);
+  background: var(--amber-soft);
+  color: var(--amber-hot);
+}
+
+.conn-apply:hover:not(:disabled) {
+  background: rgba(240, 166, 60, 0.2);
+}
+
+/* the drawer embeds the same panel */
+.drawer-conn {
+  padding: 10px 11px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--bg-1);
+}
+
+.drawer-conn-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.drawer-conn-head h3 {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+@media (max-width: 640px) {
+  .conn-preset-grid {
+    grid-template-columns: 1fr;
+  }
+  .demo-banner {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .demo-text {
+    flex-basis: 100%;
+  }
+  .demo-actions {
+    margin-left: auto;
+  }
+  .connect-card {
+    padding: 18px 14px 14px;
+  }
+  .connect-card h2 {
+    font-size: 18px;
   }
 }

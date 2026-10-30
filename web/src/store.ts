@@ -254,6 +254,12 @@ export interface StudioActions {
   testSettings(patch?: { surface?: Surface; base_url?: string; api_key?: string }): Promise<SettingsTestResult>;
   /** the agent-safe switch: surface/base_url only, never a key */
   configureBackend(patch: { surface?: Surface; base_url?: string }): Promise<StudioSettings | null>;
+  /**
+   * After the visitor changes where the studio lives (connection.ts), drop every
+   * backend-derived value and bootstrap again against the new one. The WebMCP
+   * tool count the registry reported is kept; the tools read this same store.
+   */
+  reconnect(): Promise<void>;
 
   /* music-video mode */
   uploadAudio(file: File): Promise<AudioTrack>;
@@ -483,6 +489,15 @@ export const useStudio = create<Studio>((set, get) => ({
     // The tool surface has no key parameter on purpose: a key comes from the
     // human in the drawer, never from an agent.
     return get().saveSettings({ surface: patch.surface, base_url: patch.base_url });
+  },
+
+  async reconnect() {
+    bootPromise = null;
+    autoOpenedSettings = false;
+    const { webmcp, settingsOpen } = get();
+    // everything the previous backend told us is stale; the drawer stays open
+    set({ ...INITIAL_STATE, webmcp, settingsOpen });
+    await get().bootstrap();
   },
 
   /* -------------------------------------------------------------- edits --- */

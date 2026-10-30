@@ -1,3 +1,4 @@
+import { connectionLabel, useConnection } from '../connection';
 import { useStudio } from '../store';
 
 function Dot({ tone }: { tone: 'ok' | 'warn' | 'err' }) {
@@ -14,7 +15,9 @@ export function Header() {
   const openSettings = useStudio((s) => s.openSettings);
   const refreshHealth = useStudio((s) => s.refreshHealth);
   const refreshShots = useStudio((s) => s.refreshShots);
+  const connection = useConnection();
 
+  const demo = connection.mode === 'demo';
   const backendUp = !!health && health.ok !== false;
   const comfyUp = !!health?.comfy?.reachable;
   const gradeUp = !!health?.grade?.available;
@@ -43,11 +46,17 @@ export function Header() {
             void refreshHealth().catch(() => undefined);
             void refreshShots().catch(() => undefined);
           }}
-          title={healthAt ? `checked ${new Date(healthAt).toLocaleTimeString()}` : 'check now'}
+          title={
+            demo
+              ? `${connectionLabel(connection)} — no network`
+              : healthAt
+                ? `checked ${new Date(healthAt).toLocaleTimeString()} · ${connectionLabel(connection)}`
+                : 'check now'
+          }
         >
           <Dot tone={backendUp ? 'ok' : 'err'} />
           <span className="k">backend</span>
-          <span className="v">{backendUp ? 'up' : 'down'}</span>
+          <span className="v">{demo ? 'demo' : backendUp ? 'up' : 'down'}</span>
         </button>
 
         <div className="status-item" title={health?.comfy?.base ?? 'COMFY_BASE_URL'}>

@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { keyLabel } from '../settings';
 import { FIRST_RUN_EXPLAINER, useStudio } from '../store';
 import { DEFAULT_BASE_URL, SURFACES, type Surface } from '../types';
+import { ConnectionPanel } from './ConnectionPanel';
 
 const KEY_URL = 'https://platform.comfy.org';
 
@@ -23,6 +24,7 @@ export function SettingsDrawer() {
   const saveSettings = useStudio((s) => s.saveSettings);
   const testSettings = useStudio((s) => s.testSettings);
   const refreshSettings = useStudio((s) => s.refreshSettings);
+  const reconnect = useStudio((s) => s.reconnect);
 
   const [surface, setSurface] = useState<Surface>(settings?.surface ?? 'local');
   const [baseUrl, setBaseUrl] = useState(settings?.base_url ?? DEFAULT_BASE_URL.local);
@@ -121,6 +123,19 @@ export function SettingsDrawer() {
         </div>
 
         <div className="drawer-body">
+          <section className="drawer-conn" aria-label="Connection">
+            <div className="drawer-conn-head">
+              <h3>Connection</h3>
+              <span className="drawer-hint">where the studio itself lives</span>
+            </div>
+            <ConnectionPanel
+              variant="settings"
+              onApplied={() => {
+                void reconnect().catch(() => undefined);
+              }}
+            />
+          </section>
+
           {cloudWithoutKey && (
             <p className="drawer-explain" role="status">
               {FIRST_RUN_EXPLAINER}

@@ -10,6 +10,46 @@ different shot from `static` + `85mm` + `close_up`, and the studio makes the mod
 honour the difference — deterministically, in the prompt text, before a GPU spends
 a second on it.
 
+## Live demo
+
+**<https://aitherium.github.io/aither-cinema-studio/>** — the real studio, no
+install, no account. It opens in **demo mode**: the camera vocabulary, a simulated
+render with live progress, pre-rendered proof clips, and all eleven WebMCP tools
+work in the page. Nothing leaves the tab.
+
+## Connect your backend
+
+The demo is a static page, so it asks where to render on first load (and again in
+**Settings → Connection**):
+
+| choice | what it means |
+|---|---|
+| **This computer** | a studio backend at `http://127.0.0.1:8765` |
+| **Remote URL** | a studio backend you host — paste its `https://` origin |
+| **Demo mode** | no backend; everything is simulated in the page |
+
+Start a backend of your own:
+
+```bash
+git clone https://github.com/Aitherium/aither-cinema-studio.git
+cd aither-cinema-studio/server
+python -m venv .venv
+.venv/bin/pip install -e ".[dev]"        # Windows: .venv\Scripts\pip install -e ".[dev]"
+
+export COMFY_BASE_URL=http://127.0.0.1:8188          # or COMFY_API_KEY for Comfy Cloud
+export CINEMA_CORS_ORIGINS=http://localhost:5173,https://aitherium.github.io
+.venv/bin/uvicorn cinema.app:app --host 127.0.0.1 --port 8765
+```
+
+`CINEMA_CORS_ORIGINS` is a comma-separated allowlist (the default already covers
+`localhost:5173` and the Pages demo). The page is `https` and points at
+`http://127.0.0.1`, which Chrome permits but gates behind a **Private Network
+Access** preflight — the server answers it, so keep the Pages origin in the list
+or the browser will refuse the connection. **Test studio connection** in the panel
+probes `GET {base}/api/health` and says exactly what answered.
+
+The choice is stored in `localStorage`; a private window simply starts fresh.
+
 ## 60-second quickstart
 
 ```bash

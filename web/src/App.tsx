@@ -1,5 +1,7 @@
 import { useEffect } from 'react';
 import { ActivityFeed } from './components/ActivityFeed';
+import { ConnectGate } from './components/ConnectGate';
+import { DemoBanner } from './components/DemoBanner';
 import { Header } from './components/Header';
 import { Monitor } from './components/Monitor';
 import { RigPanel } from './components/RigPanel';
@@ -18,6 +20,9 @@ export default function App() {
   return (
     <div className="app">
       <Header />
+      <div className="demo-banner-wrap">
+        <DemoBanner />
+      </div>
       <main className="stage">
         <ShotBoard />
         <div className="center-col">
@@ -28,6 +33,7 @@ export default function App() {
       </main>
       <ActivityFeed />
       <SettingsDrawer />
+      <ConnectGate />
     </div>
   );
 }

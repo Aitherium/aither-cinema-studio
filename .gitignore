@@ -72,3 +72,6 @@ demo/.timing/
 demo/render_log.jsonl
 demo/make_shotlist*.py
 demo/*_v3.json
+
+# build-time demo samples (copied from docs/proof by scripts/copy-samples.mjs)
+web/public/samples/

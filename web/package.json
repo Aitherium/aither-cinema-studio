@@ -7,7 +7,9 @@
   "license": "MIT",
   "scripts": {
     "dev": "vite",
+    "predev": "node scripts/copy-samples.mjs",
     "build": "tsc --noEmit && vite build",
+    "prebuild": "node scripts/copy-samples.mjs",
     "preview": "vite preview",
     "test": "vitest run",
     "test:watch": "vitest"

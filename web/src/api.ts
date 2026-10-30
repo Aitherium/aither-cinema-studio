@@ -1,10 +1,22 @@
-/** Thin JSON client for the FastAPI backend. Same-origin '/api' in dev and prod. */
+/**
+ * Thin JSON client for the studio backend.
+ *
+ * The base is chosen at runtime (`connection.ts`): same-origin when the page is
+ * served by the backend itself, an absolute http(s) base when the visitor
+ * connected their own local or remote backend, and the in-page demo backend when
+ * they chose demo mode — so every route below works with no network at all.
+ */
+import { apiBase, isDemoMode } from './connection';
+import { demoMediaUrl, demoRequest } from './demo/mockBackend';
 import type { GradeLook, Health, Shot, StudioSettings, Surface } from './types';
 
-export const API_BASE = '/api';
+export function apiBaseUrl(): string {
+  return `${apiBase()}/api`;
+}
 
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
-  const res = await fetch(`${API_BASE}${path}`, init);
+  if (isDemoMode()) return (await demoRequest<T>(path, init)) as T;
+  const res = await fetch(`${apiBase()}/api${path}`, init);
   const text = await res.text();
   if (!res.ok) {
     const detail = text.slice(0, 240);
@@ -109,4 +121,8 @@ export const upload = (file: File) => {
   });
 };
 
-export const mediaUrl = (mediaId: string) => `${API_BASE}/media/${encodeURIComponent(mediaId)}`;
+/** Demo media ids map to pre-rendered proof clips; real ids go to the backend. */
+export const mediaUrl = (mediaId: string) =>
+  isDemoMode()
+    ? demoMediaUrl(mediaId)
+    : `${apiBase()}/api/media/${encodeURIComponent(mediaId)}`;
