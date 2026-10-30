@@ -12,6 +12,9 @@ cloud when the base URL contains ``comfy.org``.  The API key is resolved from
 ``COMFY_API_KEY``, else the file named by ``COMFY_API_KEY_FILE``, else
 ``$CINEMA_DATA_DIR/settings.json`` - and is never rendered by ``repr()``, never placed in
 an error message, and never sent to the storage host that ``/api/view`` redirects to.
+**It is also pinned to the host it was saved for** (``api_key_host``): a client whose
+``base_url`` names another host sends no ``X-API-Key``, so repointing the backend cannot
+carry a key off the box.
 
 Submission blocks while the server is busy, hence the 300 s submit timeout.  When the
 client gives up it asks the server to drop the prompt from its queue
@@ -27,12 +30,28 @@ import uuid
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Dict, List, Optional
+from urllib.parse import urlparse
 
 import httpx
 
 CLOUD_BASE = "https://cloud.comfy.org"
 LOCAL_BASE = "http://127.0.0.1:8188"
 SURFACES = ("auto", "cloud", "local")
+
+#: Where a key goes when nothing better is known ("the default allowlisted host").
+DEFAULT_KEY_HOST = "cloud.comfy.org"
+
+
+def url_host(value: Optional[str]) -> Optional[str]:
+    """The lowercase hostname of a URL, or None when it cannot be read."""
+    if not value:
+        return None
+    try:
+        host = urlparse(str(value).strip()).hostname
+    except ValueError:
+        return None
+    host = (host or "").strip().lower()
+    return host or None
 
 # Comfy Cloud job states.  Three sources disagree on the spelling (docs prose vs
 # openapi `JobStatusResponse` vs `JobDetailResponse`), so poll on the sets.
@@ -115,6 +134,8 @@ class Settings:
     surface: str = "local"
     base_url: str = LOCAL_BASE
     api_key: Optional[str] = field(default=None, repr=False)
+    #: The host the key was saved for. It is only sent back to this host.
+    api_key_host: Optional[str] = field(default=None, repr=False)
     api_key_source: str = "none"
     ca_bundle: Optional[str] = None
     submit_timeout: float = 300.0
@@ -158,20 +179,46 @@ class Settings:
 
         key: Optional[str] = None
         source = "none"
+        key_host: Optional[str] = None
+        stored_host = url_host(stored.get("api_key_host"))
+        stored_base = stored.get("base_url")
         if api_key:
+            # A key handed in explicitly (in-process, or after an authenticated
+            # settings test) belongs to the host it is being used with.
             key, source = api_key, "argument"
+            key_host = (
+                url_host(base_url)
+                or url_host(os.environ.get("COMFY_BASE_URL"))
+                or DEFAULT_KEY_HOST
+            )
         elif os.environ.get("COMFY_API_KEY"):
             key, source = os.environ["COMFY_API_KEY"], "env"
+            key_host = (
+                url_host(os.environ.get("COMFY_BASE_URL"))
+                or url_host(base_url)
+                or DEFAULT_KEY_HOST
+            )
         elif os.environ.get("COMFY_API_KEY_FILE"):
             key = _read_key_file(os.environ["COMFY_API_KEY_FILE"])
             source = "file" if key else "file-missing"
+            if key:
+                key_host = (
+                    url_host(os.environ.get("COMFY_BASE_URL"))
+                    or url_host(base_url)
+                    or DEFAULT_KEY_HOST
+                )
         elif stored.get("api_key"):
             key, source = str(stored["api_key"]), "settings"
+            # Never follow a caller-supplied base_url: the key stays with the
+            # host it was saved for. Legacy files without api_key_host keep the
+            # host of their stored base_url, else the cloud default.
+            key_host = stored_host or url_host(stored_base) or DEFAULT_KEY_HOST
 
         return cls(
             surface=resolved,
             base_url=raw_base,
             api_key=key,
+            api_key_host=key_host,
             api_key_source=source,
             ca_bundle=os.environ.get("COMFY_CA_BUNDLE") or None,
             submit_timeout=_env_float("COMFY_SUBMIT_TIMEOUT_S", 300.0),
@@ -188,6 +235,7 @@ class Settings:
             "base_url": self.base_url,
             "key_set": self.key_set,
             "key_hint": self.key_hint,
+            "key_host": self.api_key_host,
             "key_source": self.api_key_source,
         }
 
@@ -215,6 +263,7 @@ class ComfyClient:
         self.cloud = settings.is_cloud
         self.base_url = settings.base_url
         self.api_key = settings.api_key
+        self.api_key_host = settings.api_key_host
         self.ca_bundle = ca_bundle if ca_bundle is not None else settings.ca_bundle
         self.submit_timeout = (
             submit_timeout if submit_timeout is not None else settings.submit_timeout
@@ -267,10 +316,20 @@ class ComfyClient:
         return text
 
     @property
+    def key_allowed(self) -> bool:
+        """True only while the request host is the host the key was saved for."""
+        if not self.api_key:
+            return False
+        bound = (self.api_key_host or DEFAULT_KEY_HOST).strip().lower()
+        return url_host(self.base_url) == bound
+
+    @property
     def headers(self) -> Dict[str, str]:
         h = {"Accept": "application/json"}
-        if self.api_key:
-            h["X-API-Key"] = self.api_key
+        # The key goes to its own host and nowhere else: a repointed base_url
+        # must never receive a key that was saved for another server.
+        if self.key_allowed:
+            h["X-API-Key"] = self.api_key  # type: ignore[assignment]
         return h
 
     def _url(self, path: str) -> str:
@@ -329,6 +388,8 @@ class ComfyClient:
             "surface": self.surface,
             "base_url": self.base_url,
             "key_set": bool(self.api_key),
+            # False when the stored key belongs to another host - it is not sent.
+            "key_sent": self.key_allowed,
             "status": None,
             "error": None,
         }

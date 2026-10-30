@@ -25,6 +25,8 @@ export function SettingsDrawer() {
   const testSettings = useStudio((s) => s.testSettings);
   const refreshSettings = useStudio((s) => s.refreshSettings);
   const reconnect = useStudio((s) => s.reconnect);
+  const token = useStudio((s) => s.token);
+  const setToken = useStudio((s) => s.setToken);
 
   const [surface, setSurface] = useState<Surface>(settings?.surface ?? 'local');
   const [baseUrl, setBaseUrl] = useState(settings?.base_url ?? DEFAULT_BASE_URL.local);
@@ -205,6 +207,27 @@ export function SettingsDrawer() {
           <a className="key-link" href={KEY_URL} target="_blank" rel="noreferrer noopener">
             Get a key: platform.comfy.org → API Keys → + New
           </a>
+
+          <div className="field">
+            <div className="field-label">
+              Access token <span className="field-hint">only for a network-bound backend</span>
+            </div>
+            <input
+              className="text-input token-input"
+              type="password"
+              name="cinema-token"
+              autoComplete="new-password"
+              spellCheck={false}
+              value={token}
+              placeholder="CINEMA_TOKEN printed by the server at startup"
+              onChange={(e) => setToken(e.target.value)}
+            />
+            <span className="drawer-hint">
+              A backend on 127.0.0.1 needs none. When the server is bound to a network address it
+              prints a token once at startup — paste it here for Save and Test. Kept in this tab
+              only.
+            </span>
+          </div>
 
           {test.status !== 'idle' && (
             <div className={`test-result test-${tone}`} role="status" aria-live="polite">

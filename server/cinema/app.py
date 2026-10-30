@@ -34,15 +34,23 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Dict, List, Mapping, Optional
 
-from fastapi import FastAPI, File, HTTPException, UploadFile
+from fastapi import FastAPI, File, HTTPException, Request, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, JSONResponse
 from pydantic import BaseModel
 
 from . import __version__, camera, grade, graphs
-from .comfy import ComfyClient, ComfyError, Settings, save_stored_settings
+from .comfy import (
+    DEFAULT_KEY_HOST,
+    ComfyClient,
+    ComfyError,
+    Settings,
+    save_stored_settings,
+    url_host,
+)
 from .jobs import JobStore, JsonStore
 from .media import MediaStore, new_id, now_iso
+from .security import SettingsAuth, cors_origins
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_PROBE_FILE = Path(os.environ.get("CINEMA_PROBE_FILE") or (REPO_ROOT / "docs" / "comfy-probe.json"))
@@ -185,6 +193,14 @@ class SequenceRequest(BaseModel):
 
 
 class SettingsPatch(BaseModel):
+    base_url: Optional[str] = None
+    api_key: Optional[str] = None
+
+
+class SettingsTestPatch(BaseModel):
+    """An optional body on ``POST /api/settings/test`` — a probe before saving."""
+
+    surface: Optional[str] = None
     base_url: Optional[str] = None
     api_key: Optional[str] = None
 
@@ -527,10 +543,19 @@ def submit_shot(state: CinemaState, body: ShotRequest) -> Dict[str, str]:
 # ---------------------------------------------------------------------------
 # app
 # ---------------------------------------------------------------------------
-def create_app(state: Optional[CinemaState] = None) -> FastAPI:
+def create_app(
+    state: Optional[CinemaState] = None,
+    *,
+    token: Optional[str] = None,
+    bind_host: Optional[str] = None,
+) -> FastAPI:
     st = state or build_state()
     app = FastAPI(title="Aither Cinema Studio", version=__version__)
     app.state.cinema = st
+    # Settings writes: loopback + same/allowed origin, or a bearer token. A
+    # non-loopback bind with no CINEMA_TOKEN mints and prints one here.
+    auth = SettingsAuth.from_env(bind_host=bind_host, token=token)
+    app.state.settings_auth = auth
 
     origins = cors_origins_from_env()
     wildcard = "*" in origins
@@ -588,9 +613,11 @@ def create_app(state: Optional[CinemaState] = None) -> FastAPI:
     def get_settings() -> Dict[str, Any]:
         return state_ref.settings.public()
 
-    @app.put("/api/settings")
-    def put_settings(body: SettingsPatch) -> Dict[str, Any]:
+    def _apply_settings(body: SettingsPatch) -> Dict[str, Any]:
+        """The one place settings change; the key never leaves its saved host."""
+        current = state_ref.settings
         fields: Dict[str, Any] = {}
+        target_base = current.base_url
         if body.base_url is not None:
             base = body.base_url.strip().rstrip("/")
             if base and not (base.startswith("http://") or base.startswith("https://")):
@@ -598,14 +625,56 @@ def create_app(state: Optional[CinemaState] = None) -> FastAPI:
                     status_code=400, detail="base_url must start with http:// or https://"
                 )
             fields["base_url"] = base or None
-        if body.api_key is not None:
-            fields["api_key"] = body.api_key.strip() or None
+            target_base = base or None
+        target_host = url_host(target_base)
+
+        new_key = body.api_key.strip() if body.api_key is not None else None
+        if new_key:
+            # Bind the key to the host it is being saved for, so a later
+            # base_url change cannot carry it to another server.
+            fields["api_key"] = new_key
+            fields["api_key_host"] = target_host or DEFAULT_KEY_HOST
+        elif body.api_key is not None:
+            fields["api_key"] = None
+            fields["api_key_host"] = None
+        elif body.base_url is not None and url_host(current.base_url) != target_host:
+            # Repointed with no replacement key: drop the old one rather than
+            # send it to a host it was never saved for.
+            fields["api_key"] = None
+            fields["api_key_host"] = None
+
         save_stored_settings(state_ref.data_dir, **fields)
         _reload_comfy(state_ref)
         return state_ref.settings.public()
 
+    @app.put("/api/settings")
+    def put_settings(body: SettingsPatch, request: Request) -> Dict[str, Any]:
+        auth.check(request)
+        return _apply_settings(body)
+
     @app.post("/api/settings/test")
-    def test_settings() -> Dict[str, Any]:
+    def test_settings(
+        request: Request, body: Optional[SettingsTestPatch] = None
+    ) -> Dict[str, Any]:
+        # A body can name a base_url and carry a key: that is a settings write.
+        if body is not None:
+            auth.check(request)
+        if body is not None and (body.base_url is not None or body.api_key is not None):
+            base = (body.base_url or "").strip().rstrip("/") or state_ref.settings.base_url
+            if base and not (base.startswith("http://") or base.startswith("https://")):
+                raise HTTPException(
+                    status_code=400, detail="base_url must start with http:// or https://"
+                )
+            key = (body.api_key or "").strip() or None
+            if key is None and url_host(base) == url_host(state_ref.settings.base_url):
+                # Same host as the stored settings: its key may be used. A
+                # different host never receives the stored key.
+                key = state_ref.settings.api_key
+            client = ComfyClient(base_url=base, api_key=key)
+            try:
+                return client.test_credentials()
+            finally:
+                client.close()
         client = state_ref.comfy
         if not hasattr(client, "test_credentials"):
             client = ComfyClient(data_dir=state_ref.data_dir)

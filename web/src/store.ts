@@ -203,6 +203,8 @@ export interface StudioState {
   settingsOpen: boolean;
   settingsBusy: boolean;
   settingsTest: SettingsTestResult;
+  /** CINEMA_TOKEN for settings writes on a network-bound backend (memory only) */
+  token: string;
   /** the uploaded audio bed for music-video mode */
   audio: AudioTrack | null;
   bpm: number;
@@ -260,6 +262,8 @@ export interface StudioActions {
    * tool count the registry reported is kept; the tools read this same store.
    */
   reconnect(): Promise<void>;
+  /** set (or clear) the access token used for settings writes */
+  setToken(token: string): void;
 
   /* music-video mode */
   uploadAudio(file: File): Promise<AudioTrack>;
@@ -311,6 +315,7 @@ export const INITIAL_STATE: StudioState = {
   settingsOpen: false,
   settingsBusy: false,
   settingsTest: { status: 'idle' },
+  token: '',
   audio: null,
   bpm: 120,
   beats: {},
@@ -498,6 +503,13 @@ export const useStudio = create<Studio>((set, get) => ({
     // everything the previous backend told us is stale; the drawer stays open
     set({ ...INITIAL_STATE, webmcp, settingsOpen });
     await get().bootstrap();
+  },
+
+  setToken(token) {
+    // The token guards settings writes on a network-bound backend. It is
+    // never persisted: a reload asks for it again.
+    api.setAuthToken(token);
+    set({ token });
   },
 
   /* -------------------------------------------------------------- edits --- */
@@ -964,6 +976,7 @@ export const useStudio = create<Studio>((set, get) => ({
   reset() {
     bootPromise = null;
     autoOpenedSettings = false;
+    api.setAuthToken(null);
     set({ ...INITIAL_STATE });
   },
 }));

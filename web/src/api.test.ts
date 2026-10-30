@@ -55,7 +55,7 @@ describe('a connected backend', () => {
     vi.stubGlobal('fetch', fetchSpy);
 
     await listShots();
-    expect(fetchSpy).toHaveBeenCalledWith(`${LOCAL_BASE}/api/shots`, undefined);
+    expect(fetchSpy).toHaveBeenCalledWith(`${LOCAL_BASE}/api/shots`, expect.objectContaining({ headers: expect.any(Headers) }));
     expect(mediaUrl('abc 123')).toBe(`${LOCAL_BASE}/api/media/abc%20123`);
   });
 

@@ -14,9 +14,25 @@ export function apiBaseUrl(): string {
   return `${apiBase()}/api`;
 }
 
+/**
+ * The access token for settings writes, when the backend was bound to a
+ * network address (`CINEMA_TOKEN`, printed once at startup). Loopback use needs
+ * no token. Kept in memory for this tab only — never in the URL or storage.
+ */
+let authToken: string | null = null;
+
+export function setAuthToken(token: string | null | undefined): void {
+  const clean = (token ?? '').trim();
+  authToken = clean || null;
+}
+
+export const getAuthToken = (): string | null => authToken;
+
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
   if (isDemoMode()) return (await demoRequest<T>(path, init)) as T;
-  const res = await fetch(`${apiBase()}/api${path}`, init);
+  const headers = new Headers(init?.headers);
+  if (authToken) headers.set('authorization', `Bearer ${authToken}`);
+  const res = await fetch(`${apiBase()}/api${path}`, { ...init, headers });
   const text = await res.text();
   if (!res.ok) {
     const detail = text.slice(0, 240);

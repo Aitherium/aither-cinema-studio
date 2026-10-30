@@ -118,6 +118,35 @@ describe('SettingsDrawer', () => {
     expect(feed).not.toContain('brand-new-key-0000');
   });
 
+  it('carries the access token on a settings write, masked and never on the feed', async () => {
+    useStudio.setState({ settings: cloudWithKey, settingsOpen: true });
+    await renderDrawer();
+
+    const token = container.querySelector<HTMLInputElement>('input.token-input');
+    expect(token).not.toBeNull();
+    expect(token!.type).toBe('password');
+    expect(token!.value).toBe('');
+
+    setInput(token!, 'tok-secret-123');
+
+    const save = [...container.querySelectorAll<HTMLButtonElement>('button')].find((b) =>
+      (b.textContent ?? '').trim() === 'Save',
+    );
+    expect(save).toBeDefined();
+    await act(async () => {
+      save!.click();
+      await new Promise((resolve) => setTimeout(resolve, 0));
+    });
+
+    const put = fetchSpy.mock.calls.find(
+      ([url, init]) => String(url).endsWith('/api/settings') && init?.method === 'PUT',
+    );
+    expect(put).toBeDefined();
+    const headers = new Headers(put![1]?.headers);
+    expect(headers.get('authorization')).toBe('Bearer tok-secret-123');
+    expect(JSON.stringify(useStudio.getState().feed)).not.toContain('tok-secret-123');
+  });
+
   it('shows a green result when the connection test passes', async () => {
     useStudio.setState({ settings: cloudWithKey, settingsOpen: true });
     await renderDrawer();
