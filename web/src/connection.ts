@@ -337,6 +337,6 @@ export const SETUP_STEPS: string[] = [
 ];
 
 export const SETUP_NOTE =
-  'This page is https; Chrome allows it to reach http://127.0.0.1 but sends a Private Network Access preflight first. The studio server answers that preflight — make sure CINEMA_CORS_ORIGINS includes ' +
+  'This page is https; Chrome allows it to reach http://127.0.0.1 but sends a Private Network Access preflight first, and recent Chrome also asks for permission to reach the local network — allow it when the prompt appears. The studio server answers that preflight — make sure CINEMA_CORS_ORIGINS includes ' +
   PAGES_ORIGIN +
   ' so the request is not refused.';

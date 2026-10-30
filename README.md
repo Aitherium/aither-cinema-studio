@@ -48,8 +48,12 @@ export CINEMA_CORS_ORIGINS=http://localhost:5173,https://aitherium.github.io
 `localhost:5173` and the Pages demo). The page is `https` and points at
 `http://127.0.0.1`, which Chrome permits but gates behind a **Private Network
 Access** preflight — the server answers it, so keep the Pages origin in the list
-or the browser will refuse the connection. **Test studio connection** in the panel
-probes `GET {base}/api/health` and says exactly what answered.
+or the browser will refuse the connection. Recent Chrome additionally asks for
+permission to reach your local network (Local Network Access); **allow it** when
+the prompt appears, otherwise the request is blocked with
+`Permission was denied for this request to access the loopback address space`.
+**Test studio connection** in the panel probes `GET {base}/api/health` and says
+exactly what answered.
 
 The choice is stored in `localStorage`; a private window simply starts fresh.
 
