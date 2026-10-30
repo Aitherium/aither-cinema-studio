@@ -17,6 +17,9 @@ install, no account. It opens in **demo mode**: the camera vocabulary, a simulat
 render with live progress, pre-rendered proof clips, and all eleven WebMCP tools
 work in the page. Nothing leaves the tab.
 
+The demo is `web/dist` published from the `gh-pages` branch (`npm run build` in
+`web/`, then copy `dist/` plus an empty `.nojekyll`), so a static host is enough.
+
 ## Connect your backend
 
 The demo is a static page, so it asks where to render on first load (and again in
