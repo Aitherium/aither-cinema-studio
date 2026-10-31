@@ -31,8 +31,13 @@ The demo is a static page, so it asks where to render on first load (and again i
 | **Remote URL** | a studio backend you host — paste its `https://` origin |
 | **Demo mode** | no backend; everything is simulated in the page |
 
-Start a backend of your own — one command (it clones or updates, installs, allows
-the Pages origin and starts on `:8765`; re-run it any time):
+Run it yourself — one command, on your own machine. It clones or updates the studio,
+installs it, sets up ComfyUI, and starts everything on `:8765`. Re-run it any time.
+
+**On your own GPU** (NVIDIA, or Apple Silicon). The first run installs ComfyUI
+`v0.43.2` and the CinemaRig nodes, then downloads the models the four graphs load
+(about 74 GB, every file checked against its sha256, resumable). An already-running ComfyUI is
+used as-is.
 
 ```powershell
 irm https://raw.githubusercontent.com/Aitherium/aither-cinema-studio/main/scripts/start.ps1 | iex   # Windows
@@ -41,6 +46,27 @@ irm https://raw.githubusercontent.com/Aitherium/aither-cinema-studio/main/script
 ```bash
 curl -fsSL https://raw.githubusercontent.com/Aitherium/aither-cinema-studio/main/scripts/start.sh | sh   # macOS / Linux
 ```
+
+**No GPU: Comfy Cloud.** This installs only the backend. Paste your Comfy API key
+([platform.comfy.org](https://platform.comfy.org)) in **Settings** once you're connected.
+
+```powershell
+$env:CINEMA_COMFY='cloud'; irm https://raw.githubusercontent.com/Aitherium/aither-cinema-studio/main/scripts/start.ps1 | iex
+```
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/Aitherium/aither-cinema-studio/main/scripts/start.sh | CINEMA_COMFY=cloud sh
+```
+
+| setting | default | what it does |
+|---|---|---|
+| `CINEMA_MODELS` | `all` | `video` (Wan 2.2 only), `keyframe` (stills, 6.9 GB), `none` |
+| `COMFY_BASE_URL` | — | use a ComfyUI you already run elsewhere; nothing is installed |
+| `CINEMA_COMFY_PORT` | `8188` | port for the ComfyUI the script installs |
+| `CINEMA_COMFY_ARGS` | — | extra ComfyUI flags, e.g. `--lowvram` |
+
+To keep settings between runs, put them as `KEY=VALUE` lines in
+`~/aither-cinema-studio/cinema.env`.
 
 Or step by step:
 

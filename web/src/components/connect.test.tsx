@@ -10,6 +10,7 @@ import {
   openConnectGate,
   readStoredConnection,
   resetConnectionForTests,
+  startCommand,
 } from '../connection';
 import { ConnectionPanel } from './ConnectionPanel';
 
@@ -152,5 +153,16 @@ describe('ConnectionPanel', () => {
     const cmd = container.querySelector('.conn-start-cmd')?.textContent ?? '';
     expect(cmd).toMatch(/scripts\/start\.(sh|ps1)/);
     expect(cmd).not.toMatch(/AitherOS|media-forge|C:\\Users/i);
+  });
+
+  it('switches the command to Comfy Cloud when the visitor has no GPU', async () => {
+    expect(startCommand('unix', 'cloud')).toContain('CINEMA_COMFY=cloud sh');
+    expect(startCommand('windows', 'cloud')).toMatch(/^\$env:CINEMA_COMFY='cloud'; irm /);
+    await render();
+    const choices = Array.from(container.querySelectorAll('.conn-render-choice'));
+    expect(choices.map((b) => b.textContent)).toEqual(['My GPU', 'Comfy Cloud']);
+    expect(container.querySelector('.conn-start-cmd')?.textContent).not.toContain('cloud');
+    click(choices[1] as HTMLButtonElement);
+    expect(container.querySelector('.conn-start-cmd')?.textContent).toContain('cloud');
   });
 });
