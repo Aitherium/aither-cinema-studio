@@ -31,7 +31,18 @@ The demo is a static page, so it asks where to render on first load (and again i
 | **Remote URL** | a studio backend you host — paste its `https://` origin |
 | **Demo mode** | no backend; everything is simulated in the page |
 
-Start a backend of your own:
+Start a backend of your own — one command (it clones or updates, installs, allows
+the Pages origin and starts on `:8765`; re-run it any time):
+
+```powershell
+irm https://raw.githubusercontent.com/Aitherium/aither-cinema-studio/main/scripts/start.ps1 | iex   # Windows
+```
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/Aitherium/aither-cinema-studio/main/scripts/start.sh | sh   # macOS / Linux
+```
+
+Or step by step:
 
 ```bash
 git clone https://github.com/Aitherium/aither-cinema-studio.git
