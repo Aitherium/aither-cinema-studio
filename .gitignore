@@ -75,3 +75,7 @@ demo/*_v3.json
 
 # build-time demo samples (copied from docs/proof by scripts/copy-samples.mjs)
 web/public/samples/
+
+# --- local ComfyUI the start script installs, and sticky settings ---
+ComfyUI/
+cinema.env

@@ -334,6 +334,31 @@ export const START_COMMANDS = {
 
 export type StartOs = keyof typeof START_COMMANDS;
 
+/** Where the renders run: the visitor's own GPU (ComfyUI + models installed for them) or Comfy Cloud. */
+export type RenderOn = 'gpu' | 'cloud';
+
+export const RENDER_ON: Record<RenderOn, { label: string; line: string }> = {
+  gpu: {
+    label: 'My GPU',
+    line:
+      'NVIDIA GPU or Apple Silicon. First run installs ComfyUI and the models (about 74 GB; ' +
+      'add CINEMA_MODELS=keyframe for a 7 GB stills-only start). Nothing leaves your machine.',
+  },
+  cloud: {
+    label: 'Comfy Cloud',
+    line:
+      'No GPU needed. Installs only the small backend; paste your Comfy API key ' +
+      '(platform.comfy.org) in Settings after you connect.',
+  },
+};
+
+export function startCommand(os: StartOs, on: RenderOn): string {
+  if (on === 'gpu') return START_COMMANDS[os];
+  return os === 'windows'
+    ? `$env:CINEMA_COMFY='cloud'; ${START_COMMANDS.windows}`
+    : `curl -fsSL ${RAW}/start.sh | CINEMA_COMFY=cloud sh`;
+}
+
 export const START_WHERE: Record<StartOs, string> = {
   windows: 'Paste into PowerShell',
   unix: 'Paste into a terminal (macOS / Linux)',

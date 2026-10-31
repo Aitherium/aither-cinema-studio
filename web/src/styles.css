@@ -2517,6 +2517,27 @@ button:disabled {
   gap: 8px;
 }
 
+.conn-render-on {
+  display: flex;
+  gap: 6px;
+}
+
+.conn-render-choice {
+  padding: 6px 12px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: transparent;
+  color: var(--ink-dim);
+  font-family: var(--mono);
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.conn-render-choice.active {
+  border-color: var(--accent, var(--warn));
+  color: var(--ink);
+}
+
 .conn-start-row {
   display: flex;
   align-items: stretch;

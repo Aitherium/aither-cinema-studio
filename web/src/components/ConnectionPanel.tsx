@@ -4,10 +4,12 @@ import {
   LOCAL_BASE,
   SETUP_NOTE,
   SETUP_STEPS,
-  START_COMMANDS,
+  RENDER_ON,
   START_WHERE,
   closeConnectGate,
   detectStartOs,
+  startCommand,
+  type RenderOn,
   connectionLabel,
   normalizeBaseUrl,
   probeConnection,
@@ -50,8 +52,9 @@ export function ConnectionPanel({ variant = 'settings', onApplied }: ConnectionP
   const [busy, setBusy] = useState(false);
   const [saved, setSaved] = useState<string | null>(null);
   const [os] = useState(() => detectStartOs());
+  const [renderOn, setRenderOn] = useState<RenderOn>('gpu');
   const [copied, setCopied] = useState(false);
-  const startCmd = START_COMMANDS[os];
+  const startCmd = startCommand(os, renderOn);
   const copyStart = () => {
     void navigator.clipboard?.writeText(startCmd).then(
       () => setCopied(true),
@@ -168,6 +171,24 @@ export function ConnectionPanel({ variant = 'settings', onApplied }: ConnectionP
 
       {preset === 'local' && (
         <div className="conn-start">
+          <div className="conn-render-on" role="radiogroup" aria-label="Where renders run">
+            {(Object.keys(RENDER_ON) as RenderOn[]).map((on) => (
+              <button
+                key={on}
+                type="button"
+                role="radio"
+                aria-checked={renderOn === on}
+                className={`conn-render-choice${renderOn === on ? ' active' : ''}`}
+                onClick={() => {
+                  setRenderOn(on);
+                  setCopied(false);
+                }}
+              >
+                {RENDER_ON[on].label}
+              </button>
+            ))}
+          </div>
+          <p className="conn-hint">{RENDER_ON[renderOn].line}</p>
           <p className="conn-hint">
             {START_WHERE[os]}, then press <strong>Test studio connection</strong>. It runs the
             studio backend at <code>{LOCAL_BASE}</code>.
