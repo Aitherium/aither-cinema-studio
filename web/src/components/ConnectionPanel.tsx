@@ -4,7 +4,10 @@ import {
   LOCAL_BASE,
   SETUP_NOTE,
   SETUP_STEPS,
+  START_COMMANDS,
+  START_WHERE,
   closeConnectGate,
+  detectStartOs,
   connectionLabel,
   normalizeBaseUrl,
   probeConnection,
@@ -46,6 +49,15 @@ export function ConnectionPanel({ variant = 'settings', onApplied }: ConnectionP
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const [saved, setSaved] = useState<string | null>(null);
+  const [os] = useState(() => detectStartOs());
+  const [copied, setCopied] = useState(false);
+  const startCmd = START_COMMANDS[os];
+  const copyStart = () => {
+    void navigator.clipboard?.writeText(startCmd).then(
+      () => setCopied(true),
+      () => setCopied(false),
+    );
+  };
 
   const build = (): Connection => {
     if (preset === 'demo') return { mode: 'demo', baseUrl: '' };
@@ -155,11 +167,18 @@ export function ConnectionPanel({ variant = 'settings', onApplied }: ConnectionP
       )}
 
       {preset === 'local' && (
-        <p className="conn-hint">
-          Starts the studio backend on your own machine at <code>{LOCAL_BASE}</code>. This page is
-          https, so the browser will send a Private Network Access preflight first — the studio
-          server answers it.
-        </p>
+        <div className="conn-start">
+          <p className="conn-hint">
+            {START_WHERE[os]}, then press <strong>Test studio connection</strong>. It runs the
+            studio backend at <code>{LOCAL_BASE}</code>.
+          </p>
+          <div className="conn-start-row">
+            <code className="conn-start-cmd">{startCmd}</code>
+            <button type="button" className="ghost-button" onClick={copyStart}>
+              {copied ? 'Copied' : 'Copy'}
+            </button>
+          </div>
+        </div>
       )}
 
       {preset === 'demo' && (
@@ -183,8 +202,8 @@ export function ConnectionPanel({ variant = 'settings', onApplied }: ConnectionP
       {error && <p className="conn-error">{error}</p>}
       {saved && <p className="conn-saved">{saved}</p>}
 
-      <details className="conn-steps" open={probe.status === 'error' || preset === 'local'}>
-        <summary>Copy-paste setup for your own backend</summary>
+      <details className="conn-steps">
+        <summary>Step by step instead</summary>
         <pre>{SETUP_STEPS.join('\n')}</pre>
         <p className="conn-note">{SETUP_NOTE}</p>
       </details>
