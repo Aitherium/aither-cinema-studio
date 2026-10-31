@@ -83,13 +83,61 @@ def find_bin() -> Optional[str]:
     return None
 
 
+#: The same looks as ffmpeg filter chains, for a machine without photocraft (Linux, a
+#: container, any self-hosted install). Not pixel-identical to the engine; the same intent.
+FFMPEG_LOOKS = {
+    "warm": "colorbalance=rs=0.08:gs=0.02:bs=-0.08:rm=0.05:bm=-0.05",
+    "cool": "colorbalance=rs=-0.08:bs=0.08:rm=-0.05:bm=0.05",
+    "tealOrange": "colorbalance=rs=-0.10:bs=0.12:rh=0.12:bh=-0.10,eq=saturation=1.1",
+    "bleachBypass": "eq=saturation=0.45:contrast=1.25",
+    "fadedFilm": "curves=all='0/0.08 1/0.92',eq=saturation=0.8",
+    "dayForNight": "eq=brightness=-0.25:saturation=0.5,colorbalance=rs=-0.10:bs=0.20:bm=0.15",
+    "monoContrast": "hue=s=0,eq=contrast=1.35",
+    "crossProcess": "curves=r='0/0 0.5/0.62 1/1':g='0/0 0.5/0.55 1/1':b='0/0.12 1/0.85',"
+                    "eq=saturation=1.15",
+}
+
+
+def _ffmpeg_ok() -> bool:
+    try:
+        return bool(ffmpeg.ffmpeg_bin())
+    except Exception:  # noqa: BLE001 - "no ffmpeg" is an answer, not a crash
+        return False
+
+
+def engine() -> Optional[str]:
+    """photocraft when installed, else ffmpeg, else None."""
+    if find_bin():
+        return "photocraft"
+    return "ffmpeg" if _ffmpeg_ok() else None
+
+
 def available() -> bool:
-    return find_bin() is not None
+    return engine() is not None
 
 
 def status() -> dict:
     b = find_bin()
-    return {"available": b is not None, "bin": b}
+    return {"available": engine() is not None, "bin": b, "engine": engine()}
+
+
+def _ffmpeg_graph(look: str, strength: float) -> str:
+    chain = FFMPEG_LOOKS[look]
+    s = max(0.0, min(1.0, float(strength)))
+    if s >= 1.0:
+        return chain
+    # graded over original at `strength`, in one pass (stills and video alike)
+    return "split[a][b];[b]%s[g];[a][g]blend=all_mode=normal:all_opacity=%.3f" % (chain, s)
+
+
+def _run_ffmpeg(src: Path, dst: Path, look: str, strength: float = 1.0) -> None:
+    args = [ffmpeg.ffmpeg_bin(), "-y", "-loglevel", "error", "-i", str(src),
+            "-vf", _ffmpeg_graph(look, strength)]
+    if ffmpeg.is_video(Path(src)):
+        args += ["-c:v", "libx264", "-pix_fmt", "yuv420p", "-crf", "18", "-c:a", "copy"]
+    else:
+        args += ["-frames:v", "1"]
+    ffmpeg.run(args + [str(dst)], "grade %s (%s, ffmpeg)" % (Path(src).name, look))
 
 
 def validate_look(look: Optional[str]) -> str:
@@ -142,6 +190,11 @@ def grade_image(src: Path, dst: Path, look: str = "none", strength: float = 1.0)
     if look == "none" or float(strength) <= 0.0:
         shutil.copyfile(src, dst)
         return dst
+    if not find_bin():
+        if not _ffmpeg_ok():
+            raise GradeError("no grading engine: install photocraft-cli or ffmpeg")
+        _run_ffmpeg(src, dst, look, strength)
+        return dst
     if float(strength) >= 1.0:
         _run_cli(src, dst, look)
         return dst
@@ -165,6 +218,10 @@ def grade_video(
     dst.parent.mkdir(parents=True, exist_ok=True)
     if look == "none" or float(strength) <= 0.0:
         shutil.copyfile(src, dst)
+        return dst
+    if not find_bin():
+        # one ffmpeg pass: no frame split, no per-frame process
+        _run_ffmpeg(src, dst, look, strength)
         return dst
     info = ffmpeg.probe_video(src)
     rate = float(fps or info["fps"] or 16.0)
