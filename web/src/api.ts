@@ -75,6 +75,9 @@ export interface CreateShotBody {
 export const createShot = (body: CreateShotBody) =>
   request<{ shot_id: string; job_id: string }>('/shots', json(body));
 
+export const deleteShot = (shotId: string) =>
+  request<{ deleted: string }>(`/shots/${encodeURIComponent(shotId)}`, { method: 'DELETE' });
+
 export const gradeShot = (shotId: string, body: { look: GradeLook; strength?: number }) =>
   request<{ job_id?: string; media_id?: string }>(`/shots/${encodeURIComponent(shotId)}/grade`, json(body));
 

@@ -200,7 +200,8 @@ describe('the setup steps a visitor copies', () => {
     const steps = SETUP_STEPS.join('\n');
     expect(steps).toContain('https://github.com/Aitherium/aither-cinema-studio.git');
     expect(steps).toContain('uvicorn cinema.app:app');
-    expect(SETUP_NOTE).toContain(PAGES_ORIGIN);
+    // the start scripts allow this page's origin themselves; a manual install must be told to
+    expect(steps).toContain(PAGES_ORIGIN);
     expect(`${steps}\n${SETUP_NOTE}`).not.toMatch(/AitherOS|media-forge|C:\\Users/i);
   });
 });

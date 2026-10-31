@@ -28,6 +28,8 @@ export function ShotBoard() {
   const selectedId = useStudio((s) => s.selectedId);
   const setSelected = useStudio((s) => s.setSelected);
   const openRig = useStudio((s) => s.openRig);
+  const removeShot = useStudio((s) => s.deleteShot);
+
 
   return (
     <section className="panel panel-board" aria-label="Shot board">
@@ -69,6 +71,19 @@ export function ShotBoard() {
                 {shot.engine && <span className="slate-engine">{engineShort(shot.engine)}</span>}
                 <span className="slate-mode">{modeLabel(shot.mode)}</span>
                 <span className={`status-word status-${shot.status}`}>{shot.status}</span>
+                <button
+                  type="button"
+                  className="slate-remove"
+                  aria-label={`Delete shot ${shot.shot_id}`}
+                  title="Delete this shot"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    void removeShot(shot.shot_id);
+                  }}
+                  onKeyDown={(e) => e.stopPropagation()}
+                >
+                  ×
+                </button>
               </div>
 
               <div className="slate-thumb">
