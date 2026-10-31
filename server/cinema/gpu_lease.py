@@ -11,7 +11,7 @@ Knobs (environment, or KEY=VALUE in cinema.env):
   COMFY_LEASE_KEY_FILE   default ~/.aither/internal_key.txt
   AITHER_INTERNAL_SECRET the key itself, when set, wins over the file
   COMFY_LEASE_CA         a CA bundle for the door's TLS (default: the fleet chain, if present)
-  COMFY_LEASE_VRAM_MB    what the render asks for, default 16000 (Wan 14B fp8 + encoder)
+  COMFY_LEASE_VRAM_MB    what the render asks for, default 14000 (Wan 14B fp8 + encoder; 16000 was refused against 15.7 GiB free)
   COMFY_LEASE_CONSUMER   consumer id, default aither-cinema
 
 A refusal from the door FAILS the render with the door's reason. A door that cannot be
@@ -90,7 +90,7 @@ class FleetLease:
     def __init__(self, job_ref: str = "", vram_mb: Optional[int] = None,
                  ttl_s: int = 900) -> None:
         self.job_ref = job_ref
-        self.vram_mb = int(vram_mb or os.environ.get("COMFY_LEASE_VRAM_MB") or 16000)
+        self.vram_mb = int(vram_mb or os.environ.get("COMFY_LEASE_VRAM_MB") or 14000)
         self.ttl_s = int(ttl_s)
         self.token: str = ""
         self.note: str = ""

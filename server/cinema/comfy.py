@@ -723,10 +723,12 @@ class ComfyClient:
         minutes into one on 2026-10-31). No door, or no key: it renders unleased, as before."""
         from . import gpu_lease
 
-        self.ensure_awake(on_status=on_status)
+        # The lease FIRST: on a fleet host the door is what starts the unit and makes room,
+        # so waking before holding the card asks ComfyUI to load into a card being yielded.
         with gpu_lease.hold(job_ref=job_ref, ttl_s=int(timeout) + 300) as lease:
             if lease.note and on_status is not None:
                 on_status(lease.note)
+            self.ensure_awake(on_status=on_status)
             pid = self.submit(graph)
             if on_status is not None:
                 on_status("submitted")
