@@ -268,7 +268,8 @@ def _shot_runner(state: CinemaState, shot_id: str):
                 state.shots.update(shot_id, progress=0.4)
                 state.jobs.progress(job_id, 0.4)
 
-        result = state.comfy.run(graph, timeout=state.job_timeout, on_status=on_status)
+        result = state.comfy.run(graph, timeout=state.job_timeout, on_status=on_status,
+                                 job_ref=job_id)
         outputs = result.get("outputs") or []
         if not outputs:
             raise ComfyError("ComfyUI finished but produced no output file")
