@@ -324,19 +324,37 @@ export async function probeConnection(
 
 /* -------------------------------------------------------------- the steps --- */
 
-/** Copy-paste setup, deliberately generic: no internal hosts or paths. */
+const RAW = 'https://raw.githubusercontent.com/Aitherium/aither-cinema-studio/main/scripts';
+
+/** One command per OS: the script clones/updates, installs, allows this page's origin, and starts. */
+export const START_COMMANDS = {
+  windows: `irm ${RAW}/start.ps1 | iex`,
+  unix: `curl -fsSL ${RAW}/start.sh | sh`,
+} as const;
+
+export type StartOs = keyof typeof START_COMMANDS;
+
+export const START_WHERE: Record<StartOs, string> = {
+  windows: 'Paste into PowerShell',
+  unix: 'Paste into a terminal (macOS / Linux)',
+};
+
+export function detectStartOs(
+  ua: string = typeof navigator !== 'undefined' ? navigator.userAgent : '',
+): StartOs {
+  return /windows/i.test(ua) ? 'windows' : 'unix';
+}
+
+/** The long form, for people who would rather not pipe a script. Generic: no internal hosts or paths. */
 export const SETUP_STEPS: string[] = [
   'git clone https://github.com/Aitherium/aither-cinema-studio.git',
   'cd aither-cinema-studio/server',
   'python -m venv .venv',
-  '.venv/bin/pip install -e ".[dev]"        # Windows: .venv\\Scripts\\pip install -e ".[dev]"',
-  '# point at your ComfyUI (or set COMFY_API_KEY for Comfy Cloud)',
-  'export COMFY_BASE_URL=http://127.0.0.1:8188',
-  'export CINEMA_CORS_ORIGINS=http://localhost:5173,https://aitherium.github.io',
-  '.venv/bin/uvicorn cinema.app:app --host 127.0.0.1 --port 8765',
+  '.venv/bin/pip install -e .        # Windows: .venv\\Scripts\\pip install -e .',
+  `export CINEMA_CORS_ORIGINS=${PAGES_ORIGIN}`,
+  '.venv/bin/python -m uvicorn cinema.app:app --host 127.0.0.1 --port 8765',
 ];
 
 export const SETUP_NOTE =
-  'This page is https; Chrome allows it to reach http://127.0.0.1 but sends a Private Network Access preflight first, and recent Chrome also asks for permission to reach the local network — allow it when the prompt appears. The studio server answers that preflight — make sure CINEMA_CORS_ORIGINS includes ' +
-  PAGES_ORIGIN +
-  ' so the request is not refused.';
+  'Needs git, Python 3.10+, and ComfyUI on http://127.0.0.1:8188 (or COMFY_API_KEY for Comfy Cloud). ' +
+  'If the browser asks to reach devices on your local network, allow it.';

@@ -5,6 +5,7 @@ import {
   LOCAL_BASE,
   STORAGE_KEY,
   closeConnectGate,
+  detectStartOs,
   isConnectGateOpen,
   openConnectGate,
   readStoredConnection,
@@ -142,5 +143,14 @@ describe('ConnectionPanel', () => {
     const steps = container.querySelector('.conn-steps pre')?.textContent ?? '';
     expect(steps).toContain('uvicorn cinema.app:app');
     expect(steps).not.toMatch(/AitherOS|media-forge|C:\\Users/i);
+  });
+
+  it('leads with one start command for the visitor OS', async () => {
+    expect(detectStartOs('Mozilla/5.0 (Windows NT 10.0; Win64; x64)')).toBe('windows');
+    expect(detectStartOs('Mozilla/5.0 (Macintosh; Intel Mac OS X 14_5)')).toBe('unix');
+    await render();
+    const cmd = container.querySelector('.conn-start-cmd')?.textContent ?? '';
+    expect(cmd).toMatch(/scripts\/start\.(sh|ps1)/);
+    expect(cmd).not.toMatch(/AitherOS|media-forge|C:\\Users/i);
   });
 });
