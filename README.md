@@ -64,6 +64,7 @@ curl -fsSL https://raw.githubusercontent.com/Aitherium/aither-cinema-studio/main
 | `COMFY_BASE_URL` | — | use a ComfyUI you already run elsewhere; nothing is installed |
 | `CINEMA_COMFY_PORT` | `8188` | port for the ComfyUI the script installs |
 | `CINEMA_COMFY_ARGS` | — | extra ComfyUI flags, e.g. `--lowvram` |
+| `COMFY_WAKE_CMD` | — | a command that starts a ComfyUI which sleeps when idle; run before a render only if ComfyUI is not answering, then waited for (`COMFY_WAKE_TIMEOUT_S`, 300) |
 
 To keep settings between runs, put them as `KEY=VALUE` lines in
 `~/aither-cinema-studio/cinema.env`.

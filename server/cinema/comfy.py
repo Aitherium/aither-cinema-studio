@@ -416,6 +416,43 @@ class ComfyClient:
                     break
         return out
 
+    def ensure_awake(
+        self,
+        wake_cmd: Optional[str] = None,
+        timeout: Optional[float] = None,
+        on_status: Optional[Any] = None,
+    ) -> bool:
+        """Start a sleeping local ComfyUI before a job, when the owner said how.
+
+        ``COMFY_WAKE_CMD`` is a shell command that starts ComfyUI on this machine (a service,
+        a container, a power-managed unit). It runs only when ComfyUI is NOT answering; then
+        this waits up to ``COMFY_WAKE_TIMEOUT_S`` (default 300) for it. Unset, or Comfy
+        Cloud: nothing runs. Returns whether ComfyUI answers afterwards."""
+        cmd = wake_cmd if wake_cmd is not None else os.environ.get("COMFY_WAKE_CMD", "")
+        if self.cloud or not cmd.strip():
+            return True
+        if self.reachable():
+            return True
+        import subprocess
+
+        if on_status is not None:
+            on_status("waking ComfyUI")
+        kw: Dict[str, Any] = {}
+        if os.name == "nt":
+            kw["creationflags"] = 0x08000000  # CREATE_NO_WINDOW
+        try:
+            subprocess.run(cmd, shell=True, timeout=120, capture_output=True, check=False, **kw)
+        except (OSError, subprocess.SubprocessError):
+            return False
+        limit = timeout if timeout is not None else float(
+            os.environ.get("COMFY_WAKE_TIMEOUT_S") or 300)
+        deadline = time.monotonic() + limit
+        while time.monotonic() < deadline:
+            if self.reachable():
+                return True
+            time.sleep(3)
+        return False
+
     def reachable(self) -> bool:
         """Cloud has no guarantee of ``/queue``; ``/system_stats`` is public there."""
         try:
@@ -679,6 +716,7 @@ class ComfyClient:
         on_status: Optional[Any] = None,
     ) -> Dict[str, Any]:
         """Submit + wait.  Returns {"prompt_id", "outputs", "entry"}."""
+        self.ensure_awake(on_status=on_status)
         pid = self.submit(graph)
         if on_status is not None:
             on_status("submitted")

@@ -145,3 +145,44 @@ def test_http_error_is_a_comfy_error():
     c = ComfyClient(base_url="https://x.test", transport=httpx.MockTransport(lambda r: httpx.Response(500, text="boom")))
     with pytest.raises(ComfyError):
         c.object_info()
+
+
+def _sleepy_comfy(flag):
+    """/queue answers 503 until the wake command has written ``flag``."""
+    def handler(request: httpx.Request) -> httpx.Response:
+        if flag.exists():
+            return httpx.Response(200, json={"queue_running": [], "queue_pending": []})
+        return httpx.Response(503, text="asleep")
+    return handler
+
+
+def test_wake_cmd_starts_a_sleeping_comfy(tmp_path, monkeypatch):
+    import sys
+
+    flag = tmp_path / "awake"
+    monkeypatch.delenv("COMFY_API_KEY", raising=False)
+    c = ComfyClient(base_url="http://127.0.0.1:8188", transport=httpx.MockTransport(_sleepy_comfy(flag)))
+    assert c.reachable() is False
+    cmd = '"%s" -c "open(r\'%s\', \'w\').close()"' % (sys.executable, flag)
+    seen = []
+    assert c.ensure_awake(wake_cmd=cmd, timeout=10, on_status=seen.append) is True
+    assert flag.exists() and seen == ["waking ComfyUI"]
+
+
+def test_wake_cmd_not_run_when_awake_or_unset(tmp_path, monkeypatch):
+    flag = tmp_path / "awake"
+    flag.touch()
+    marker = tmp_path / "ran"
+    monkeypatch.delenv("COMFY_WAKE_CMD", raising=False)
+    monkeypatch.delenv("COMFY_API_KEY", raising=False)
+    c = ComfyClient(base_url="http://127.0.0.1:8188", transport=httpx.MockTransport(_sleepy_comfy(flag)))
+    assert c.ensure_awake() is True  # unset: nothing runs
+    assert c.ensure_awake(wake_cmd="echo x > \"%s\"" % marker, timeout=1) is True
+    assert not marker.exists()  # already awake: the command never runs
+
+
+def test_wake_gives_up_when_comfy_never_answers(tmp_path, monkeypatch):
+    monkeypatch.delenv("COMFY_API_KEY", raising=False)
+    c = ComfyClient(base_url="http://127.0.0.1:8188",
+                    transport=httpx.MockTransport(_sleepy_comfy(tmp_path / "never")))
+    assert c.ensure_awake(wake_cmd="exit 0", timeout=0.5) is False
