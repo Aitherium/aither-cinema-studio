@@ -146,11 +146,12 @@ def build_state(data_dir: Optional[Path] = None, inline: bool = False, comfy: An
     data = Path(data_dir or os.environ.get("CINEMA_DATA_DIR") or "./data").resolve()
     data.mkdir(parents=True, exist_ok=True)
     settings = Settings.resolve(data_dir=data)
+    shots = JsonStore(data / "shots.json")
     return CinemaState(
         data_dir=data,
         media=MediaStore(data),
-        shots=JsonStore(data / "shots.json"),
-        jobs=JobStore(data, inline=inline),
+        shots=shots,
+        jobs=JobStore(data, inline=inline, shots=shots),
         comfy=comfy if comfy is not None else ComfyClient(data_dir=data),
         settings=settings,
     )
@@ -732,6 +733,20 @@ def create_app(
     @app.get("/api/shots")
     def list_shots() -> List[Dict[str, Any]]:
         return state_ref.shots.all()
+
+    @app.delete("/api/shots/{shot_id}")
+    def delete_shot(shot_id: str) -> Dict[str, Any]:
+        """Remove a shot and its job. A job still holding it is marked cancelled first, so it
+        cannot finish later and file media under a shot that is gone."""
+        shot = state_ref.shots.get(shot_id)
+        if shot is None:
+            raise HTTPException(status_code=404, detail="shot not found")
+        job_id = shot.get("job_id")
+        if job_id:
+            state_ref.jobs.cancel(job_id)
+            state_ref.jobs.delete(job_id)
+        state_ref.shots.delete(shot_id)
+        return {"deleted": shot_id}
 
     @app.get("/api/shots/{shot_id}")
     def get_shot(shot_id: str) -> Dict[str, Any]:

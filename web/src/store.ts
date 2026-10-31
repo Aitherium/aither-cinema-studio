@@ -223,6 +223,7 @@ export interface StudioActions {
   refreshVocab(): Promise<void>;
   refreshHealth(): Promise<void>;
   refreshShots(): Promise<void>;
+  deleteShot(shotId: string): Promise<void>;
   setRig(patch: Partial<CameraRig>): void;
   setMode(mode: ShotMode): void;
   setEngine(engine: EngineId): void;
@@ -372,6 +373,11 @@ export const useStudio = create<Studio>((set, get) => ({
   async refreshHealth() {
     const health = await api.getHealth();
     set({ health, healthAt: Date.now() });
+  },
+
+  async deleteShot(shotId: string) {
+    await api.deleteShot(shotId);
+    await get().refreshShots();
   },
 
   async refreshShots() {
