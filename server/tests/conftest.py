@@ -11,6 +11,11 @@ sys.path.insert(0, str(HERE.parent))
 # Keep the module-level data dir out of the repo during tests.
 os.environ.setdefault("CINEMA_DATA_DIR", str(HERE / "_data"))
 
+# A developer's own machine may hold the fleet's internal key, which would make every test
+# render ask the real GPU door. The lease is opted out here; test_gpu_lease.py turns it on
+# against its own fake door.
+os.environ["COMFY_LEASE"] = "0"
+
 
 @pytest.fixture()
 def data_dir(tmp_path):
@@ -50,7 +55,7 @@ class FakeComfy:
         self.uploads.append((filename, data))
         return filename
 
-    def run(self, graph, timeout=3600.0, interval=1.0, on_status=None):
+    def run(self, graph, timeout=3600.0, interval=1.0, on_status=None, job_ref=""):
         self.graphs.append(graph)
         if on_status:
             on_status("submitted")

@@ -714,19 +714,29 @@ class ComfyClient:
         timeout: float = 3600.0,
         interval: float = 1.0,
         on_status: Optional[Any] = None,
+        job_ref: str = "",
     ) -> Dict[str, Any]:
-        """Submit + wait.  Returns {"prompt_id", "outputs", "entry"}."""
+        """Submit + wait.  Returns {"prompt_id", "outputs", "entry"}.
+
+        Where a GPU door arbitrates this machine (the AitherOS fleet), the job holds a lease
+        for its whole life: an unleased render is evictable mid-way (ComfyUI was stopped 23
+        minutes into one on 2026-10-31). No door, or no key: it renders unleased, as before."""
+        from . import gpu_lease
+
         self.ensure_awake(on_status=on_status)
-        pid = self.submit(graph)
-        if on_status is not None:
-            on_status("submitted")
-        try:
-            entry = self.wait(pid, timeout=timeout, interval=interval, on_status=on_status)
-        except ComfyError:
-            raise
-        except Exception as exc:  # pragma: no cover - defensive
-            self.cancel(pid)
-            raise ComfyError(self.redact("prompt %s failed: %s" % (pid, exc))) from None
+        with gpu_lease.hold(job_ref=job_ref, ttl_s=int(timeout) + 300) as lease:
+            if lease.note and on_status is not None:
+                on_status(lease.note)
+            pid = self.submit(graph)
+            if on_status is not None:
+                on_status("submitted")
+            try:
+                entry = self.wait(pid, timeout=timeout, interval=interval, on_status=on_status)
+            except ComfyError:
+                raise
+            except Exception as exc:  # pragma: no cover - defensive
+                self.cancel(pid)
+                raise ComfyError(self.redact("prompt %s failed: %s" % (pid, exc))) from None
         return {"prompt_id": pid, "outputs": self.collect_outputs(entry), "entry": entry}
 
 
