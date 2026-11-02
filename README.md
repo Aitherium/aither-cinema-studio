@@ -41,22 +41,22 @@ installs it, sets up ComfyUI, and starts everything on `:8765`. Re-run it any ti
 used as-is.
 
 ```powershell
-irm https://raw.githubusercontent.com/Aitherium/aither-cinema-studio/main/scripts/start.ps1 | iex   # Windows
+irm https://raw.githubusercontent.com/Aitherium/eusyra-studio/main/scripts/start.ps1 | iex   # Windows
 ```
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/Aitherium/aither-cinema-studio/main/scripts/start.sh | sh   # macOS / Linux
+curl -fsSL https://raw.githubusercontent.com/Aitherium/eusyra-studio/main/scripts/start.sh | sh   # macOS / Linux
 ```
 
 **No GPU: Comfy Cloud.** This installs only the backend. Paste your Comfy API key
 ([platform.comfy.org](https://platform.comfy.org)) in **Settings** once you're connected.
 
 ```powershell
-$env:CINEMA_COMFY='cloud'; irm https://raw.githubusercontent.com/Aitherium/aither-cinema-studio/main/scripts/start.ps1 | iex
+$env:CINEMA_COMFY='cloud'; irm https://raw.githubusercontent.com/Aitherium/eusyra-studio/main/scripts/start.ps1 | iex
 ```
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/Aitherium/aither-cinema-studio/main/scripts/start.sh | CINEMA_COMFY=cloud sh
+curl -fsSL https://raw.githubusercontent.com/Aitherium/eusyra-studio/main/scripts/start.sh | CINEMA_COMFY=cloud sh
 ```
 
 | setting | default | what it does |
@@ -68,13 +68,13 @@ curl -fsSL https://raw.githubusercontent.com/Aitherium/aither-cinema-studio/main
 | `COMFY_WAKE_CMD` | — | a command that starts a ComfyUI which sleeps when idle; run before a render only if ComfyUI is not answering, then waited for (`COMFY_WAKE_TIMEOUT_S`, 300) |
 
 To keep settings between runs, put them as `KEY=VALUE` lines in
-`~/aither-cinema-studio/cinema.env`.
+`~/eusyra-studio/cinema.env`.
 
 Or step by step:
 
 ```bash
-git clone https://github.com/Aitherium/aither-cinema-studio.git
-cd aither-cinema-studio/server
+git clone https://github.com/Aitherium/eusyra-studio.git
+cd eusyra-studio/server
 python -m venv .venv
 .venv/bin/pip install -e ".[dev]"        # Windows: .venv\Scripts\pip install -e ".[dev]"
 

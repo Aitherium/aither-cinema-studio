@@ -1,14 +1,14 @@
 # Start the Aither Cinema Studio backend on http://127.0.0.1:8765 -- one command (PowerShell):
-#   irm https://raw.githubusercontent.com/Aitherium/aither-cinema-studio/main/scripts/start.ps1 | iex
+#   irm https://raw.githubusercontent.com/Aitherium/eusyra-studio/main/scripts/start.ps1 | iex
 # Re-run it any time: it updates the checkout in place and starts again.
 # Needs git and Python 3.10+. With an NVIDIA GPU it also installs ComfyUI and the models on first
 # run (scripts/setup_comfy.py); with no GPU, render on Comfy Cloud instead:
 #   $env:CINEMA_COMFY='cloud'; irm .../scripts/start.ps1 | iex
-# Settings that should stick go in $HOME\aither-cinema-studio\cinema.env as KEY=VALUE lines.
+# Settings that should stick go in $HOME\eusyra-studio\cinema.env as KEY=VALUE lines.
 $ErrorActionPreference = 'Stop'
 
-$dir = if ($env:CINEMA_HOME) { $env:CINEMA_HOME } else { Join-Path $HOME 'aither-cinema-studio' }
-$repo = 'https://github.com/Aitherium/aither-cinema-studio.git'
+$dir = if ($env:CINEMA_HOME) { $env:CINEMA_HOME } else { Join-Path $HOME 'eusyra-studio' }
+$repo = 'https://github.com/Aitherium/eusyra-studio.git'
 $pages = 'https://aitherium.github.io'
 
 if (-not (Get-Command git -ErrorAction SilentlyContinue)) {

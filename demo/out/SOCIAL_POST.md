@@ -2,7 +2,7 @@
 
 Video: `C:\Users\wzns\eusyra-video-work\render\eusyra-teaser-16x9.mp4` (1:11, 1920x1080)
 Vertical cut: `C:\Users\wzns\eusyra-video-work\render\eusyra-teaser-9x16.mp4` (1:11, 1080x1920)
-Repo: https://github.com/Aitherium/aither-cinema-studio
+Repo: https://github.com/Aitherium/eusyra-studio
 
 ---
 
@@ -35,7 +35,7 @@ It is open source, MIT, and built on ComfyUI — Wan 2.2 and LTX-Video under the
 own two custom nodes for the rig and the grade. Every control is exposed as a tool (11 WebMCP
 verbs in the browser, 10 MCP tools outside it), so an agent can direct alongside you.
 
-Built for the Comfy "Open Source Higgsfield" challenge: https://github.com/Aitherium/aither-cinema-studio
+Built for the Comfy "Open Source Higgsfield" challenge: https://github.com/Aitherium/eusyra-studio
 
 #OpenSourceHiggsfield #ComfyUI #OpenSource #VideoAI
 
