@@ -1,56 +1,51 @@
-# Social posts — Aither Cinema Studio
+# Social posts — Eusyra Studio
 
-Video: `demo/out/aither_cinema_studio_demo.mp4` (1:54, 1920x1080)
-Short vertical cut: `demo/out/madness_teaser_45s_vertical.mp4` (0:45, 9:16)
+Video: `C:\Users\wzns\eusyra-video-work\render\eusyra-teaser-16x9.mp4` (1:11, 1920x1080)
+Vertical cut: `C:\Users\wzns\eusyra-video-work\render\eusyra-teaser-9x16.mp4` (1:11, 1080x1920)
 Repo: https://github.com/Aitherium/aither-cinema-studio
 
 ---
 
-## X (attached: the vertical teaser)
+## X (attach the vertical cut)
 
-I built **Aither Cinema Studio** for the Comfy Open Source Higgsfield challenge: an
-open-weights film set on ComfyUI, where an AI agent directs the camera.
+I built **Eusyra** for the Comfy Open Source Higgsfield challenge: an open-source film studio
+where you direct the camera, not the prompt.
 
-Not prompt soup. You pick a move, a lens, a speed, a framing — the rig compiles it to real
-camera conditioning — then you re-shoot the same scene from a new angle, grade it and cut it
-on the beat. Every shot in my music video was directed this way.
+Pick a move, a lens, a speed, a framing. The rig compiles into Wan camera conditioning, the
+shot renders, and you re-shoot the same scene from a new angle — orbit left, 85mm, low angle —
+instead of gambling on a new seed.
 
-The part I actually care about: every studio control is also a **WebMCP tool**. So an agent
-can direct the shoot alongside you — Claude Code drove the same tools from the terminal while
-the browser sat on the same shot.
+Every control is also a tool: 11 WebMCP verbs in the browser, 10 MCP tools for any agent
+outside it.
 
-Wan 2.2 Fun Camera + lightx2v 4-step, LTX-2, SDXL. Cloud or your own box. All open weights,
-MIT, no account, no credit meter.
-
-Made with @ComfyUI · 1:54 demo + repo below.
-
-https://github.com/Aitherium/aither-cinema-studio
-
-#OpenSourceHiggsfield #ComfyUI #AIvideo
+MIT, on ComfyUI. #OpenSourceHiggsfield
 
 ---
 
-## LinkedIn (attached: the 1:54 demo)
+## LinkedIn
 
-**An open-weights film set where AI agents direct the camera.**
+Most AI video is prompt roulette: describe a scene, get something, hope the next one matches.
 
-For the Comfy Open Source Higgsfield challenge I built Aither Cinema Studio: a browser studio
-that runs real film shots on ComfyUI, Cloud or local, and exposes every control as a WebMCP
-tool so an agent can direct alongside a human.
+Eusyra treats it like a set. You choose the camera move, the lens, the speed and the framing;
+the studio compiles that rig into real camera conditioning, renders the shot, and lets you
+re-shoot the same scene from a new angle without losing the subject. Then you grade it and cut
+the sequence.
 
-Three things make it different from "type a prompt, get a clip":
+It is open source, MIT, and built on ComfyUI — Wan 2.2 and LTX-Video under the hood, with our
+own two custom nodes for the rig and the grade. Every control is exposed as a tool (11 WebMCP
+verbs in the browser, 10 MCP tools outside it), so an agent can direct alongside you.
 
-- **A camera vocabulary, compiled.** 21 moves, 7 lenses, 3 speeds, 10 framings become real
-  camera conditioning in the graph — not adjectives in a prompt.
-- **Directable shots, not one-off renders.** Re-shoot the same keyframe from a new angle,
-  grade per frame (Teal & Orange, Bleach Bypass, Cross Process), then cut a sequence on the beat.
-- **One tool surface.** The React tab, a FastAPI backend, a cinema-mcp server, a Claude Code
-  skill and an awdk agent pack reach the same verbs, so an agent is a first-class director.
+Built for the Comfy "Open Source Higgsfield" challenge: https://github.com/Aitherium/aither-cinema-studio
 
-Stack: Wan 2.2 Fun Camera + lightx2v 4-step, LTX-2, SDXL RealVisXL, and a ComfyUI-CinemaRig
-node pack; ComfyUI is called over HTTP as a GPL-3.0 server, never linked, so the MIT licence
-stands. Open weights only, no account, no credit meter.
+#OpenSourceHiggsfield #ComfyUI #OpenSource #VideoAI
 
-Demo (1:54) and code: https://github.com/Aitherium/aither-cinema-studio
+---
 
-#OpenSourceHiggsfield #ComfyUI #GenerativeAI #OpenSource
+## Threads / Bluesky
+
+open-sourced the film studio I've been directing with.
+
+camera rig → real camera conditioning → shot → re-shoot from a new angle → grade → cut.
+every control is a tool, so agents can direct too.
+
+MIT, on ComfyUI. #OpenSourceHiggsfield
