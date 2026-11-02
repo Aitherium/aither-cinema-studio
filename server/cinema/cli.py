@@ -194,7 +194,7 @@ def cmd_export(args: argparse.Namespace) -> int:
 
 
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(prog="cinema", description="Aither Cinema Studio backend CLI")
+    parser = argparse.ArgumentParser(prog="cinema", description="Eusyra Studio backend CLI")
     sub = parser.add_subparsers(dest="command", required=True)
 
     r = sub.add_parser("render", help="render one shot through ComfyUI")

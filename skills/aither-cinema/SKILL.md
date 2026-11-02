@@ -3,7 +3,7 @@ name: aither-cinema
 description: Direct film shots through a local ComfyUI set — plan a shot from a camera rig, render it, re-shoot from a new angle, grade it, cut a sequence or a beat-timed music video. Use when the user asks for video, a shot, a scene, a sequence, a music video, or "reshoot that from another angle", and the cinema-mcp tools are available.
 ---
 
-# Aither Cinema Studio
+# Eusyra Studio
 
 A camera rig — move, lens, speed, framing — compiled into a prompt clause and
 rendered on ComfyUI. The rig **is** the direction: you choose it, the studio

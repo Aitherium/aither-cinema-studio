@@ -1,4 +1,4 @@
-"""Calibrate ComfyUI render time for Aither Cinema Studio (clean-room, MIT).
+"""Calibrate ComfyUI render time for Eusyra Studio (clean-room, MIT).
 
 Submits two real graphs to a live ComfyUI, times them to completion, downloads the
 artifacts, and folds the timings into docs/comfy-probe.json under "timings".

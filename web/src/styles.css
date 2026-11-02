@@ -1,22 +1,22 @@
 /* ===========================================================================
-   Aither Cinema Studio — a dark film set.
+   Eusyra Studio — a dark film set with an Aither teal core.
    Near-black stock, warm amber lamps, mono slate labels. Plain CSS, variables
    only, no UI framework.
    ========================================================================= */
 
 :root {
-  --bg: #0a0908;
-  --bg-1: #100f0d;
-  --bg-2: #161513;
-  --bg-3: #1d1b18;
-  --line: #2a2621;
-  --line-soft: #1f1c18;
-  --ink: #ece5d8;
-  --ink-dim: #a2988a;
-  --ink-faint: #6d6459;
-  --amber: #f0a63c;
-  --amber-hot: #ffc36b;
-  --amber-soft: rgba(240, 166, 60, 0.12);
+  --bg: #060a0d;
+  --bg-1: #0a1015;
+  --bg-2: #0f161c;
+  --bg-3: #162028;
+  --line: #21303a;
+  --line-soft: #17232b;
+  --ink: #e6f3f3;
+  --ink-dim: #93a9ad;
+  --ink-faint: #5d7379;
+  --amber: #2ad7d7;
+  --amber-hot: #8cf6f2;
+  --amber-soft: rgba(42, 215, 215, 0.12);
   --ok: #79d99a;
   --warn: #e5bd55;
   --err: #e4705f;
@@ -39,8 +39,8 @@ body,
 body {
   margin: 0;
   background:
-    radial-gradient(1100px 520px at 26% -12%, #191510 0%, rgba(10, 9, 8, 0) 62%),
-    radial-gradient(900px 600px at 92% -6%, #1a1410 0%, rgba(10, 9, 8, 0) 55%),
+    radial-gradient(1100px 520px at 26% -12%, #0d1a1f 0%, rgba(6, 10, 13, 0) 62%),
+    radial-gradient(900px 600px at 92% -6%, #0b1a1e 0%, rgba(6, 10, 13, 0) 55%),
     var(--bg);
   color: var(--ink);
   font-family: var(--sans);
@@ -91,12 +91,12 @@ button:disabled {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: #26221d;
+  background: #1b2a31;
   border-radius: 8px;
   border: 3px solid var(--bg);
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #38322a;
+  background: #294049;
 }
 
 /* ------------------------------------------------------------- frame ----- */
@@ -205,11 +205,18 @@ button:disabled {
   min-width: 0;
 }
 
+.brand-mark-img {
+  width: 26px;
+  height: 26px;
+  display: block;
+  filter: drop-shadow(0 0 10px rgba(42, 215, 215, 0.45));
+}
+
 .brand-mark {
   color: var(--amber);
   font-size: 20px;
   line-height: 1;
-  text-shadow: 0 0 18px rgba(240, 166, 60, 0.7);
+  text-shadow: 0 0 18px rgba(42, 215, 215, 0.7);
   animation: brand-glow 5s ease-in-out infinite;
 }
 
@@ -379,7 +386,7 @@ button:disabled {
 
 .slate.is-selected {
   border-color: var(--amber);
-  box-shadow: 0 0 0 1px rgba(240, 166, 60, 0.25), 0 14px 34px -22px rgba(240, 166, 60, 0.8);
+  box-shadow: 0 0 0 1px rgba(42, 215, 215, 0.25), 0 14px 34px -22px rgba(42, 215, 215, 0.8);
 }
 
 .slate-top {
@@ -483,7 +490,7 @@ button:disabled {
 .thumb-scan {
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, transparent, rgba(240, 166, 60, 0.16), transparent);
+  background: linear-gradient(180deg, transparent, rgba(42, 215, 215, 0.16), transparent);
   animation: scan 2.2s linear infinite;
 }
 
@@ -553,7 +560,7 @@ button:disabled {
 }
 
 .panel-rig.is-flash {
-  box-shadow: inset 0 0 0 1px var(--amber), inset 0 0 60px -20px rgba(240, 166, 60, 0.5);
+  box-shadow: inset 0 0 0 1px var(--amber), inset 0 0 60px -20px rgba(42, 215, 215, 0.5);
 }
 
 .rig-scroll {
@@ -609,7 +616,7 @@ button:disabled {
 }
 
 .segment.is-active {
-  background: linear-gradient(180deg, rgba(240, 166, 60, 0.18), rgba(240, 166, 60, 0.05));
+  background: linear-gradient(180deg, rgba(42, 215, 215, 0.18), rgba(42, 215, 215, 0.05));
   color: var(--amber-hot);
   box-shadow: inset 0 -2px 0 var(--amber);
 }
@@ -651,8 +658,8 @@ button:disabled {
 .move.is-active {
   border-color: var(--amber);
   color: var(--amber-hot);
-  background: linear-gradient(180deg, rgba(240, 166, 60, 0.16), rgba(240, 166, 60, 0.03));
-  box-shadow: 0 0 16px -6px rgba(240, 166, 60, 0.85);
+  background: linear-gradient(180deg, rgba(42, 215, 215, 0.16), rgba(42, 215, 215, 0.03));
+  box-shadow: 0 0 16px -6px rgba(42, 215, 215, 0.85);
 }
 
 .move.is-active span {
@@ -720,7 +727,7 @@ button:disabled {
 .prompt:focus {
   outline: none;
   border-color: var(--amber);
-  box-shadow: 0 0 0 3px rgba(240, 166, 60, 0.12);
+  box-shadow: 0 0 0 3px rgba(42, 215, 215, 0.12);
 }
 
 .drop-row {
@@ -751,7 +758,7 @@ button:disabled {
 
 .dropzone.is-over {
   border-color: var(--amber);
-  background: rgba(240, 166, 60, 0.07);
+  background: rgba(42, 215, 215, 0.07);
 }
 
 .drop-empty {
@@ -886,21 +893,21 @@ button:disabled {
   gap: 2px;
   padding: 12px 14px;
   border-radius: var(--radius);
-  background: linear-gradient(180deg, #ffc76d, #e3902a);
-  color: #1a1206;
+  background: linear-gradient(180deg, #8cf6f2, #2ad7d7);
+  color: #04181a;
   font-family: var(--mono);
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  box-shadow: 0 14px 30px -18px rgba(240, 166, 60, 0.95);
+  box-shadow: 0 14px 30px -18px rgba(42, 215, 215, 0.95);
   transition: transform 0.12s ease, box-shadow 0.2s ease, filter 0.2s ease;
 }
 
 .render-button:hover:not(:disabled) {
   transform: translateY(-1px);
   filter: brightness(1.06);
-  box-shadow: 0 18px 36px -16px rgba(240, 166, 60, 1);
+  box-shadow: 0 18px 36px -16px rgba(42, 215, 215, 1);
 }
 
 .render-button:active:not(:disabled) {
@@ -947,7 +954,7 @@ button:disabled {
   overflow: hidden;
   display: grid;
   place-items: center;
-  box-shadow: inset 0 0 80px -30px rgba(0, 0, 0, 1), 0 20px 50px -40px rgba(240, 166, 60, 0.5);
+  box-shadow: inset 0 0 80px -30px rgba(0, 0, 0, 1), 0 20px 50px -40px rgba(42, 215, 215, 0.5);
 }
 
 .frame-media {
@@ -1114,7 +1121,7 @@ button:disabled {
 }
 
 .cut-button {
-  border-color: rgba(240, 166, 60, 0.45);
+  border-color: rgba(42, 215, 215, 0.45);
   color: var(--amber-hot);
 }
 
@@ -1184,7 +1191,7 @@ button:disabled {
 
 .cut.is-over {
   border-color: var(--amber-hot);
-  box-shadow: 0 0 0 2px rgba(240, 166, 60, 0.25);
+  box-shadow: 0 0 0 2px rgba(42, 215, 215, 0.25);
 }
 
 .cut.is-dragging {
@@ -1333,7 +1340,7 @@ button:disabled {
 }
 
 .actor-agent {
-  background: rgba(240, 166, 60, 0.14);
+  background: rgba(42, 215, 215, 0.14);
   color: var(--amber-hot);
 }
 
@@ -1728,7 +1735,7 @@ button:disabled {
 .drawer-explain {
   margin: 0;
   padding: 9px 11px;
-  border: 1px solid rgba(240, 166, 60, 0.3);
+  border: 1px solid rgba(42, 215, 215, 0.3);
   border-left: 2px solid var(--amber);
   border-radius: 4px;
   background: var(--amber-soft);
@@ -1768,7 +1775,7 @@ button:disabled {
 
 .text-input:focus {
   border-color: var(--amber);
-  box-shadow: 0 0 0 2px rgba(240, 166, 60, 0.14);
+  box-shadow: 0 0 0 2px rgba(42, 215, 215, 0.14);
 }
 
 .text-input::placeholder {
@@ -1786,7 +1793,7 @@ button:disabled {
   letter-spacing: 0.04em;
   color: var(--amber);
   text-decoration: none;
-  border-bottom: 1px dotted rgba(240, 166, 60, 0.45);
+  border-bottom: 1px dotted rgba(42, 215, 215, 0.45);
 }
 
 .key-link:hover {
@@ -1867,7 +1874,7 @@ button:disabled {
 }
 
 .drawer-save {
-  border-color: rgba(240, 166, 60, 0.5);
+  border-color: rgba(42, 215, 215, 0.5);
   color: var(--amber-hot);
 }
 
@@ -1927,9 +1934,9 @@ button:disabled {
   text-transform: uppercase;
   padding: 1px 5px;
   border-radius: 3px;
-  border: 1px solid rgba(240, 166, 60, 0.28);
+  border: 1px solid rgba(42, 215, 215, 0.28);
   color: var(--amber);
-  background: rgba(240, 166, 60, 0.07);
+  background: rgba(42, 215, 215, 0.07);
 }
 
 /* ===========================================================================
@@ -1967,7 +1974,7 @@ button:disabled {
 
 .music-toggle.is-active {
   color: var(--amber-hot);
-  border-color: rgba(240, 166, 60, 0.55);
+  border-color: rgba(42, 215, 215, 0.55);
   background: var(--amber-soft);
 }
 
@@ -1991,7 +1998,7 @@ button:disabled {
   padding: 10px 12px 12px;
   border-bottom: 1px solid var(--line-soft);
   background:
-    linear-gradient(180deg, rgba(240, 166, 60, 0.045), rgba(240, 166, 60, 0) 70%),
+    linear-gradient(180deg, rgba(42, 215, 215, 0.045), rgba(42, 215, 215, 0) 70%),
     var(--bg-1);
 }
 
@@ -2088,13 +2095,13 @@ button:disabled {
 }
 
 .music-cut-button {
-  border-color: rgba(240, 166, 60, 0.55);
+  border-color: rgba(42, 215, 215, 0.55);
   background: var(--amber-soft);
   color: var(--amber-hot);
 }
 
 .music-cut-button:hover:not(:disabled) {
-  background: rgba(240, 166, 60, 0.2);
+  background: rgba(42, 215, 215, 0.2);
 }
 
 .music-cut-hint {
@@ -2221,8 +2228,8 @@ button:disabled {
   align-items: center;
   gap: 12px;
   padding: 7px 16px;
-  background: rgba(240, 166, 60, 0.1);
-  border-bottom: 1px solid rgba(240, 166, 60, 0.34);
+  background: rgba(42, 215, 215, 0.1);
+  border-bottom: 1px solid rgba(42, 215, 215, 0.34);
   font-family: var(--mono);
   font-size: 10.5px;
 }
@@ -2230,9 +2237,9 @@ button:disabled {
 .demo-tag {
   flex: 0 0 auto;
   padding: 2px 7px;
-  border: 1px solid rgba(240, 166, 60, 0.55);
+  border: 1px solid rgba(42, 215, 215, 0.55);
   border-radius: 3px;
-  background: rgba(240, 166, 60, 0.14);
+  background: rgba(42, 215, 215, 0.14);
   color: var(--amber-hot);
   font-size: 9px;
   letter-spacing: 0.14em;
@@ -2269,13 +2276,13 @@ button:disabled {
 }
 
 .demo-agent {
-  border-color: rgba(240, 166, 60, 0.55);
+  border-color: rgba(42, 215, 215, 0.55);
   background: var(--amber-soft);
   color: var(--amber-hot);
 }
 
 .demo-agent:hover:not(:disabled) {
-  background: rgba(240, 166, 60, 0.2);
+  background: rgba(42, 215, 215, 0.2);
 }
 
 /* =========================================================== connect gate ===
@@ -2388,7 +2395,7 @@ button:disabled {
 }
 
 .conn-preset.is-active {
-  border-color: rgba(240, 166, 60, 0.75);
+  border-color: rgba(42, 215, 215, 0.75);
   background: var(--amber-soft);
 }
 
@@ -2588,13 +2595,13 @@ button:disabled {
 }
 
 .conn-apply {
-  border-color: rgba(240, 166, 60, 0.55);
+  border-color: rgba(42, 215, 215, 0.55);
   background: var(--amber-soft);
   color: var(--amber-hot);
 }
 
 .conn-apply:hover:not(:disabled) {
-  background: rgba(240, 166, 60, 0.2);
+  background: rgba(42, 215, 215, 0.2);
 }
 
 /* the drawer embeds the same panel */

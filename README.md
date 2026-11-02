@@ -1,9 +1,10 @@
-# Aither Cinema Studio
+# Eusyra — the Aither creative studio
 
-**Direct film on a ComfyUI set.** Choose a camera rig — a move, a lens, a speed, a
-framing — and the studio compiles it into the prompt, renders the shot, and cuts
-your sequence. Every control is a tool an agent can call — eleven WebMCP verbs in
-the browser, ten MCP tools for any agent outside it.
+**Open source on ComfyUI: direct film on a real camera set.** Eusyra is the Aither
+creative studio. Choose a camera rig — a move, a lens, a speed, a framing — and the
+studio compiles it into the prompt, renders the shot, and cuts your sequence. Every
+control is a tool an agent can call — eleven WebMCP verbs in the browser, ten MCP
+tools for any agent outside it.
 
 A rig is a decision, not a slider stack. `dolly_in` + `85mm` + `close_up` is a
 different shot from `static` + `85mm` + `close_up`, and the studio makes the model
@@ -12,7 +13,7 @@ a second on it.
 
 ## Live demo
 
-**<https://aitherium.github.io/aither-cinema-studio/>** — the real studio, no
+**<https://aitherium.github.io/eusyra-studio/>** — the real studio, no
 install, no account. It opens in **demo mode**: the camera vocabulary, a simulated
 render with live progress, pre-rendered proof clips, and all eleven WebMCP tools
 work in the page. Nothing leaves the tab.
@@ -198,7 +199,7 @@ measured argv are in [`agents/README.md`](agents/README.md).
 
 ## Run it with Aitherium
 
-Aither Cinema Studio is the open, self-hostable studio. To give it a permanent agent, memory and a
+Eusyra Studio is the open, self-hostable studio. To give it a permanent agent, memory and a
 control plane, run it under **[awdk](https://github.com/Aitherium/awdk)**, the Aitherium agent toolkit.
 Your models, renders and data stay on your machine; Aitherium hosts only the control plane.
 

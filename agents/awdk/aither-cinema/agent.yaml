@@ -1,4 +1,4 @@
-# awdk agent pack — Aither Cinema Studio
+# awdk agent pack — Eusyra Studio
 #
 # Loaded by adk.agent_pack.load_agent_pack(<this directory>).  Everything here
 # follows AgentPackManifest (adk/agent_pack.py), which is fail-closed: an unknown
@@ -8,7 +8,7 @@
 # The pack is an MCP *tool server*, not a chat agent: the host model stays the
 # director, and these ten tools are the camera department.
 id: aither-cinema
-name: Aither Cinema Studio
+name: Eusyra Studio
 version: "0.1.0"
 description: >-
   Direct ComfyUI shots from a camera rig: plan, render, re-shoot, grade, and cut

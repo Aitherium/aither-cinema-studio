@@ -1,4 +1,4 @@
-# Comfy API Build — Aither Cinema Studio
+# Comfy API Build — Eusyra Studio
 
 A [Comfy API Build](https://docs.comfy.org) is a ComfyUI image the Comfy Cloud
 builder assembles from a **spec file** — a base ComfyUI version, a list of model

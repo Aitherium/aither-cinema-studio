@@ -324,7 +324,7 @@ export async function probeConnection(
 
 /* -------------------------------------------------------------- the steps --- */
 
-const RAW = 'https://raw.githubusercontent.com/Aitherium/aither-cinema-studio/main/scripts';
+const RAW = 'https://raw.githubusercontent.com/Aitherium/eusyra-studio/main/scripts';
 
 /** One command per OS: the script clones/updates, installs, allows this page's origin, and starts. */
 export const START_COMMANDS = {
@@ -372,8 +372,8 @@ export function detectStartOs(
 
 /** The long form, for people who would rather not pipe a script. Generic: no internal hosts or paths. */
 export const SETUP_STEPS: string[] = [
-  'git clone https://github.com/Aitherium/aither-cinema-studio.git',
-  'cd aither-cinema-studio/server',
+  'git clone https://github.com/Aitherium/eusyra-studio.git',
+  'cd eusyra-studio/server',
   'python -m venv .venv',
   '.venv/bin/pip install -e .        # Windows: .venv\\Scripts\\pip install -e .',
   `export CINEMA_CORS_ORIGINS=${PAGES_ORIGIN}`,

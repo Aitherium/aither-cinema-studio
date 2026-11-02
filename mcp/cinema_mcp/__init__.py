@@ -1,4 +1,4 @@
-"""Aither Cinema Studio MCP server.
+"""Eusyra Studio MCP server.
 
 Every studio control is a tool: an agent plans a shot from the camera rig
 vocabulary, renders it, re-shoots it from a new angle, grades it, and cuts a

@@ -1,6 +1,6 @@
 """Probe a running ComfyUI and record the facts the Cinema Studio builders need.
 
-Clean-room code for Aither Cinema Studio (MIT). No code copied from any other tree.
+Clean-room code for Eusyra Studio (MIT). No code copied from any other tree.
 
 Writes docs/comfy-probe.json:
   version, classes (exists -> required/optional input name+type), model folders,

@@ -1,4 +1,4 @@
-# Aither Cinema Studio - backend
+# Eusyra Studio - backend
 
 FastAPI service that turns a camera rig plus a prompt into a ComfyUI graph,
 runs it, and hands back a graded, cut sequence.  Python 3.10+.

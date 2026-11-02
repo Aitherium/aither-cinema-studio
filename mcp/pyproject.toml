@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "aither-cinema-mcp"
 version = "0.1.0"
-description = "MCP server for Aither Cinema Studio: direct open-weights film shots from any agent"
+description = "MCP server for Eusyra Studio: direct open-weights film shots from any agent"
 readme = "README.md"
 requires-python = ">=3.10"
 license = { text = "MIT" }

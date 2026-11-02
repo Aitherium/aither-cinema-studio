@@ -1,9 +1,9 @@
 {
-  "name": "aither-cinema-studio-web",
+  "name": "eusyra-studio-web",
   "private": true,
   "version": "0.1.0",
   "type": "module",
-  "description": "Aither Cinema Studio — direct shots on an open-weights film set. Every control is also a WebMCP tool.",
+  "description": "Eusyra Studio — direct shots on an open-weights film set. Every control is also a WebMCP tool.",
   "license": "MIT",
   "scripts": {
     "dev": "vite",
