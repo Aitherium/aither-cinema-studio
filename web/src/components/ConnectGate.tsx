@@ -19,11 +19,14 @@ export function ConnectGate() {
     <div className="connect-gate" role="dialog" aria-modal="true" aria-labelledby="connect-title">
       <div className="connect-card">
         <div className="connect-brand">
-          <span className="brand-mark" aria-hidden="true">
-            ◉
-          </span>
+          <img
+            className="brand-mark-img"
+            src={`${import.meta.env.BASE_URL}eusyra-mark.svg`}
+            alt=""
+            aria-hidden="true"
+          />
           <span>
-            Aither <em>Cinema</em> Studio
+            Eusyra <em>Studio</em>
           </span>
         </div>
         <h2 id="connect-title">Where should the studio render?</h2>

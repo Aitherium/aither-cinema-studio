@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+<defs>
+<linearGradient id="ring" x1="0" y1="0" x2="1" y2="1">
+  <stop offset="0" stop-color="#8CF6F2"/><stop offset="0.55" stop-color="#2AD7D7"/><stop offset="1" stop-color="#1A83DB"/>
+</linearGradient>
+<radialGradient id="core" cx="0.42" cy="0.38" r="0.72">
+  <stop offset="0" stop-color="#FFFFFF"/><stop offset="0.35" stop-color="#8CF6F2"/><stop offset="0.78" stop-color="#2AD7D7"/><stop offset="1" stop-color="#0E8F9B"/>
+</radialGradient>
+<radialGradient id="coreglow" cx="0.5" cy="0.5" r="0.5">
+  <stop offset="0" stop-color="#2AD7D7" stop-opacity="0.55"/><stop offset="1" stop-color="#2AD7D7" stop-opacity="0"/>
+</radialGradient>
+<linearGradient id="blade" x1="0" y1="0" x2="0" y2="1">
+  <stop offset="0" stop-color="#0A1B24"/><stop offset="1" stop-color="#03101A"/>
+</linearGradient>
+<linearGradient id="ember" x1="0" y1="0" x2="1" y2="1">
+  <stop offset="0" stop-color="#FFC9A3"/><stop offset="0.55" stop-color="#FF8950"/><stop offset="1" stop-color="#E5622B"/>
+</linearGradient>
+</defs>
+<circle cx="256.0" cy="256.0" r="172" fill="url(#coreglow)" opacity="0.45"/>
+<polygon points="256.00,412.00 120.90,334.00 195.38,291.00 256.00,326.00" fill="url(#blade)" stroke="#8CF6F2" stroke-opacity="0.20" stroke-width="2.00"/>
+<polygon points="120.90,334.00 120.90,178.00 195.38,221.00 195.38,291.00" fill="url(#ember)" stroke="#8CF6F2" stroke-opacity="0.55" stroke-width="2.00"/>
+<polygon points="120.90,178.00 256.00,100.00 256.00,186.00 195.38,221.00" fill="url(#blade)" stroke="#8CF6F2" stroke-opacity="0.20" stroke-width="2.00"/>
+<polygon points="256.00,100.00 391.10,178.00 316.62,221.00 256.00,186.00" fill="url(#blade)" stroke="#8CF6F2" stroke-opacity="0.20" stroke-width="2.00"/>
+<polygon points="391.10,178.00 391.10,334.00 316.62,291.00 316.62,221.00" fill="url(#blade)" stroke="#8CF6F2" stroke-opacity="0.20" stroke-width="2.00"/>
+<polygon points="391.10,334.00 256.00,412.00 256.00,326.00 316.62,291.00" fill="url(#blade)" stroke="#8CF6F2" stroke-opacity="0.20" stroke-width="2.00"/>
+<polygon points="256.00,326.00 195.38,291.00 195.38,221.00 256.00,186.00 316.62,221.00 316.62,291.00" fill="url(#core)"/>
+<polygon points="256.00,326.00 195.38,291.00 195.38,221.00 256.00,186.00 316.62,221.00 316.62,291.00" fill="none" stroke="#FFFFFF" stroke-opacity="0.35" stroke-width="1.60"/>
+<path d="M 59.08 235.30 A 198 198 0 1 1 84.53 355.00" fill="none" stroke="url(#ring)" stroke-width="24.00" stroke-linecap="round"/>
+</svg>

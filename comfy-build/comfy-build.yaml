@@ -1,4 +1,4 @@
-# Comfy API Build — Aither Cinema Studio
+# Comfy API Build — Eusyra Studio
 #
 # Packages the models the four shipped graphs load (workflows/*.json) into a
 # Comfy Cloud build so the studio can render without a local GPU.
@@ -16,7 +16,7 @@ schema: comfy-build/1
 id: null
 name: aither-cinema-studio
 description: >-
-  Camera-rig video and keyframe graphs for Aither Cinema Studio: Wan 2.2
+  Camera-rig video and keyframe graphs for Eusyra Studio: Wan 2.2
   (i2v + t2v, two-expert fp8) and RealVisXL for stills.
 syncedRevision: null
 definition:

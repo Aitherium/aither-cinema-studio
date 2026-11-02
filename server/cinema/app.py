@@ -1,4 +1,4 @@
-"""FastAPI application: the HTTP surface of Aither Cinema Studio.
+"""FastAPI application: the HTTP surface of Eusyra Studio.
 
 Routes (contract):
 
@@ -552,7 +552,7 @@ def create_app(
     bind_host: Optional[str] = None,
 ) -> FastAPI:
     st = state or build_state()
-    app = FastAPI(title="Aither Cinema Studio", version=__version__)
+    app = FastAPI(title="Eusyra Studio", version=__version__)
     app.state.cinema = st
     # Settings writes: loopback + same/allowed origin, or a bearer token. A
     # non-loopback bind with no CINEMA_TOKEN mints and prints one here.

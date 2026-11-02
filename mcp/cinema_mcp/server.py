@@ -1,4 +1,4 @@
-"""cinema-mcp — the Aither Cinema Studio MCP server.
+"""cinema-mcp — the Eusyra Studio MCP server.
 
 Ten tools, one per studio control: list the camera vocabulary, plan a shot
 without spending a render, render it, re-shoot it from a new angle, grade it,
@@ -32,7 +32,7 @@ CREATES = ToolAnnotations(
 )
 
 INSTRUCTIONS = """\
-Aither Cinema Studio: direct shots on an open-weights film set (ComfyUI + Wan 2.2).
+Eusyra Studio: direct shots on an open-weights film set (ComfyUI + Wan 2.2).
 
 Use it like a camera department, not like an image generator:
 1. backend_status first when anything might be wrong (ComfyUI down, jobs stuck).
@@ -275,7 +275,7 @@ def build_server(client: Optional[CinemaClient] = None, host: str = "127.0.0.1",
 def _parse_args(argv: Optional[List[str]]) -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         prog="cinema-mcp",
-        description="MCP server for Aither Cinema Studio (tools over the backend HTTP API)",
+        description="MCP server for Eusyra Studio (tools over the backend HTTP API)",
     )
     parser.add_argument(
         "--transport",

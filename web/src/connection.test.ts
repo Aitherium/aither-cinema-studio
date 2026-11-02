@@ -198,7 +198,7 @@ describe('probeConnection', () => {
 describe('the setup steps a visitor copies', () => {
   it('name the public repository, never an internal path or host', () => {
     const steps = SETUP_STEPS.join('\n');
-    expect(steps).toContain('https://github.com/Aitherium/aither-cinema-studio.git');
+    expect(steps).toContain('https://github.com/Aitherium/eusyra-studio.git');
     expect(steps).toContain('uvicorn cinema.app:app');
     // the start scripts allow this page's origin themselves; a manual install must be told to
     expect(steps).toContain(PAGES_ORIGIN);

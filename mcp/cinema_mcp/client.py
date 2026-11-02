@@ -1,4 +1,4 @@
-"""HTTP client for the Aither Cinema Studio backend.
+"""HTTP client for the Eusyra Studio backend.
 
 The MCP server owns no production state: every tool is a thin, agent-shaped
 wrapper around the backend's JSON API (``server/cinema/app.py``).  ``CINEMA_URL``

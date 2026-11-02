@@ -1,12 +1,12 @@
 # ============================================================================
-# Aither Cinema Studio — Brain Pack
+# Eusyra Studio — Brain Pack
 # ============================================================================
 # Discovered next to agent.yaml by adk.pack_discovery (entry-point group
 # `aither.brain_packs`), or handed to a workspace with AGENT_BRAIN_PACK.
 # Pairs with the cinema MCP server: the persona tells the model WHEN to reach
 # for a rig, the tools do the rest.
 
-app_name: Aither Cinema Studio
+app_name: Eusyra Studio
 app_url: localhost:8765
 company_name: Aitherium
 

@@ -25,7 +25,7 @@ function paintWaveform(
   ctx.clearRect(0, 0, width, height);
 
   const styles = getComputedStyle(canvas);
-  const amber = styles.getPropertyValue('--amber').trim() || '#f0a63c';
+  const amber = styles.getPropertyValue('--amber').trim() || '#2ad7d7';
   const amberHot = styles.getPropertyValue('--amber-hot').trim() || '#ffc36b';
   const line = styles.getPropertyValue('--line').trim() || '#2a2621';
 

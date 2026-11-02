@@ -1,6 +1,6 @@
 # cinema-mcp
 
-The MCP server for [Aither Cinema Studio](../README.md). Ten tools over the local
+The MCP server for [Eusyra Studio](../README.md). Ten tools over the local
 studio backend (`CINEMA_URL`, default `http://127.0.0.1:8765`), for any agent
 that speaks MCP.
 

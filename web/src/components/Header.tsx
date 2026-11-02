@@ -27,14 +27,17 @@ export function Header() {
   return (
     <header className="topbar">
       <div className="brand">
-        <span className="brand-mark" aria-hidden="true">
-          ◉
-        </span>
+        <img
+          className="brand-mark-img"
+          src={`${import.meta.env.BASE_URL}eusyra-mark.svg`}
+          alt=""
+          aria-hidden="true"
+        />
         <div className="brand-text">
           <h1>
-            Aither <em>Cinema</em> Studio
+            Eusyra <em>Studio</em>
           </h1>
-          <p>open weights · every control is a WebMCP tool</p>
+          <p>the Aither creative studio · every control is a WebMCP tool</p>
         </div>
       </div>
 
