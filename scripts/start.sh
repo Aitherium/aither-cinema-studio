@@ -1,6 +1,6 @@
 #!/bin/sh
 # Start the Aither Cinema Studio backend on http://127.0.0.1:8765 -- one command:
-#   curl -fsSL https://raw.githubusercontent.com/Aitherium/aither-cinema-studio/main/scripts/start.sh | sh
+#   curl -fsSL https://raw.githubusercontent.com/Aitherium/eusyra-studio/main/scripts/start.sh | sh
 # Re-run it any time: it updates the checkout in place and starts again.
 # Needs git and Python 3.10+. With an NVIDIA GPU (or a Mac) it also installs ComfyUI and the
 # models on first run (scripts/setup_comfy.py); with no GPU, render on Comfy Cloud instead:
@@ -8,8 +8,8 @@
 # Settings that should stick go in $CINEMA_HOME/cinema.env as KEY=VALUE lines.
 set -eu
 
-DIR="${CINEMA_HOME:-$HOME/aither-cinema-studio}"
-REPO="https://github.com/Aitherium/aither-cinema-studio.git"
+DIR="${CINEMA_HOME:-$HOME/eusyra-studio}"
+REPO="https://github.com/Aitherium/eusyra-studio.git"
 PAGES="https://aitherium.github.io"
 
 command -v git >/dev/null 2>&1 || { echo "Aither Cinema needs git: https://git-scm.com/downloads" >&2; exit 1; }
